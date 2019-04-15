@@ -1,0 +1,10 @@
+<h2>My Decks</h2>
+<ul class="decks">
+    <li *ngFor="let deck of decks">
+      <a routerLink="/detail/{{deck.id}}">
+        <span class="badge">{{deck.id}}</span> {{deck.name}}
+      </a>
+    </li>
+  </ul>
+
+<app-deck-detail [deck]="selectedDeck"></app-deck-detail>
