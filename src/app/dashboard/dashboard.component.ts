@@ -18,6 +18,6 @@ export class DashboardComponent implements OnInit {
  
   getDecks(): void {
     this.deckService.getDecks()
-      .subscribe(decks => this.decks = decks.slice(1, 5));
+      .subscribe(decks => this.decks = decks.slice(1, 4));
   }
 }
