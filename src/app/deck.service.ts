@@ -33,10 +33,10 @@ export class DeckService {
         ,catchError(this.handleError<Deck[]>('getDecks', [])));
   }
 
-    /* GET heroes whose name contains search term */
+    /* GET decks whose name contains search term */
     searchDecks(term: string): Observable<Deck[]> {
       if (!term.trim()) {
-        // if not search term, return empty hero array.
+        // if not search term, return empty deck array.
         return of([]);
       }
       return this.httpClient.get<Deck[]>(`${this.decksUrl}/?name=${term}`).pipe(
@@ -61,7 +61,7 @@ addDeck (deck: Deck): Observable<Deck> {
     );
   }
 
-  /** DELETE: delete the hero from the server */
+  /** DELETE: delete the deck from the server */
   deleteDeck (deck: Deck | number): Observable<Deck> {
     const id = typeof deck === 'number' ? deck : deck.id;
     const url = `${this.decksUrl}/${id}`;
