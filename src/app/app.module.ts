@@ -7,6 +7,10 @@ import { DecksComponent } from './decks/decks.component';
 import { DeckDetailComponent } from './deck-detail/deck-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService }  from './in-memory-data.service';
+import { DeckSearchComponent } from './deck-search/deck-search.component';
  
 @NgModule({
   declarations: [
@@ -14,12 +18,21 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     DecksComponent,
     DeckDetailComponent,
     MessagesComponent,
-    DashboardComponent
+    DashboardComponent,
+    DeckSearchComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+
+    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
+    // and returns simulated server responses.
+    // Remove it when a real server is ready to receive requests.
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    )
   ],
   providers: [
     // no need to place any providers due to the `providedIn` flag...

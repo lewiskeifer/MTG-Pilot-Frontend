@@ -21,4 +21,15 @@ export class DecksComponent implements OnInit {
     this.deckService.getDecks()
       .subscribe(decks => this.decks = decks);
   }
+
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.deckService.addDeck({name} as Deck).subscribe(deck => {this.decks.push(deck);});
+  }
+
+  delete(deck: Deck): void {
+    this.decks = this.decks.filter(d => d !== deck);
+    this.deckService.deleteDeck(deck).subscribe();
+  }
 }
