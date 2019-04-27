@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Deck } from '../deck';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-
 import { DeckService }  from '../deck.service';
 
 @Component({
@@ -32,6 +31,11 @@ export class DeckDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  save(): void {
+    this.deckService.updateDeck(this.deck)
+      .subscribe(() => this.goBack());
   }
 
 }
