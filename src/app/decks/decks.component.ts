@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Deck } from '../deck';
-import { DeckService } from '../deck.service'
+import { DeckService } from '../deck.service';
+import { DeckListComponent } from '../deck-list/deck-list.component';
+import { DeckDetailComponent } from '../deck-detail/deck-detail.component';
 
 @Component({
   selector: 'app-decks',
@@ -9,27 +11,16 @@ import { DeckService } from '../deck.service'
 })
 export class DecksComponent implements OnInit {
 
-  decks: Deck[];
+  @Input() deck: Deck;
 
-  constructor(private deckService: DeckService) { }
+  constructor(private deckListComponent: DeckListComponent, private deckDetailComponent: DeckDetailComponent) { }
 
-  ngOnInit() {
-    this.getDecks();
-   }
+  ngOnInit() {}
 
-  getDecks(): void {
-    this.deckService.getDecks()
-      .subscribe(decks => this.decks = decks);
-  }
-
-  add(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.deckService.addDeck({name} as Deck).subscribe(deck => {this.decks.push(deck);});
-  }
-
-  delete(deck: Deck): void {
-    this.decks = this.decks.filter(d => d !== deck);
-    this.deckService.deleteDeck(deck).subscribe();
+  onSomeEvent(deck: Deck) {
+    console.log("parent mcchungger");
+    console.log(deck);
+    this.deckDetailComponent.setDeck(deck);
+    this.deck = deck;
   }
 }

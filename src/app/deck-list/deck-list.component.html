@@ -1,0 +1,22 @@
+<div class="right">
+  <ul class="decks">
+    <h2>My Decks</h2>
+    <div>
+      <label>Deck name:
+        <input #deckName />
+      </label>
+      <!-- (click) passes input value to add() and then clears the input -->
+      <button (click)="add(deckName.value); deckName.value=''">
+        add
+      </button>
+    </div>
+    <li *ngFor="let deck of decks">
+      <!-- <a routerLink="/detail/{{deck.id}}"> -->
+        <button (click)="callParent(deck.id)"></button>
+        <span class="badge">{{deck.id}}</span> {{deck.name}}
+      <!-- </a> -->
+      <button class="delete" title="delete deck"
+        (click)="delete(deck)">x</button>
+    </li>
+  </ul>
+</div>

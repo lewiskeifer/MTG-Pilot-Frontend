@@ -1,40 +1,51 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ApplicationRef, NgZone, ChangeDetectionStrategy  } from '@angular/core';
 import { Deck } from '../deck';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DeckService }  from '../deck.service';
 import { Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-deck-detail',
   templateUrl: './deck-detail.component.html',
-  styleUrls: ['./deck-detail.component.scss']
+  styleUrls: ['./deck-detail.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeckDetailComponent implements OnInit {
 
-  // @Input() deck: Deck;
-  deck$: Observable<Deck>;
+  // @Input() 
+  private deck: Deck;
 
   constructor(
-    //private route: ActivatedRoute,
     private deckService: DeckService,
-    //private location: Location
-  ) {    this.setDeck(1); }
+    // private ngZone: NgZone
+    // private ref: ApplicationRef,
+  ) { }
 
   ngOnInit(): void {
-    this.setDeck(1);
+    //this.setDeck(1);
   }
 
-  getDeck(): Observable<Deck> {
-    //const id = +this.route.snapshot.paramMap.get('id');
-    // this.deckService.getDeck(1)
-    //   .subscribe(deck => this.deck = deck);
-    return this.deck$;
+  // ngOnChanges(): void {
+  //   console.log("change");
+  //   this.getDeck();
+  // }
+
+  getDeck(): Deck {
+    return this.deck;
   }
 
-  setDeck(id: number): void {
-    console.log("chunger");
-    this.deck$ = this.deckService.getDeck(id);
+  setDeck(deck: Deck): void {
+    console.log("ddc: " + deck);
+    this.deck = deck;
+    //this.deckService.getDeck(id).subscribe(deck => this.deck = deck);
+    // this.ngZone.run(callback);
+    // this.ref.tick();
+    // this.ref.markForCheck();
   }
 
   // goBack(): void {

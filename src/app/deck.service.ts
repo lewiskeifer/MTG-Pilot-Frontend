@@ -20,7 +20,6 @@ export class DeckService {
 
   /** GET deck by id. Will 404 if id not found */
   getDeck(id: number): Observable<Deck> {
-    console.log("bungler");
     const url = `${this.decksUrl}/${id}`;
     return this.httpClient.get<Deck>(url).pipe(
       tap(_ => this.log(`fetched deck id=${id}`))

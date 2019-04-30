@@ -1,3 +1,5 @@
+{{deck||json}}
+{{(deck||{}).name|json}}
 <div *ngIf="deck">
   <h2>{{deck.name | uppercase}} Details</h2>
   <div><span>id: </span>{{deck.id}}</div>
