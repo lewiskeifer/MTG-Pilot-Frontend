@@ -3,6 +3,7 @@ import { Deck } from '../deck';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DeckService }  from '../deck.service';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-deck-detail',
@@ -11,31 +12,38 @@ import { DeckService }  from '../deck.service';
 })
 export class DeckDetailComponent implements OnInit {
 
-  @Input() deck: Deck;
+  // @Input() deck: Deck;
+  deck$: Observable<Deck>;
 
   constructor(
-    private route: ActivatedRoute,
+    //private route: ActivatedRoute,
     private deckService: DeckService,
-    private location: Location
-  ) { }
+    //private location: Location
+  ) {    this.setDeck(1); }
 
   ngOnInit(): void {
-    this.getDeck();
+    this.setDeck(1);
   }
 
-  getDeck(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.deckService.getDeck(id)
-      .subscribe(deck => this.deck = deck);
+  getDeck(): Observable<Deck> {
+    //const id = +this.route.snapshot.paramMap.get('id');
+    // this.deckService.getDeck(1)
+    //   .subscribe(deck => this.deck = deck);
+    return this.deck$;
   }
 
-  goBack(): void {
-    this.location.back();
+  setDeck(id: number): void {
+    console.log("chunger");
+    this.deck$ = this.deckService.getDeck(id);
   }
 
-  save(): void {
-    this.deckService.updateDeck(this.deck)
-      .subscribe(() => this.goBack());
-  }
+  // goBack(): void {
+  //   this.location.back();
+  // }
+
+  // save(): void {
+  //   this.deckService.updateDeck(this.deck);
+  //     // .subscribe(() => this.goBack());
+  // }
 
 }

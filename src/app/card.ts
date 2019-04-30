@@ -1,6 +1,10 @@
 export class Card {
     id: number;
     name: string;
-    set: string;
+    version: string;
+    isFoil: boolean;
+    condition: string;
+    purchasePrice: number;
     value: number;
+    quantity: number;
   }

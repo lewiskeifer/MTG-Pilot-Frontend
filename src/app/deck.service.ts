@@ -10,7 +10,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class DeckService {
 
-  private decksUrl = 'api/decks';  // URL to web api
+  private decksUrl = 'http://localhost:8080/manager/decks';  // URL to web api
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,6 +20,7 @@ export class DeckService {
 
   /** GET deck by id. Will 404 if id not found */
   getDeck(id: number): Observable<Deck> {
+    console.log("bungler");
     const url = `${this.decksUrl}/${id}`;
     return this.httpClient.get<Deck>(url).pipe(
       tap(_ => this.log(`fetched deck id=${id}`))
@@ -41,23 +42,23 @@ export class DeckService {
       }
       return this.httpClient.get<Deck[]>(`${this.decksUrl}/?name=${term}`).pipe(
         tap(_ => this.log(`found decks matching "${term}"`)),
-        catchError(this.handleError<Deck[]>('searchDecks', []))
+          catchError(this.handleError<Deck[]>('searchDecks', []))
       );
     }
 
-/** POST: add a new deck to the server */
-addDeck (deck: Deck): Observable<Deck> {
-  return this.httpClient.post<Deck>(this.decksUrl, deck, this.httpOptions).pipe(
-    tap((newDeck: Deck) => this.log(`added deck w/ id=${newDeck.id}`)),
-    catchError(this.handleError<Deck>('addDeck'))
-  );
-}
+  /** POST: add a new deck to the server */
+  addDeck (deck: Deck): Observable<Deck> {
+    return this.httpClient.post<Deck>(this.decksUrl, deck, this.httpOptions).pipe(
+      tap((newDeck: Deck) => this.log(`added deck w/ id=${newDeck.id}`)),
+        catchError(this.handleError<Deck>('addDeck'))
+    );
+  }
 
   /** PUT: update the deck on the server */
   updateDeck (deck: Deck): Observable<any> {
     return this.httpClient.put(this.decksUrl, deck, this.httpOptions).pipe(
       tap(_ => this.log(`updated deck id=${deck.id}`)),
-      catchError(this.handleError<any>('updateDeck'))
+        catchError(this.handleError<any>('updateDeck'))
     );
   }
 
@@ -68,7 +69,7 @@ addDeck (deck: Deck): Observable<Deck> {
 
     return this.httpClient.delete<Deck>(url, this.httpOptions).pipe(
       tap(_ => this.log(`deleted deck id=${id}`)),
-      catchError(this.handleError<Deck>('deleteDeck'))
+        catchError(this.handleError<Deck>('deleteDeck'))
     );
   }
 
