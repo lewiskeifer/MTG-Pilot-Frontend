@@ -1,10 +1,6 @@
-import { Component, OnInit, Input, OnChanges, ApplicationRef, NgZone, ChangeDetectionStrategy  } from '@angular/core';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { Deck } from '../deck';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { DeckService }  from '../deck.service';
-import { Observable, of } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { DeckService } from '../deck.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,39 +9,24 @@ import { Injectable } from '@angular/core';
   selector: 'app-deck-detail',
   templateUrl: './deck-detail.component.html',
   styleUrls: ['./deck-detail.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeckDetailComponent implements OnInit {
 
-  // @Input() 
-  private deck: Deck;
+  @Input() 
+  public deck: Deck;
 
-  constructor(
-    private deckService: DeckService,
-    // private ngZone: NgZone
-    // private ref: ApplicationRef,
-  ) { }
+  constructor(private deckService: DeckService) { }
 
   ngOnInit(): void {
-    //this.setDeck(1);
+    this.setDeck(1);
   }
-
-  // ngOnChanges(): void {
-  //   console.log("change");
-  //   this.getDeck();
-  // }
 
   getDeck(): Deck {
     return this.deck;
   }
 
-  setDeck(deck: Deck): void {
-    console.log("ddc: " + deck);
-    this.deck = deck;
-    //this.deckService.getDeck(id).subscribe(deck => this.deck = deck);
-    // this.ngZone.run(callback);
-    // this.ref.tick();
-    // this.ref.markForCheck();
+  setDeck(id: number): void {
+    this.deckService.getDeck(id).subscribe(deck => this.deck = deck);
   }
 
   // goBack(): void {

@@ -1,8 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Deck } from '../deck';
-import { DeckService } from '../deck.service';
-import { DeckListComponent } from '../deck-list/deck-list.component';
-import { DeckDetailComponent } from '../deck-detail/deck-detail.component';
 
 @Component({
   selector: 'app-decks',
@@ -11,16 +8,13 @@ import { DeckDetailComponent } from '../deck-detail/deck-detail.component';
 })
 export class DecksComponent implements OnInit {
 
-  @Input() deck: Deck;
+  deck: Deck;
 
-  constructor(private deckListComponent: DeckListComponent, private deckDetailComponent: DeckDetailComponent) { }
+  constructor() { }
 
   ngOnInit() {}
 
   onSomeEvent(deck: Deck) {
-    console.log("parent mcchungger");
-    console.log(deck);
-    this.deckDetailComponent.setDeck(deck);
     this.deck = deck;
   }
 }

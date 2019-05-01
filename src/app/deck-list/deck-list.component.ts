@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
 import { Deck } from '../deck';
-import { DeckService } from '../deck.service'
-import { Injectable } from '@angular/core';
-import { Output, EventEmitter } from '@angular/core'; 
+import { DeckService } from '../deck.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +24,7 @@ export class DeckListComponent implements OnInit {
    }
 
    callParent(id: number) {
-     console.log("chunga.bunga");
-     console.log(id);
     this.deckService.getDeck(id).subscribe(deck =>{this.selectedDeck = deck; this.someEvent.emit(this.selectedDeck);});
-    console.log(this.selectedDeck);
-
   }
 
   getDecks(): void {
