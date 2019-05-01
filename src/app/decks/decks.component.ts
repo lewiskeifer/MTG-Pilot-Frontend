@@ -14,7 +14,7 @@ export class DecksComponent implements OnInit {
 
   ngOnInit() {}
 
-  onSomeEvent(deck: Deck) {
+  selectDeckEvent(deck: Deck) {
     this.deck = deck;
   }
 }

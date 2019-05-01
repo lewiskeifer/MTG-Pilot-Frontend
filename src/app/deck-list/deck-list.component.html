@@ -10,11 +10,8 @@
         add
       </button>
     </div>
-    <li *ngFor="let deck of decks">
-      <!-- <a routerLink="/detail/{{deck.id}}"> -->
-        <button (click)="callParent(deck.id)"></button>
-        <span class="badge">{{deck.id}}</span> {{deck.name}}
-      <!-- </a> -->
+    <li *ngFor="let deck of decks" (click)="emitEvent(deck.id)">
+        <span  class="badge">{{deck.id}}</span> {{deck.name}}
       <button class="delete" title="delete deck"
         (click)="delete(deck)">x</button>
     </li>

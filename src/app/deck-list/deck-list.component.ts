@@ -12,7 +12,7 @@ import { DeckService } from '../deck.service';
 })
 export class DeckListComponent implements OnInit {
 
-  @Output() someEvent = new EventEmitter<Deck>();
+  @Output() selectDeck = new EventEmitter<Deck>();
 
   selectedDeck: Deck;
   decks: Deck[];
@@ -21,10 +21,11 @@ export class DeckListComponent implements OnInit {
 
   ngOnInit() {
     this.getDecks();
-   }
+  }
 
-   callParent(id: number) {
-    this.deckService.getDeck(id).subscribe(deck =>{this.selectedDeck = deck; this.someEvent.emit(this.selectedDeck);});
+  emitEvent(id: number) {
+    this.deckService.getDeck(id)
+      .subscribe(deck =>{ this.selectedDeck = deck; this.selectDeck.emit(this.selectedDeck); });
   }
 
   getDecks(): void {
