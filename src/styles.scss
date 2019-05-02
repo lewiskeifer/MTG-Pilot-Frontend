@@ -37,6 +37,13 @@ h1 {
     width: 500px;
     text-align: center;
   }
+  .left {
+    float: left;
+    width: 500px;
+    text-align: center;
+  }
   .padded {
     margin: 5px;
   }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

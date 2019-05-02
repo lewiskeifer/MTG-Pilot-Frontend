@@ -12,6 +12,15 @@ export class InMemoryDataService implements InMemoryDbService {
      const cards = [
       { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', value: 40 },
       { id: 1, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
+      { id: 2, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
+      { id: 3, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
+      // { id: 4, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
+      // { id: 5, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
+      // { id: 6, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
+      // { id: 7, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
+      // { id: 8, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
+      // { id: 9, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
+      // { id: 10, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
     ];
     
      const decks = [
