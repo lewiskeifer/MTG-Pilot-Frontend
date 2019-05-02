@@ -1,0 +1,11 @@
+<h3>Top Decks</h3>
+<div class="grid grid-pad">
+  <a *ngFor="let deck of decks" class="col-1-4"
+      routerLink="/detail/{{deck.id}}">
+    <div class="module deck">
+      <h4>{{deck.name}}</h4>
+    </div>
+  </a>
+</div>
+
+<app-deck-search></app-deck-search>
