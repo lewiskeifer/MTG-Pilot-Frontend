@@ -1,4 +1,5 @@
-<div *ngIf="deck">
+<mat-card class="card">
+ <div *ngIf="deck">
   <h2>{{deck.name | uppercase}} Details</h2>
   <div><span>id: </span>{{deck.id}}</div>
   <div><span>name: </span>{{deck.name}}</div>
@@ -15,6 +16,7 @@
     </label>
   </div>
   <button (click)="goBack()">go back</button>
-</div>
+  </div>
+</mat-card>
 
 <button (click)="save()">save</button>

@@ -1,41 +1,41 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
 import { Deck } from '../deck';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { DeckService }  from '../deck.service';
+import { DeckService } from '../deck.service';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-deck-detail',
   templateUrl: './deck-detail.component.html',
-  styleUrls: ['./deck-detail.component.scss']
+  styleUrls: ['./deck-detail.component.scss'],
 })
 export class DeckDetailComponent implements OnInit {
 
-  @Input() deck: Deck;
+  @Input() 
+  public deck: Deck;
 
-  constructor(
-    private route: ActivatedRoute,
-    private deckService: DeckService,
-    private location: Location
-  ) { }
+  constructor(private deckService: DeckService) { }
 
   ngOnInit(): void {
-    this.getDeck();
+    this.setDeck(1);
   }
 
-  getDeck(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.deckService.getDeck(id)
-      .subscribe(deck => this.deck = deck);
+  getDeck(): Deck {
+    return this.deck;
   }
 
-  goBack(): void {
-    this.location.back();
+  setDeck(id: number): void {
+    this.deckService.getDeck(id).subscribe(deck => this.deck = deck);
   }
 
-  save(): void {
-    this.deckService.updateDeck(this.deck)
-      .subscribe(() => this.goBack());
-  }
+  // goBack(): void {
+  //   this.location.back();
+  // }
+
+  // save(): void {
+  //   this.deckService.updateDeck(this.deck);
+  //     // .subscribe(() => this.goBack());
+  // }
 
 }

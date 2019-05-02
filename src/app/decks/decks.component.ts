@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Deck } from '../deck';
-import { DeckService } from '../deck.service'
 
 @Component({
   selector: 'app-decks',
@@ -9,27 +8,13 @@ import { DeckService } from '../deck.service'
 })
 export class DecksComponent implements OnInit {
 
-  decks: Deck[];
+  deck: Deck;
 
-  constructor(private deckService: DeckService) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.getDecks();
-   }
+  ngOnInit() {}
 
-  getDecks(): void {
-    this.deckService.getDecks()
-      .subscribe(decks => this.decks = decks);
-  }
-
-  add(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.deckService.addDeck({name} as Deck).subscribe(deck => {this.decks.push(deck);});
-  }
-
-  delete(deck: Deck): void {
-    this.decks = this.decks.filter(d => d !== deck);
-    this.deckService.deleteDeck(deck).subscribe();
+  selectDeckEvent(deck: Deck) {
+    this.deck = deck;
   }
 }
