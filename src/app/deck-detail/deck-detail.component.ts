@@ -1,12 +1,9 @@
-import { Component, Injectable, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { Component, Injectable, Input, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Card } from '../card';
 import { Deck } from '../deck';
 import { DeckService } from '../deck.service';
 
-@Injectable({
-  providedIn: 'root'
-})
 @Component({
   selector: 'app-deck-detail',
   templateUrl: './deck-detail.component.html',
@@ -15,18 +12,30 @@ import { DeckService } from '../deck.service';
 export class DeckDetailComponent implements OnInit {
 
   @Input() 
-  public deck: Deck;
+  deck: Deck;
 
-  public datasource: MatTableDataSource<Card>; 
+  @Input() 
+  public dataSource: MatTableDataSource<Card>;
 
-  public card = new Card("chunga", 2);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private deckService: DeckService, private changeDetectorRefs: ChangeDetectorRef) {
-    this.datasource = new MatTableDataSource<Card>();
+    // this.dataSource = new MatTableDataSource<Card>();
+    // this.setDeck(1);
    }
 
   ngOnInit(): void {
     this.setDeck(1);
+  }
+
+  /**
+   * Set the paginator and sort after the view init since this component will
+   * be able to query its view for the initialized paginator and sort.
+   */
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   getDeck(): Deck {
@@ -34,19 +43,16 @@ export class DeckDetailComponent implements OnInit {
   }
 
   setDeck(id: number): void {
-    this.deckService.getDeck(id).subscribe(deck => { this.deck = deck; this.datasource.data = deck.cards; });
-    this.changeDetectorRefs.detectChanges();
-    this.datasource._updatePaginator;
+    this.deckService.getDeck(id).subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; });
+    //console.log(this.deck.name);
+    // this.changeDetectorRefs.detectChanges(); 
   }
 
-  // goBack(): void {
-  //   this.location.back();
-  // }
-
-  // save(): void {
-  //   this.deckService.updateDeck(this.deck);
-  //     // .subscribe(() => this.goBack());
-  // }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
 
   // Temp
   displayedColumns: string[] = ['card', 'value'];

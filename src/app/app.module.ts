@@ -13,7 +13,7 @@ import { InMemoryDataService }  from './in-memory-data.service';
 import { DeckSearchComponent } from './deck-search/deck-search.component';
 import { DeckListComponent } from './deck-list/deck-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCard, MatCardModule, MatTableModule } from '@angular/material';
+import { MatCard, MatCardModule, MatTableModule, MatFormFieldModule, MatPaginatorModule } from '@angular/material';
  
 @NgModule({
   declarations: [
@@ -32,6 +32,8 @@ import { MatCard, MatCardModule, MatTableModule } from '@angular/material';
     BrowserAnimationsModule,
     MatCardModule,
     MatTableModule,
+    MatFormFieldModule,
+    MatPaginatorModule,
     HttpClientModule,
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
