@@ -1,4 +1,6 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Injectable, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
+import { Card } from '../card';
 import { Deck } from '../deck';
 import { DeckService } from '../deck.service';
 
@@ -15,7 +17,13 @@ export class DeckDetailComponent implements OnInit {
   @Input() 
   public deck: Deck;
 
-  constructor(private deckService: DeckService) { }
+  public datasource: MatTableDataSource<Card>; 
+
+  public card = new Card("chunga", 2);
+
+  constructor(private deckService: DeckService, private changeDetectorRefs: ChangeDetectorRef) {
+    this.datasource = new MatTableDataSource<Card>();
+   }
 
   ngOnInit(): void {
     this.setDeck(1);
@@ -26,7 +34,9 @@ export class DeckDetailComponent implements OnInit {
   }
 
   setDeck(id: number): void {
-    this.deckService.getDeck(id).subscribe(deck => this.deck = deck);
+    this.deckService.getDeck(id).subscribe(deck => { this.deck = deck; this.datasource.data = deck.cards; });
+    this.changeDetectorRefs.detectChanges();
+    this.datasource._updatePaginator;
   }
 
   // goBack(): void {
@@ -37,5 +47,13 @@ export class DeckDetailComponent implements OnInit {
   //   this.deckService.updateDeck(this.deck);
   //     // .subscribe(() => this.goBack());
   // }
+
+  // Temp
+  displayedColumns: string[] = ['card', 'value'];
+
+  /** Gets the total cost of all transactions. */
+  getTotalCost() {
+    return 5;
+  }
 
 }

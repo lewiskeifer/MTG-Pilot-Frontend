@@ -29,6 +29,13 @@ label {
     color: #ccc;
     cursor: auto;
   }
+  table {
+    max-width: 600px;
+  }
+  
+  tr.mat-footer-row {
+    font-weight: bold;
+  }
   .card {
     max-width: 400px;
   }
