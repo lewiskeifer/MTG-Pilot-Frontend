@@ -18,6 +18,5 @@ cards: Card[];
 
   selectDeckEvent(cards: Card[]) {
     this.cards = cards;
-    console.log(this.cards);
   }
 }

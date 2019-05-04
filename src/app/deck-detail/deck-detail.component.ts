@@ -1,5 +1,5 @@
-import { Component, Injectable, Input, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Card } from '../card';
 import { Deck } from '../deck';
 import { DeckService } from '../deck.service';
@@ -15,18 +15,15 @@ export class DeckDetailComponent implements OnInit {
   deck: Deck;
 
   @Input() 
-  public dataSource: MatTableDataSource<Card>;
+  dataSource: MatTableDataSource<Card>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private deckService: DeckService, private changeDetectorRefs: ChangeDetectorRef) {
-    // this.dataSource = new MatTableDataSource<Card>();
-    // this.setDeck(1);
-   }
+  constructor(private deckService: DeckService) { }
 
   ngOnInit(): void {
-    this.setDeck(1);
+    this.setDeck(333);
   }
 
   /**
@@ -34,6 +31,7 @@ export class DeckDetailComponent implements OnInit {
    * be able to query its view for the initialized paginator and sort.
    */
   ngAfterViewInit() {
+    if (this.dataSource == null) return;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -43,9 +41,9 @@ export class DeckDetailComponent implements OnInit {
   }
 
   setDeck(id: number): void {
-    this.deckService.getDeck(id).subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; });
-    //console.log(this.deck.name);
-    // this.changeDetectorRefs.detectChanges(); 
+    // TODO this.datasource.data can throw null
+    this.deckService.getDeck(id)
+      .subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; });
   }
 
   applyFilter(filterValue: string) {

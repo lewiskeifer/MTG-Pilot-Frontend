@@ -26,7 +26,7 @@ export class DeckListComponent implements OnInit {
 
   emitEvent(id: number) {
     this.deckService.getDeck(id)
-      .subscribe(deck =>{ this.selectedDeck = deck.cards; this.selectDeck.emit(this.selectedDeck); console.log(this.selectDeck); });
+      .subscribe(deck =>{ this.selectedDeck = deck.cards; this.selectDeck.emit(this.selectedDeck); });
   }
 
   getDecks(): void {
