@@ -28,13 +28,6 @@
 
   <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
 </div>
-<button Add Card (click)="addCardToDeck()"></button>
-
-<!-- <div>
-  <label>card:
-    
-  </label>
-</div> -->
 
 <mat-card class="center card">
   <div *ngIf="selectedCard">
@@ -45,9 +38,9 @@
       </mat-card-subtitle>
       <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content>
       <!-- <img mat-card-image>	Card image. Stretches the image to the container width -->
-      <mat-card-actions>	<button mat-raised-button (click)="addCardToDeck()">Save Card</button></mat-card-actions>
+      <mat-card-actions><button mat-raised-button (click)="addCardToDeck()">Save Card</button></mat-card-actions>
       <!-- <mat-card-footer> --> 
   </div>
 </mat-card>
 
-<button mat-raised-button (click)="resetSelectedCard">Add New Card</button>
+<button mat-raised-button (click)="resetSelectedCard()">Add New Card</button>
