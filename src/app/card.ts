@@ -1,8 +1,8 @@
 export class Card {
 
-  constructor(name: string, value: number) {
-    this.name = name;
-    this.value = value;
+  constructor(name?: string, value?: number) {
+    this.name = name || "";
+    this.value = value || 0;
   }
 
     id: number;

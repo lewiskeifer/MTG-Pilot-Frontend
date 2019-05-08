@@ -17,6 +17,7 @@ export class DeckDetailComponent implements OnInit {
   @Input() 
   dataSource: MatTableDataSource<Card>;
 
+  emptyCard: Card;
   selectedCard: Card;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -26,6 +27,8 @@ export class DeckDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.setDeck(333);
+    this.emptyCard = new Card();
+    this.selectedCard = this.emptyCard;
   }
 
   /**
@@ -53,7 +56,14 @@ export class DeckDetailComponent implements OnInit {
     console.log(index);
   }
 
-  // addCardToDeck()
+  resetSelectedCard(): void {
+    this.selectedCard = this.emptyCard;
+  }
+
+  // TODO
+  addCardToDeck(): void {
+
+  }
 
   // Temp
   applyFilter(filterValue: string) {

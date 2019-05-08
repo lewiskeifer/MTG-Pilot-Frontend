@@ -32,17 +32,22 @@
 
 <!-- <div>
   <label>card:
-    <input [(ngModel)]="deck.name" placeholder="name"/>
+    
   </label>
 </div> -->
 
 <mat-card class="center card">
   <div *ngIf="selectedCard">
-    <mat-card-title> {{selectedCard.name}} </mat-card-title>
-      <mat-card-subtitle>	Card subtitle </mat-card-subtitle>
+    <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
+      <mat-card-subtitle>	
+        <input [(ngModel)]="selectedCard.set" placeholder="Set"/>
+        <input [(ngModel)]="selectedCard.value" placeholder="Value"/> 
+      </mat-card-subtitle>
       <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content>
-      <!-- <img mat-card-image>	Card image. Stretches the image to the container width
-      <mat-card-actions>	Container for buttons at the bottom of the card
-      <mat-card-footer> -->
+      <!-- <img mat-card-image>	Card image. Stretches the image to the container width -->
+      <mat-card-actions>	<button mat-raised-button (click)="addCardToDeck()">Save Card</button></mat-card-actions>
+      <!-- <mat-card-footer> --> 
   </div>
 </mat-card>
+
+<button mat-raised-button (click)="resetSelectedCard">Add New Card</button>
