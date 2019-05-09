@@ -34,12 +34,18 @@
     <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
       <mat-card-subtitle>	
         <input [(ngModel)]="selectedCard.set" placeholder="Set"/>
-        <input [(ngModel)]="selectedCard.value" placeholder="Value"/> 
+        <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price"/> 
+        <input [(ngModel)]="selectedCard.isFoil" placeholder="Foil"/> 
+        <input [(ngModel)]="selectedCard.condition" placeholder="Condition"/> 
+        <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
       </mat-card-subtitle>
-      <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content>
+
+      <!-- TODO pull card picture and description from backend -->
+      <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
       <!-- <img mat-card-image>	Card image. Stretches the image to the container width -->
-      <mat-card-actions><button mat-raised-button (click)="addCardToDeck()">Save Card</button></mat-card-actions>
+      <mat-card-actions><button mat-raised-button (click)="saveCard()">Save Card</button></mat-card-actions>
       <!-- <mat-card-footer> --> 
+
   </div>
 </mat-card>
 

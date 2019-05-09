@@ -60,7 +60,7 @@ export class DeckDetailComponent implements OnInit {
     this.selectedCard = this.emptyCard;
   }
 
-  addCardToDeck(): void {
+  saveCard(): void {
     this.deckService.addCardToDeck(this.selectedCard, this.deck.id).subscribe();
   }
 
