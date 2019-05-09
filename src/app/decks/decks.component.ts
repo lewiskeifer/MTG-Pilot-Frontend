@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Deck } from '../deck';
+import { Card } from '../card';
 
 @Component({
   selector: 'app-decks',
@@ -8,13 +9,14 @@ import { Deck } from '../deck';
 })
 export class DecksComponent implements OnInit {
 
-  deck: Deck;
+  // deck: Deck;
+cards: Card[];
 
   constructor() { }
 
   ngOnInit() {}
 
-  selectDeckEvent(deck: Deck) {
-    this.deck = deck;
+  selectDeckEvent(cards: Card[]) {
+    this.cards = cards;
   }
 }

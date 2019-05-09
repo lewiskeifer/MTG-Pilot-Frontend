@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
 import { Deck } from '../deck';
+import { Card } from '../card';
 import { DeckService } from '../deck.service';
 
 @Injectable({
@@ -12,9 +13,9 @@ import { DeckService } from '../deck.service';
 })
 export class DeckListComponent implements OnInit {
 
-  @Output() selectDeck = new EventEmitter<Deck>();
+  @Output() selectDeck = new EventEmitter<Card[]>();
 
-  selectedDeck: Deck;
+  selectedDeck: Card[];
   decks: Deck[];
 
   constructor(private deckService: DeckService) { }
@@ -25,7 +26,7 @@ export class DeckListComponent implements OnInit {
 
   emitEvent(id: number) {
     this.deckService.getDeck(id)
-      .subscribe(deck =>{ this.selectedDeck = deck; this.selectDeck.emit(this.selectedDeck); });
+      .subscribe(deck =>{ this.selectedDeck = deck.cards; this.selectDeck.emit(this.selectedDeck); });
   }
 
   getDecks(): void {

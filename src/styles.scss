@@ -28,7 +28,7 @@ h1 {
     display: block; width: 100%;
   }
   .center {
-    margin: 0 auto;
+    margin: 10px auto;
     width: 500px;
     text-align: center;
   }
@@ -37,6 +37,13 @@ h1 {
     width: 500px;
     text-align: center;
   }
-  .padded {
-    margin: 5px;
+  .left {
+    float: left;
+    width: 500px;
+    text-align: center;
   }
+  .padded {
+    margin: 5px 5px 5px 5px;
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

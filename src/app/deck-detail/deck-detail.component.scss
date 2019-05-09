@@ -29,6 +29,37 @@ label {
     color: #ccc;
     cursor: auto;
   }
-  .card {
-    max-width: 400px;
+  table {
+    width: 600px;
   }
+  
+  tr.mat-footer-row {
+    font-weight: bold;
+  }
+  .card {
+    width: 500px;
+    height: 500px;
+    margin: 5px auto 5px auto;
+  }
+  
+  .example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+  }
+  
+  .example-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  .mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+  
