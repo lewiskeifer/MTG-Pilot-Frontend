@@ -20,32 +20,27 @@
       <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="setCard(i)"></tr>
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+
   </table>
 
   <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
-
 </div>
 
-<!-- <mat-card class="left padded">
-  <div *ngIf="deck">
-    <h2>{{deck.name | uppercase}} Details</h2>
-    <div><span>id: </span>{{deck.id}}</div>
-    <div><span>name: </span>{{deck.name}}</div>
-    <div><span>format: </span>{{deck.format}}</div>
-    <a *ngFor="let card of deck.cards" class="col-1-4">
-      <div class="module deck">
-        <p>{{card.name}}</p>
-      </div>
-    </a> -->
+<mat-card class="center card">
+  <div *ngIf="selectedCard">
+    <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
+      <mat-card-subtitle>	
+        <input [(ngModel)]="selectedCard.set" placeholder="Set"/>
+        <input [(ngModel)]="selectedCard.value" placeholder="Value"/> 
+      </mat-card-subtitle>
+      <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content>
+      <!-- <img mat-card-image>	Card image. Stretches the image to the container width -->
+      <mat-card-actions><button mat-raised-button (click)="addCardToDeck()">Save Card</button></mat-card-actions>
+      <!-- <mat-card-footer> --> 
+  </div>
+</mat-card>
 
-    <!-- <div>
-      <label>name:
-        <input [(ngModel)]="deck.name" placeholder="name"/>
-      </label>
-    </div> -->
-
-  <!-- </div>
-</mat-card> -->
+<button mat-raised-button (click)="resetSelectedCard()">Add New Card</button>

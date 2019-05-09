@@ -17,6 +17,9 @@ export class DeckDetailComponent implements OnInit {
   @Input() 
   dataSource: MatTableDataSource<Card>;
 
+  emptyCard: Card;
+  selectedCard: Card;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -24,6 +27,8 @@ export class DeckDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.setDeck(333);
+    this.emptyCard = new Card();
+    this.selectedCard = this.emptyCard;
   }
 
   /**
@@ -46,18 +51,32 @@ export class DeckDetailComponent implements OnInit {
       .subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; });
   }
 
+  setCard(index: number): void {
+    this.selectedCard = this.dataSource[index];
+    console.log(index);
+  }
+
+  resetSelectedCard(): void {
+    this.selectedCard = this.emptyCard;
+  }
+
+  addCardToDeck(): void {
+    this.deckService.addCardToDeck(this.selectedCard, this.deck.id).subscribe();
+  }
+
+  // Temp
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
 
-  // Temp
   displayedColumns: string[] = ['card', 'value'];
 
   /** Gets the total cost of all transactions. */
   getTotalCost() {
     return 5;
   }
+  //
 
 }
