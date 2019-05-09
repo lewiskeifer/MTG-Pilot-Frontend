@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
 import { Deck } from './deck';
+import { Card } from './card';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -33,17 +34,17 @@ export class DeckService {
         ,catchError(this.handleError<Deck[]>('getDecks', [])));
   }
 
-    /* GET decks whose name contains search term */
-    searchDecks(term: string): Observable<Deck[]> {
-      if (!term.trim()) {
-        // if not search term, return empty deck array.
-        return of([]);
-      }
-      return this.httpClient.get<Deck[]>(`${this.decksUrl}/?name=${term}`).pipe(
-        tap(_ => this.log(`found decks matching "${term}"`)),
-          catchError(this.handleError<Deck[]>('searchDecks', []))
-      );
+  /* GET decks whose name contains search term */
+  searchDecks(term: string): Observable<Deck[]> {
+    if (!term.trim()) {
+      // if not search term, return empty deck array.
+      return of([]);
     }
+    return this.httpClient.get<Deck[]>(`${this.decksUrl}/?name=${term}`).pipe(
+      tap(_ => this.log(`found decks matching "${term}"`)),
+        catchError(this.handleError<Deck[]>('searchDecks', []))
+    );
+  }
 
   /** POST: add a new deck to the server */
   addDeck (deck: Deck): Observable<Deck> {
@@ -54,10 +55,12 @@ export class DeckService {
   }
 
   /** PUT: update the deck on the server */
-  updateDeck (deck: Deck): Observable<any> {
-    return this.httpClient.put(this.decksUrl, deck, this.httpOptions).pipe(
-      tap(_ => this.log(`updated deck id=${deck.id}`)),
-        catchError(this.handleError<any>('updateDeck'))
+  addCardToDeck (card: Card, id: number): Observable<any> {
+    console.log("yo");
+    const url = `${this.decksUrl}/${id}`;
+    return this.httpClient.put(url, card, this.httpOptions).pipe(
+      tap(_ => this.log(`updated deck id=${id}`)),
+        catchError(this.handleError<any>('addCardToDeck'))
     );
   }
 
