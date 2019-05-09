@@ -20,6 +20,9 @@ export class DeckDetailComponent implements OnInit {
   emptyCard: Card;
   selectedCard: Card;
 
+  foils: string[];
+  conditions: string[];
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -29,6 +32,7 @@ export class DeckDetailComponent implements OnInit {
     this.setDeck(333);
     this.emptyCard = new Card();
     this.selectedCard = this.emptyCard;
+    this.foils = ["nonfoil", "foil"];
   }
 
   /**
