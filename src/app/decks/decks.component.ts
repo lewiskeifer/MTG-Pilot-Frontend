@@ -9,14 +9,18 @@ import { Card } from '../card';
 })
 export class DecksComponent implements OnInit {
 
-  // deck: Deck;
-cards: Card[];
+  deck: Deck;
+  cards: Card[];
 
   constructor() { }
 
   ngOnInit() {}
 
-  selectDeckEvent(cards: Card[]) {
+  selectDeckEvent(deck: Deck) {
+    this.deck = deck;
+  }
+
+  selectCardsEvent(cards: Card[]) {
     this.cards = cards;
   }
 }

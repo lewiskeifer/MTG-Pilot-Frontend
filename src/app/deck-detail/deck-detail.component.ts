@@ -11,14 +11,14 @@ import { DeckService } from '../deck.service';
 })
 export class DeckDetailComponent implements OnInit {
 
-  @Input() 
-  deck: Deck;
-
-  @Input() 
-  dataSource: MatTableDataSource<Card>;
+  @Input() deck: Deck;
+  @Input() dataSource: MatTableDataSource<Card>;
 
   emptyCard: Card;
   selectedCard: Card;
+
+  foils: string[];
+  conditions: string[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -29,6 +29,7 @@ export class DeckDetailComponent implements OnInit {
     this.setDeck(333);
     this.emptyCard = new Card();
     this.selectedCard = this.emptyCard;
+    this.foils = ["nonfoil", "foil"];
   }
 
   /**
@@ -53,18 +54,20 @@ export class DeckDetailComponent implements OnInit {
 
   setCard(index: number): void {
     this.selectedCard = this.dataSource[index];
-    console.log(index);
   }
 
   resetSelectedCard(): void {
     this.selectedCard = this.emptyCard;
   }
 
-  saveCard(): void {
-    this.deckService.addCardToDeck(this.selectedCard, this.deck.id).subscribe();
+  saveCard(isFoil: boolean, condition: string): void {
+    console.log(this.deck.id);
+    this.selectedCard.cardCondition = condition;
+    this.selectedCard.isFoil = isFoil;
+    this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
   }
 
-  // Temp
+  // Unused
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -73,10 +76,9 @@ export class DeckDetailComponent implements OnInit {
 
   displayedColumns: string[] = ['card', 'value'];
 
-  /** Gets the total cost of all transactions. */
+  // TODO
   getTotalCost() {
     return 5;
   }
-  //
 
 }
