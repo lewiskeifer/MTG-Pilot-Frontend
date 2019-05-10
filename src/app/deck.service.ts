@@ -55,7 +55,7 @@ export class DeckService {
   }
 
   /** PUT: update the deck on the server */
-  addCardToDeck (card: Card, id: number): Observable<any> {
+  saveCard (card: Card, id: number): Observable<any> {
     const url = `${this.decksUrl}/${id}`;
     return this.httpClient.put(url, card, this.httpOptions).pipe(
       tap(_ => this.log(`updated deck id=${id}`)),

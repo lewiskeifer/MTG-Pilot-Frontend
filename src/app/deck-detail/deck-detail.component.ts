@@ -69,7 +69,7 @@ export class DeckDetailComponent implements OnInit {
     console.log(condition);
     this.selectedCard.condition = condition;
     this.selectedCard.isFoil = isFoil;
-    this.deckService.addCardToDeck(this.selectedCard, this.deck.id).subscribe();
+    this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
   }
 
   // Temp
