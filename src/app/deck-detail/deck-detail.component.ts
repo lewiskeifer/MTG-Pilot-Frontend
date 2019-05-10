@@ -26,7 +26,7 @@ export class DeckDetailComponent implements OnInit {
   constructor(private deckService: DeckService) { }
 
   ngOnInit(): void {
-    this.setDeck(0);
+    this.setDeck(333);
     this.emptyCard = new Card();
     this.selectedCard = this.emptyCard;
     this.foils = ["nonfoil", "foil"];
@@ -62,7 +62,7 @@ export class DeckDetailComponent implements OnInit {
 
   saveCard(isFoil: boolean, condition: string): void {
     console.log(this.deck.id);
-    this.selectedCard.condition = condition;
+    this.selectedCard.cardCondition = condition;
     this.selectedCard.isFoil = isFoil;
     this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
   }

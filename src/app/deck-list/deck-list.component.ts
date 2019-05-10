@@ -13,9 +13,11 @@ import { DeckService } from '../deck.service';
 })
 export class DeckListComponent implements OnInit {
 
-  @Output() selectDeck = new EventEmitter<Card[]>();
+  @Output() selectDeck = new EventEmitter<Deck>();
+  @Output() selectCards = new EventEmitter<Card[]>();
 
-  selectedDeck: Card[];
+  selectedDeck: Deck;
+  selectedCards: Card[];
   decks: Deck[];
 
   constructor(private deckService: DeckService) { }
@@ -26,7 +28,8 @@ export class DeckListComponent implements OnInit {
 
   emitEvent(id: number) {
     this.deckService.getDeck(id)
-      .subscribe(deck =>{ this.selectedDeck = deck.cards; this.selectDeck.emit(this.selectedDeck); });
+      .subscribe(deck =>{ this.selectedDeck = deck; this.selectedCards = deck.cards; 
+        this.selectDeck.emit(this.selectedDeck); this.selectCards.emit(this.selectedCards); });
   }
 
   getDecks(): void {

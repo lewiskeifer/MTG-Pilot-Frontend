@@ -33,7 +33,7 @@
   <div *ngIf="selectedCard">
     <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
       <mat-card-subtitle>	
-        <input [(ngModel)]="selectedCard.set" placeholder="Set"/>
+        <input [(ngModel)]="selectedCard.version" placeholder="Version"/>
         <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price"/> 
         <!-- TODO try formgroup-->
         <mat-form-field class="form">
@@ -46,9 +46,9 @@
         <mat-form-field class="form">
           <mat-label>Condition</mat-label>
           <mat-select [(value)]="selectedCondition">
-            <mat-option value="Near-mint">Near-mint</mat-option>
-            <mat-option value="Light-play">Light-play</mat-option>
-            <mat-option value="Moderate-play">Moderate-play</mat-option>
+            <mat-option value="NEAR_MINT">Near-mint</mat-option>
+            <mat-option value="LIGHT_PLAY">Light-play</mat-option>
+            <mat-option value="MODERATE_PLAY">Moderate-play</mat-option>
           </mat-select>
         </mat-form-field>
         <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
@@ -57,10 +57,11 @@
       <!-- TODO pull card picture and description from backend -->
       <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
       <!-- <img mat-card-image>	Card image. Stretches the image to the container width -->
-      <mat-card-actions><button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)">Save Card</button></mat-card-actions>
+      <mat-card-actions>
+        <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)">Save Current Card</button>
+        <button mat-raised-button (click)="resetSelectedCard()">Add New Card</button>
+      </mat-card-actions>
       <!-- <mat-card-footer> --> 
 
   </div>
 </mat-card>
-
-<button mat-raised-button (click)="resetSelectedCard()">Add New Card</button>

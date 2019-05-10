@@ -9,7 +9,7 @@ export class Card {
   name: string;
   version: string;
   isFoil: boolean;
-  condition: string;
+  cardCondition: string;
   purchasePrice: number;
   quantity: number;
   value: number;
