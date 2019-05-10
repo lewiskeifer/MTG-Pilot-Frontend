@@ -9,8 +9,7 @@ import { Card } from '../card';
 })
 export class DecksComponent implements OnInit {
 
-  // deck: Deck;
-cards: Card[];
+  cards: Card[];
 
   constructor() { }
 

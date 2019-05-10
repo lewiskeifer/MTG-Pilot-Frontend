@@ -11,11 +11,8 @@ import { DeckService } from '../deck.service';
 })
 export class DeckDetailComponent implements OnInit {
 
-  @Input() 
-  deck: Deck;
-
-  @Input() 
-  dataSource: MatTableDataSource<Card>;
+  @Input() deck: Deck;
+  @Input() dataSource: MatTableDataSource<Card>;
 
   emptyCard: Card;
   selectedCard: Card;
@@ -65,14 +62,12 @@ export class DeckDetailComponent implements OnInit {
 
   saveCard(isFoil: boolean, condition: string): void {
     console.log(this.deck.id);
-    console.log(isFoil);
-    console.log(condition);
     this.selectedCard.condition = condition;
     this.selectedCard.isFoil = isFoil;
     this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
   }
 
-  // Temp
+  // Unused
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -81,10 +76,9 @@ export class DeckDetailComponent implements OnInit {
 
   displayedColumns: string[] = ['card', 'value'];
 
-  /** Gets the total cost of all transactions. */
+  // TODO
   getTotalCost() {
     return 5;
   }
-  //
 
 }
