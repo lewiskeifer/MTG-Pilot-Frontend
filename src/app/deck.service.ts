@@ -23,15 +23,15 @@ export class DeckService {
   getDeck(id: number): Observable<Deck> {
     const url = `${this.decksUrl}/${id}`;
     return this.httpClient.get<Deck>(url).pipe(
-      tap(_ => this.log(`fetched deck id=${id}`))
-        ,catchError(this.handleError<Deck>(`getDeck id=${id}`))
+      tap(_ => this.log(`fetched deck id=${id}`)),
+        catchError(this.handleError<Deck>(`getDeck id=${id}`))
     );
   }
 
   getDecks(): Observable<Deck[]> {
-    return this.httpClient.get<Deck[]>(this.decksUrl)
-      .pipe(tap(_ => this.log('fetched decks'))
-        ,catchError(this.handleError<Deck[]>('getDecks', [])));
+    return this.httpClient.get<Deck[]>(this.decksUrl).pipe(
+      tap(_ => this.log('fetched decks')),
+        catchError(this.handleError<Deck[]>('getDecks', [])));
   }
 
   /* GET decks whose name contains search term */
@@ -55,8 +55,7 @@ export class DeckService {
   }
 
   /** PUT: update the deck on the server */
-  addCardToDeck (card: Card, id: number): Observable<any> {
-    console.log("yo");
+  saveCard (card: Card, id: number): Observable<any> {
     const url = `${this.decksUrl}/${id}`;
     return this.httpClient.put(url, card, this.httpOptions).pipe(
       tap(_ => this.log(`updated deck id=${id}`)),
