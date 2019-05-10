@@ -10,7 +10,7 @@ import { Format } from './format';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
      const cards = [
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', value: 40 },
+      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
       { id: 1, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
       { id: 2, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },
       { id: 3, name: 'Walking Ballista', set: 'Magic Origins', value: 10 },

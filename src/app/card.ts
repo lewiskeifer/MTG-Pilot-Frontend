@@ -5,12 +5,12 @@ export class Card {
     this.value = value || 0;
   }
 
-    id: number;
-    name: string;
-    version: string;
-    isFoil: boolean;
-    condition: string;
-    purchasePrice: number;
-    value: number;
-    quantity: number;
-  }
+  id: number;
+  name: string;
+  version: string;
+  isFoil: boolean;
+  condition: string;
+  purchasePrice: number;
+  quantity: number;
+  value: number;
+}

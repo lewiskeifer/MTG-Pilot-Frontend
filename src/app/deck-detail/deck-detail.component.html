@@ -35,19 +35,20 @@
       <mat-card-subtitle>	
         <input [(ngModel)]="selectedCard.set" placeholder="Set"/>
         <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price"/> 
+        <!-- TODO try formgroup-->
         <mat-form-field class="form">
           <mat-label>Foil</mat-label>
           <mat-select [(value)]="selectedFoil">
-            <mat-option value="false">Non-foil</mat-option>
-            <mat-option value="true">Foil</mat-option>
+            <mat-option value=false>Non-foil</mat-option>
+            <mat-option value=true>Foil</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="form">
           <mat-label>Condition</mat-label>
           <mat-select [(value)]="selectedCondition">
-            <mat-option value=0>Near-mint</mat-option>
-            <mat-option value=1>Light-play</mat-option>
-            <mat-option value=2>Moderate-play</mat-option>
+            <mat-option value="Near-mint">Near-mint</mat-option>
+            <mat-option value="Light-play">Light-play</mat-option>
+            <mat-option value="Moderate-play">Moderate-play</mat-option>
           </mat-select>
         </mat-form-field>
         <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 

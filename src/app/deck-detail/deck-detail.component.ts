@@ -29,7 +29,7 @@ export class DeckDetailComponent implements OnInit {
   constructor(private deckService: DeckService) { }
 
   ngOnInit(): void {
-    this.setDeck(333);
+    this.setDeck(0);
     this.emptyCard = new Card();
     this.selectedCard = this.emptyCard;
     this.foils = ["nonfoil", "foil"];
@@ -57,14 +57,18 @@ export class DeckDetailComponent implements OnInit {
 
   setCard(index: number): void {
     this.selectedCard = this.dataSource[index];
-    console.log(index);
   }
 
   resetSelectedCard(): void {
     this.selectedCard = this.emptyCard;
   }
 
-  saveCard(): void {
+  saveCard(isFoil: boolean, condition: string): void {
+    console.log(this.deck.id);
+    console.log(isFoil);
+    console.log(condition);
+    this.selectedCard.condition = condition;
+    this.selectedCard.isFoil = isFoil;
     this.deckService.addCardToDeck(this.selectedCard, this.deck.id).subscribe();
   }
 
