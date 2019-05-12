@@ -26,7 +26,8 @@ export class DeckDetailComponent implements OnInit {
   constructor(private deckService: DeckService) { }
 
   ngOnInit(): void {
-    this.setDeck(760);
+    this.dataSource = new MatTableDataSource();
+    this.setDeck(0);
     this.emptyCard = new Card();
     this.selectedCard = this.emptyCard;
     this.foils = ["nonfoil", "foil"];
@@ -47,7 +48,6 @@ export class DeckDetailComponent implements OnInit {
   }
 
   setDeck(id: number): void {
-    // TODO this.datasource.data can throw null
     this.deckService.getDeck(id)
       .subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; });
   }
