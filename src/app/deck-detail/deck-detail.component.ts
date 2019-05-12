@@ -14,14 +14,13 @@ export class DeckDetailComponent implements OnInit {
   @Input() deck: Deck;
   @Input() dataSource: MatTableDataSource<Card>;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   emptyCard: Card;
   selectedCard: Card;
 
-  foils: string[];
-  conditions: string[];
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  loading: boolean;
 
   constructor(private deckService: DeckService) { }
 
@@ -30,7 +29,7 @@ export class DeckDetailComponent implements OnInit {
     this.setDeck(0);
     this.emptyCard = new Card();
     this.selectedCard = this.emptyCard;
-    this.foils = ["nonfoil", "foil"];
+    this.loading = false;
   }
 
   /**
@@ -64,6 +63,13 @@ export class DeckDetailComponent implements OnInit {
     this.selectedCard.cardCondition = condition;
     this.selectedCard.isFoil = isFoil;
     this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
+  }
+
+  // TODO fails on deck overview
+  refreshDeck():void {
+    this.loading = true;
+    this.deckService.refreshDeck(this.deck.id)
+      .subscribe(deck => { this.setDeck(this.deck.id); this.loading = false; this.getTotalCost(); });
   }
 
   displayedColumns: string[] = ['card', 'value'];
