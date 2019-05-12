@@ -2,7 +2,7 @@ export class Card {
 
   constructor(name?: string, value?: number) {
     this.name = name || "";
-    this.value = value || 0;
+    this.marketPrice = value || 0;
   }
 
   id: number;
@@ -12,5 +12,5 @@ export class Card {
   cardCondition: string;
   purchasePrice: number;
   quantity: number;
-  value: number;
+  marketPrice: number;
 }

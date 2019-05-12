@@ -26,7 +26,7 @@ export class DeckDetailComponent implements OnInit {
   constructor(private deckService: DeckService) { }
 
   ngOnInit(): void {
-    this.setDeck(333);
+    this.setDeck(760);
     this.emptyCard = new Card();
     this.selectedCard = this.emptyCard;
     this.foils = ["nonfoil", "foil"];
@@ -61,24 +61,29 @@ export class DeckDetailComponent implements OnInit {
   }
 
   saveCard(isFoil: boolean, condition: string): void {
-    console.log(this.deck.id);
     this.selectedCard.cardCondition = condition;
     this.selectedCard.isFoil = isFoil;
     this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
   }
 
-  // Unused
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
-
   displayedColumns: string[] = ['card', 'value'];
 
-  // TODO
   getTotalCost() {
-    return 5;
+    var total = 0;
+    if (this.deck && this.deck.cards) {
+      this.deck.cards.forEach(element => {
+        total += (element.marketPrice * element.quantity) | 0;
+      });
+    }
+
+    return total;
   }
+
+    // Unused
+    applyFilter(filterValue: string) {
+      filterValue = filterValue.trim(); // Remove whitespace
+      filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+      this.dataSource.filter = filterValue;
+    }
 
 }
