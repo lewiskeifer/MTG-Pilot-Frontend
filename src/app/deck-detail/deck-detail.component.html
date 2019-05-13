@@ -30,15 +30,15 @@
   <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
 </div>
 
-<!-- <div *ngIf="!loading"> -->
+<div *ngIf="!loading">
   <button mat-raised-button (click)="refreshDeck()">
     Refresh
     <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
     </button>
-<!-- </div>
+</div>
 <div *ngIf="loading">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</div> -->
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
 
 <mat-card class="center card">
   <div *ngIf="selectedCard">
