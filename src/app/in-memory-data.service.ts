@@ -10,12 +10,12 @@ import { Format } from './format';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
      const cards = [
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Walking Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Ravager Ravager', set: 'Darksteel', isFoil: true, cardCondition: "Near-mint", value: 120, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Light-play", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
     ];
 
     const cards2 = [
