@@ -14,22 +14,22 @@ export class DeckDetailComponent implements OnInit {
   @Input() deck: Deck;
   @Input() dataSource: MatTableDataSource<Card>;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   emptyCard: Card;
   selectedCard: Card;
 
-  foils: string[];
-  conditions: string[];
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  loading: boolean;
 
   constructor(private deckService: DeckService) { }
 
   ngOnInit(): void {
-    this.setDeck(333);
+    this.dataSource = new MatTableDataSource();
+    this.setDeck(0);
     this.emptyCard = new Card();
     this.selectedCard = this.emptyCard;
-    this.foils = ["nonfoil", "foil"];
+    this.loading = false;
   }
 
   /**
@@ -47,7 +47,6 @@ export class DeckDetailComponent implements OnInit {
   }
 
   setDeck(id: number): void {
-    // TODO this.datasource.data can throw null
     this.deckService.getDeck(id)
       .subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; });
   }
@@ -61,24 +60,36 @@ export class DeckDetailComponent implements OnInit {
   }
 
   saveCard(isFoil: boolean, condition: string): void {
-    console.log(this.deck.id);
     this.selectedCard.cardCondition = condition;
     this.selectedCard.isFoil = isFoil;
     this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
   }
 
-  // Unused
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  // TODO fails on deck overview
+  refreshDeck():void {
+    this.loading = true;
+    this.deckService.refreshDeck(this.deck.id)
+      .subscribe(deck => { this.setDeck(this.deck.id); this.loading = false; this.getTotalCost(); });
   }
 
   displayedColumns: string[] = ['card', 'value'];
 
-  // TODO
   getTotalCost() {
-    return 5;
+    var total = 0;
+    if (this.deck && this.deck.cards) {
+      this.deck.cards.forEach(element => {
+        total += (element.marketPrice * element.quantity) | 0;
+      });
+    }
+
+    return total;
   }
+
+    // Unused
+    applyFilter(filterValue: string) {
+      filterValue = filterValue.trim(); // Remove whitespace
+      filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+      this.dataSource.filter = filterValue;
+    }
 
 }

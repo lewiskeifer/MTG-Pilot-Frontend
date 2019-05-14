@@ -59,9 +59,18 @@ export class DeckService {
     const url = `${this.decksUrl}/${id}`;
     return this.httpClient.put(url, card, this.httpOptions).pipe(
       tap(_ => this.log(`updated deck id=${id}`)),
-        catchError(this.handleError<any>('addCardToDeck'))
+        catchError(this.handleError<any>('saveCard'))
     );
   }
+
+    /** PUT: update the deck on the server */
+    refreshDeck (id: number): Observable<void> {
+      const url = `${this.decksUrl}/${id}/refresh`;
+      return this.httpClient.put(url, this.httpOptions).pipe(
+        tap(_ => this.log(`updated deck id=${id}`)),
+          catchError(this.handleError<any>('refreshDeck'))
+      );
+    }
 
   /** DELETE: delete the deck from the server */
   deleteDeck (deck: Deck | number): Observable<Deck> {
