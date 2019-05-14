@@ -41,36 +41,31 @@ label {
     height: 500px;
     margin: 5px auto 5px auto;
   }
-  
   .example-container {
     display: flex;
     flex-direction: column;
     min-width: 300px;
   }
-  
   .example-header {
     min-height: 64px;
     padding: 8px 24px 0;
   }
-  
   .mat-form-field {
     font-size: 14px;
     width: 100%;
   }
-  
   .mat-table {
     overflow: auto;
     max-height: 500px;
   }
+  
   .form {
     width: 179px !important; 
-  }
-  .addNewCard {
-    margin: 10px auto;
   }
   .but {
     width: 70px; 
     height: 25px;
+    margin: 5px;
   }
   .wid {
     width: 600px; 
