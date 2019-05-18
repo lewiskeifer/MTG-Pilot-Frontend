@@ -5,9 +5,17 @@
       <ng-container matColumnDef="card">
         <th mat-header-cell *matHeaderCellDef> Card </th>
         <td mat-cell *matCellDef="let card"> {{(card.name + (card.isFoil ? ' Foil' : '') | titlecase) 
-          + ' ' + card.cardCondition + ' x' + card.quantity}} </td>
+          + ' ' + (card.cardCondition ? card.cardCondition : '') + ' x' + card.quantity}} </td>
         <td mat-footer-cell *matFooterCellDef> Total </td>
       </ng-container>
+
+      <!-- TODO add columns -->
+      <!-- Card Column -->
+      <!-- <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Quantity </th>
+        <td mat-cell *matCellDef="let card"> {{card.quantity}} </td>
+        <td mat-footer-cell *matFooterCellDef> Total </td>
+      </ng-container> -->
 
       <!-- Value Column -->
       <ng-container matColumnDef="value">

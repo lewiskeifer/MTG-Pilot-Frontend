@@ -1,9 +1,7 @@
-import { Format } from './format'
-
 export class Deck {
     id: number;
     name: string;
-    format: Format;
+    format: string;
     value: number;
     cards = [];
   }
