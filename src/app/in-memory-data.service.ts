@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Deck } from './deck';
-import { Card } from './card';
-import { Format } from './format';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +8,12 @@ import { Format } from './format';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
      const cards = [
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
-      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, condition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Walking Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Ravager Ravager', set: 'Darksteel', isFoil: true, cardCondition: "Near-mint", value: 120, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Light-play", value: 40, purchasePrice: 10, quantity: 4 },
+      { id: 0, name: 'Arcbound Ravager', set: 'Darksteel', isFoil: false, cardCondition: "Near-mint", value: 40, purchasePrice: 10, quantity: 4 },
     ];
 
     const cards2 = [
@@ -27,12 +25,12 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
     
      const decks = [
-      { id: 0, name: 'Affinity Legacy', format: Format.LEGACY, value: 10, cards: cards },
-      { id: 1, name: 'Affinity Modern', format: Format.MODERN, value: 10, cards: cards2 },
-      { id: 2, name: 'Mono Blue', format: Format.LEGACY, value: 10, cards: cards2 },
-      { id: 3, name: 'Jund', format: Format.MODERN, value: 10, cards: cards },
-      { id: 4, name: 'Esper', format: Format.CASUAL, value: 10, cards: cards },
-      { id: 5, name: 'Bant', format: Format.CASUAL, value: 10, cards: cards },
+      { id: 0, name: 'Affinity Legacy', format: "Legacy", value: 10, cards: cards },
+      { id: 1, name: 'Affinity Modern', format: "Legacy", value: 10, cards: cards2 },
+      { id: 2, name: 'Mono Blue', format: "Legacy", value: 10, cards: cards2 },
+      { id: 3, name: 'Jund', format: "Legacy", value: 10, cards: cards },
+      { id: 4, name: 'Esper', format: "Legacy", value: 10, cards: cards },
+      { id: 5, name: 'Bant', format: "Legacy", value: 10, cards: cards },
     ];
     return {decks};
   }

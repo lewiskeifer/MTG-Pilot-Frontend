@@ -65,7 +65,6 @@ export class DeckDetailComponent implements OnInit {
     this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
   }
 
-  // TODO fails on deck overview
   refreshDeck():void {
     this.loading = true;
     this.deckService.refreshDeck(this.deck.id)
@@ -84,12 +83,5 @@ export class DeckDetailComponent implements OnInit {
 
     return total;
   }
-
-    // Unused
-    applyFilter(filterValue: string) {
-      filterValue = filterValue.trim(); // Remove whitespace
-      filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-      this.dataSource.filter = filterValue;
-    }
 
 }

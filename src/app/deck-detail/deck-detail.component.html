@@ -1,21 +1,16 @@
-<!-- <div class="example-header">
-  <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-  </mat-form-field>
-</div> -->
-
 <div class="left padded table wid">
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
-      <!-- Item Column -->
+      
+      <!-- Card Column -->
       <ng-container matColumnDef="card">
         <th mat-header-cell *matHeaderCellDef> Card </th>
         <td mat-cell *matCellDef="let card"> {{(card.name + (card.isFoil ? ' Foil' : '') | titlecase) 
-          + ' x' + card.quantity}} </td>
+          + (card.cardCondition ? ', ' + card.cardCondition : '') + ', x' + card.quantity}} </td>
         <td mat-footer-cell *matFooterCellDef> Total </td>
       </ng-container>
 
-      <!-- Cost Column -->
+      <!-- Value Column -->
       <ng-container matColumnDef="value">
         <th mat-header-cell *matHeaderCellDef> Value </th>
         <td mat-cell *matCellDef="let card"> {{card.marketPrice * card.quantity | currency}} </td>
@@ -25,10 +20,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="setCard(i)"></tr>
       <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-
     </table>
-
-    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
   </div>
 
   <span *ngIf="!loading">
@@ -74,7 +66,5 @@
         <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Save Current Card</button>
         <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>
       </mat-card-actions>
-      <!-- <mat-card-footer> --> 
-
   </div>
 </mat-card>
