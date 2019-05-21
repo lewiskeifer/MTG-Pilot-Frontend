@@ -14,9 +14,9 @@ export class LineChartComponent implements OnInit {
     @Input() config: LineChartConfig;
     @Input() elementId: string;
 
-    constructor(private _pieChartService: GoogleLineChartService) {}
+    constructor(private _lineChartService: GoogleLineChartService) {}
 
     ngOnInit(): void {
-        this._pieChartService.BuildLineChart(this.elementId, this.data, this.config); 
+        this._lineChartService.BuildLineChart(this.elementId, this.data, this.config); 
     }
 }
