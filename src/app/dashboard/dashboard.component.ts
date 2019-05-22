@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
       // Build array
       var col = [];
       for (var _j = 0; _j < this.decks[_i].deckSnapshots.length; _j++) {
-        col[0] += this.decks[_i].deckSnapshots[_j].timestamp, this.decks[_i].deckSnapshots[_j].value;
+        col.push(this.decks[_i].deckSnapshots[_j].timestamp, this.decks[_i].deckSnapshots[_j].value);
       }
       console.log(col);
       this.data[_i] = col;
