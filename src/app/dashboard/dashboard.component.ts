@@ -31,10 +31,25 @@ export class DashboardComponent implements OnInit {
 
   setChart(): void {
     console.log(this.decks);
-    this.data = [
-      ['Decks', this.decks[1].name, this.decks[2].name],
-      [this.decks[1].deckSnapshots[0].timestamp, this.decks[1].deckSnapshots[0].value, this.decks[2].deckSnapshots[0].value],
-      [this.decks[1].deckSnapshots[1].timestamp, this.decks[1].deckSnapshots[1].value, this.decks[2].deckSnapshots[1].value]
-    ];
+
+    // Replace
+    this.data = [['Decks', this.decks[1].name, this.decks[2].name, this.decks[3].name,this.decks[4].name,this.decks[5].name]];
+
+    for (var _i = 1; _i < this.decks.length; _i++) {
+      // Build array
+      var col = [];
+      for (var _j = 0; _j < this.decks[_i].deckSnapshots.length; _j++) {
+        col[0] += this.decks[_i].deckSnapshots[_j].timestamp, this.decks[_i].deckSnapshots[_j].value;
+      }
+      console.log(col);
+      this.data[_i] = col;
+    }
+
+    console.log(this.data);
+    // this.data = [
+    //   ['Decks', this.decks[1].name, this.decks[2].name],
+    //   [this.decks[1].deckSnapshots[0].timestamp, this.decks[1].deckSnapshots[0].value, this.decks[2].deckSnapshots[0].value],
+    //   [this.decks[1].deckSnapshots[1].timestamp, this.decks[1].deckSnapshots[1].value, this.decks[2].deckSnapshots[1].value]
+    // ];
   }
 }

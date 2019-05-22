@@ -6,6 +6,6 @@ export class Deck {
     name: string;
     format: string;
     value: number;
-    cards = [];
-    deckSnapshots = Array(DeckSnapshot);
+    cards: Array<Card>;
+    deckSnapshots: Array<DeckSnapshot>;
   }
