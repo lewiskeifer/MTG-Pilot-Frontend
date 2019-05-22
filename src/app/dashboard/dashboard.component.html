@@ -8,15 +8,15 @@
   </a>
 </div> -->
 
-<h2>{{title}}</h2>
-
-<div class="divTable center">
+<div *ngIf="decks">
+<div class="divTable center" style="width: 800px">
     <div class="divTableBody">
         <div class="divTableRow">
             <div class="divTableCell"><line-chart [data]="data" [config]="config" [elementId]="elementId"></line-chart></div>
             <!-- <div class="divTableCell"><line-chart [data]="data2" [config]="config2" [elementId]="elementId2"></line-chart></div> -->
         </div>
     </div>
+</div>
 </div>
 
 <!-- <app-deck-search></app-deck-search> -->

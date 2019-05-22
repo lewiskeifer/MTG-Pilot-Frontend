@@ -10,7 +10,7 @@ import { LineChartConfig } from '../google-charts/line-chart-config'
 })
 export class DashboardComponent implements OnInit {
 
-  decks: Deck[] = [];
+  decks: Deck[];
  
   data: any[];
   config: LineChartConfig;
@@ -19,29 +19,22 @@ export class DashboardComponent implements OnInit {
   constructor(private deckService: DeckService) { }
  
   ngOnInit() {
-
-    this.getDecks();
-
-console.log(this.decks);
-
-    // Linechart Data & Config
-    this.data = [
-    //   ['Decks', this.decks[1].name],
-    //   [this.decks[1].deckSnapshots[0], this.decks[1].deckSnapshots[0]]
-    // ];
-    ['Decks', 'A', 'B'],
-    ['1/1/19', 3, 2],
-    ['2/1/19', 2, 2],
-    ['3/1/19', 5, 4],
-    ['4/1/19', 4, 5],
-    ['5/1/19', 10, 7]];
-
     this.config = new LineChartConfig('Total Value', 'in USD', 400, 800);
     this.elementId = 'linechart_material';
+    this.getDecks();
   }
  
   getDecks(): void {
     this.deckService.getDecks()
-      .subscribe(decks => this.decks = decks.slice(1, 5));
+      .subscribe(decks => { this.decks = decks; this.setChart() });
+  }
+
+  setChart(): void {
+    console.log(this.decks);
+    this.data = [
+      ['Decks', this.decks[1].name, this.decks[2].name],
+      [this.decks[1].deckSnapshots[0].timestamp, this.decks[1].deckSnapshots[0].value, this.decks[2].deckSnapshots[0].value],
+      [this.decks[1].deckSnapshots[1].timestamp, this.decks[1].deckSnapshots[1].value, this.decks[2].deckSnapshots[1].value]
+    ];
   }
 }
