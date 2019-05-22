@@ -22,8 +22,13 @@ export class DashboardComponent implements OnInit {
 
     this.getDecks();
 
+console.log(this.decks);
+
     // Linechart Data & Config
     this.data = [
+    //   ['Decks', this.decks[1].name],
+    //   [this.decks[1].deckSnapshots[0], this.decks[1].deckSnapshots[0]]
+    // ];
     ['Decks', 'A', 'B'],
     ['1/1/19', 3, 2],
     ['2/1/19', 2, 2],
