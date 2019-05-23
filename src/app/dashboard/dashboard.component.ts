@@ -3,6 +3,8 @@ import { Deck } from '../deck';
 import { DeckService } from '../deck.service';
 import { LineChartConfig } from '../google-charts/line-chart-config'
  
+declare var google: any;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -19,7 +21,7 @@ export class DashboardComponent implements OnInit {
   constructor(private deckService: DeckService) { }
  
   ngOnInit() {
-    this.config = new LineChartConfig('Total Value', 'in USD', 400, 800);
+    this.config = new LineChartConfig('Total Value', 'in USD', 900, 1000);
     this.elementId = 'linechart_material';
     this.getDecks();
   }
@@ -30,26 +32,26 @@ export class DashboardComponent implements OnInit {
   }
 
   setChart(): void {
-    console.log(this.decks);
 
-    // Replace
-    this.data = [['Decks', this.decks[1].name, this.decks[2].name, this.decks[3].name,this.decks[4].name,this.decks[5].name]];
+    this.data = [[]];
 
-    for (var _i = 1; _i < this.decks.length; _i++) {
-      // Build array
-      var col = [];
-      for (var _j = 0; _j < this.decks[_i].deckSnapshots.length; _j++) {
-        col.push(this.decks[_i].deckSnapshots[_j].timestamp, this.decks[_i].deckSnapshots[_j].value);
-      }
-      console.log(col);
-      this.data[_i] = col;
+    var names = [];
+    for (var _i = 1; _i < this.decks.length; ++_i) {
+      names.push(this.decks[_i].name);
     }
 
-    console.log(this.data);
-    // this.data = [
-    //   ['Decks', this.decks[1].name, this.decks[2].name],
-    //   [this.decks[1].deckSnapshots[0].timestamp, this.decks[1].deckSnapshots[0].value, this.decks[2].deckSnapshots[0].value],
-    //   [this.decks[1].deckSnapshots[1].timestamp, this.decks[1].deckSnapshots[1].value, this.decks[2].deckSnapshots[1].value]
-    // ];
+    this.data[0] = names;
+
+    var rows = [[]];
+    for (var _j = 0; _j < this.decks[1].deckSnapshots.length; ++_j) {
+      var row = [];
+      row.push(this.decks[1].deckSnapshots[_j].timestamp);
+      for (var _k = 1; _k < this.decks.length; ++_k) {
+        row.push(this.decks[_k].deckSnapshots[_j].value);
+      }
+      rows[_j] = row;
+    }
+
+    this.data[1] = rows;
   }
 }

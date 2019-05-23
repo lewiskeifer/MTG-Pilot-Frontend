@@ -23,4 +23,5 @@ export class GoogleLineChartService extends GoogleChartsBaseService {
 
     this.buildChart(data, chartFunc, options);
   }
+
 }
