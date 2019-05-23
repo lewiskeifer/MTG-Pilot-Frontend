@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component';
 import { DecksComponent } from './decks/decks.component';
 import { DeckDetailComponent } from './deck-detail/deck-detail.component';
+import { LineChartComponent } from './google-charts/line-chart.component';
+import { GoogleLineChartService } from './google-charts/google-line-chart-service';
 import { MessagesComponent } from './messages/messages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule }    from '@angular/common/http';
@@ -24,6 +26,7 @@ import { MatCardModule, MatTableModule, MatFormFieldModule, MatPaginatorModule, 
     DashboardComponent,
     DeckSearchComponent,
     DeckListComponent,
+    LineChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,7 @@ import { MatCardModule, MatTableModule, MatFormFieldModule, MatPaginatorModule, 
     // )
   ],
   providers: [
-    // no need to place any providers due to the `providedIn` flag...
+    GoogleLineChartService
   ],
   bootstrap: [ AppComponent ]
 })
