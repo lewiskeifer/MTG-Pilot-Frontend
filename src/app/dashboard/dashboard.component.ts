@@ -43,9 +43,10 @@ export class DashboardComponent implements OnInit {
     this.data[0] = names;
 
     var rows = [[]];
+    // TODO ensure all snapshots are equal length or make this smarter
     for (var _j = 0; _j < this.decks[1].deckSnapshots.length; ++_j) {
       var row = [];
-      row.push(this.decks[1].deckSnapshots[_j].timestamp);
+      row.push(this.decks[1].deckSnapshots[_j].timestamp.substr(0,10));
       for (var _k = 1; _k < this.decks.length; ++_k) {
         row.push(this.decks[_k].deckSnapshots[_j].value);
       }
