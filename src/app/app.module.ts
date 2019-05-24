@@ -11,7 +11,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule }    from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
+import { InMemoryDataService }  from './service/in-memory-data.service';
 import { DeckSearchComponent } from './deck-search/deck-search.component';
 import { DeckListComponent } from './deck-list/deck-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -45,9 +45,9 @@ import { MatCardModule, MatTableModule, MatFormFieldModule, MatPaginatorModule, 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
-    // HttpClientInMemoryWebApiModule.forRoot(
-    //   InMemoryDataService, { dataEncapsulation: false }
-    // )
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    )
   ],
   providers: [
     GoogleLineChartService
