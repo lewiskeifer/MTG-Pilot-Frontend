@@ -23,13 +23,18 @@
     </table>
   </div>
 
-  <span *ngIf="!loading">
-    <button mat-raised-button (click)="refreshDeck()" class="but">Refresh</button>
-  </span>
-  <span *ngIf="loading">
-    <button mat-raised-button class="but">
-        <mat-progress-spinner style="margin:0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
-    </button>
+  <!-- Disable refresh on decks other than overview until graph can be made smarter -->
+  <span *ngIf="deck">
+    <span *ngIf="deck.id === 0">
+      <span *ngIf="!loading">
+        <button mat-raised-button (click)="refreshDeck()" class="but">Refresh</button>
+      </span>
+      <span *ngIf="loading">
+        <button mat-raised-button class="but">
+            <mat-progress-spinner style="margin:0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
+        </button>
+      </span>
+    </span>
   </span>
 
 </div>

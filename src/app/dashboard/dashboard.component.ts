@@ -33,9 +33,12 @@ export class DashboardComponent implements OnInit {
 
   setChart(): void {
 
+    // Format data sent to google chart service
     this.data = [[]];
 
     var names = [];
+
+    names.push("Deck Overview");
     for (var _i = 1; _i < this.decks.length; ++_i) {
       names.push(this.decks[_i].name);
     }
@@ -43,13 +46,22 @@ export class DashboardComponent implements OnInit {
     this.data[0] = names;
 
     var rows = [[]];
+
     // TODO ensure all snapshots are equal length or make this smarter
     for (var _j = 0; _j < this.decks[1].deckSnapshots.length; ++_j) {
+
+      var deckOverviewValue = 0;
       var row = [];
       row.push(this.decks[1].deckSnapshots[_j].timestamp.substr(0,10));
+      
+      row.push(0);
       for (var _k = 1; _k < this.decks.length; ++_k) {
-        row.push(this.decks[_k].deckSnapshots[_j].value);
+        var value = this.decks[_k].deckSnapshots[_j].value;
+        deckOverviewValue += value;
+        row.push(value);
       }
+
+      row[1] = deckOverviewValue;
       rows[_j] = row;
     }
 
