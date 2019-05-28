@@ -74,9 +74,9 @@
         <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
       </mat-card-subtitle>
 
-      <!-- TODO pull card picture and description from backend -->
+      <!-- TODO pull card description from backend -->
       <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
-      <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 200px">
+      <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
       <mat-card-actions>
         <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Save Current Card</button>
         <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>
