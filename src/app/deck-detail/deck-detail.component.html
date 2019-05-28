@@ -23,16 +23,31 @@
     </table>
   </div>
 
-  <span *ngIf="!loading">
-    <button mat-raised-button (click)="refreshDeck()" class="but">Refresh</button>
-  </span>
-  <span *ngIf="loading">
-    <button mat-raised-button class="but">
-        <mat-progress-spinner style="margin:0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
-    </button>
+  <!-- Disable refresh on decks other than overview until graph can be made smarter -->
+  <span *ngIf="deck">
+    <span *ngIf="deck.id === 0">
+      <span *ngIf="!loading">
+        <button mat-raised-button (click)="refreshDeck()" class="but">Refresh</button>
+      </span>
+      <span *ngIf="loading">
+        <button mat-raised-button class="but">
+          <mat-progress-spinner style="margin:0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
+        </button>
+      </span>
+    </span>
   </span>
 
 </div>
+
+<mat-card class="center deck">
+  <div *ngIf="deck">
+    <mat-card-title> <input [(ngModel)]="deck.name" placeholder="Deck Name"/> </mat-card-title>
+    <mat-card-actions>
+      <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px">Update Deck</button>
+      <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px auto auto 5px">Add New Deck</button>
+    </mat-card-actions>
+  </div>
+</mat-card>
 
 <mat-card class="center card">
   <div *ngIf="selectedCard">
@@ -59,9 +74,9 @@
         <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
       </mat-card-subtitle>
 
-      <!-- TODO pull card picture and description from backend -->
+      <!-- TODO pull card description from backend -->
       <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
-      <!-- <img mat-card-image>	Card image. Stretches the image to the container width -->
+      <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
       <mat-card-actions>
         <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Save Current Card</button>
         <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>

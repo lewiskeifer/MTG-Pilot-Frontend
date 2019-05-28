@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { Card } from '../card';
-import { Deck } from '../deck';
-import { DeckService } from '../deck.service';
+import { Card } from '../model/card';
+import { Deck } from '../model/deck';
+import { DeckService } from '../service/deck.service';
 
 @Component({
   selector: 'app-deck-detail',

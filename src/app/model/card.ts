@@ -13,4 +13,5 @@ export class Card {
   purchasePrice: number;
   quantity: number;
   marketPrice: number;
+  url: string;
 }
