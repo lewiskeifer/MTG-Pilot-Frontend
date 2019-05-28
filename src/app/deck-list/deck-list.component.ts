@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
-import { Deck } from '../deck';
-import { Card } from '../card';
-import { DeckService } from '../deck.service';
+import { Deck } from '../model/deck';
+import { Card } from '../model/card';
+import { DeckService } from '../service/deck.service';
 
 @Injectable({
   providedIn: 'root'
