@@ -1,3 +1,5 @@
+<!-- {{selectedCard.url}} -->
+
 <div class="left padded table wid">
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
@@ -39,6 +41,16 @@
 
 </div>
 
+<mat-card class="center deck">
+  <div *ngIf="deck">
+    <mat-card-title> <input [(ngModel)]="deck.name" placeholder="Deck Name"/> </mat-card-title>
+    <mat-card-actions>
+      <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px">Update Deck</button>
+      <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px">Add New Deck</button>
+    </mat-card-actions>
+  </div>
+</mat-card>
+
 <mat-card class="center card">
   <div *ngIf="selectedCard">
     <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
@@ -66,7 +78,7 @@
 
       <!-- TODO pull card picture and description from backend -->
       <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
-      <!-- <img mat-card-image>	Card image. Stretches the image to the container width -->
+      <!-- <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 200px"> -->
       <mat-card-actions>
         <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Save Current Card</button>
         <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>

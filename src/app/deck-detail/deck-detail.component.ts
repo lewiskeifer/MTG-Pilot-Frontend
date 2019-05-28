@@ -53,6 +53,7 @@ export class DeckDetailComponent implements OnInit {
 
   setCard(index: number): void {
     this.selectedCard = this.dataSource[index];
+    console.log(this.selectedCard)
   }
 
   resetSelectedCard(): void {
