@@ -1,3 +1,5 @@
+<!-- TODO prevent bad inputs -->
+
 <div class="left padded table wid">
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
@@ -24,8 +26,8 @@
   </div>
 
   <!-- Disable refresh on decks other than overview until graph can be made smarter -->
-  <span *ngIf="deck">
-    <span *ngIf="deck.id === 0">
+  <span *ngIf="selectedDeck">
+    <span *ngIf="selectedDeck.id === 0">
       <span *ngIf="!loading">
         <button mat-raised-button (click)="refreshDeck()" class="but">Refresh</button>
       </span>
@@ -47,11 +49,11 @@
 </div>
 
 <mat-card class="center deck">
-  <div *ngIf="deck">
-    <mat-card-title> <input [(ngModel)]="deck.name" placeholder="Deck Name"/> </mat-card-title>
+  <div *ngIf="selectedDeck">
+    <mat-card-title> <input [(ngModel)]="selectedDeck.name" placeholder="Deck Name"/> </mat-card-title>
     <mat-card-actions>
       <!-- Prevent rename deck overview -->
-      <span *ngIf="deck.id !== 0">
+      <span *ngIf="selectedDeck.id !== 0">
         <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px">Update Deck</button>
       </span>
       <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px 5px auto 5px">Delete Deck</button>
@@ -60,38 +62,40 @@
   </div>
 </mat-card>
 
-<mat-card class="center card">
-  <div *ngIf="selectedCard">
-    <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
-    <mat-card-subtitle>	
-      <input [(ngModel)]="selectedCard.version" placeholder="Version"/>
-      <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price"/> 
-      <!-- TODO try formgroup-->
-      <mat-form-field class="form">
-        <mat-label>Foil</mat-label>
-        <mat-select [(value)]="selectedFoil">
-          <mat-option value=false>Non-foil</mat-option>
-          <mat-option value=true>Foil</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="form">
-        <mat-label>Condition</mat-label>
-        <mat-select [(value)]="selectedCondition">
-          <mat-option value="Near Mint">Near Mint</mat-option>
-          <mat-option value="Lightly Played">Lightly Played</mat-option>
-          <mat-option value="Moderately Played">Moderately Played</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
-    </mat-card-subtitle>
+<div *ngIf="selectedCard">
+  <span *ngIf="selectedDeck.id !== 0">
+    <mat-card class="center card">
+      <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
+      <mat-card-subtitle>	
+        <input [(ngModel)]="selectedCard.version" placeholder="Version"/>
+        <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price"/> 
+        <!-- TODO try formgroup-->
+        <mat-form-field class="form">
+          <mat-label>Foil</mat-label>
+          <mat-select [(value)]="selectedFoil">
+            <mat-option value=false>Non-foil</mat-option>
+            <mat-option value=true>Foil</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form">
+          <mat-label>Condition</mat-label>
+          <mat-select [(value)]="selectedCondition">
+            <mat-option value="Near Mint">Near Mint</mat-option>
+            <mat-option value="Lightly Played">Lightly Played</mat-option>
+            <mat-option value="Moderately Played">Moderately Played</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
+      </mat-card-subtitle>
 
-    <!-- TODO pull card description from backend -->
-    <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
-    <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
-    <mat-card-actions>
-      <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Update Card</button>
-      <button mat-raised-button (click)="deleteCard()" class="padded">Delete Card</button>
-      <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>
-    </mat-card-actions>
-  </div>
-</mat-card>
+      <!-- TODO pull card description from backend -->
+      <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
+      <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
+      <mat-card-actions>
+        <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Update Card</button>
+        <button mat-raised-button (click)="deleteCard()" class="padded">Delete Card</button>
+        <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>
+      </mat-card-actions>
+    </mat-card>
+  </span>
+</div>

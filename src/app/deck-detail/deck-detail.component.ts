@@ -15,7 +15,9 @@ export class DeckDetailComponent implements OnInit {
   displayedColumns: string[] = ['card', 'value'];
 
   decks: Deck[];
-  deck: Deck;
+
+  emptyDeck: Deck;
+  selectedDeck: Deck;
 
   emptyCard: Card;
   selectedCard: Card;
@@ -26,16 +28,16 @@ export class DeckDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
+    this.emptyDeck = new Deck();
+    this.emptyCard = new Card();
     this.setDeck(0);
     this.getDecks();
-    this.emptyCard = new Card();
-    this.selectedCard = this.emptyCard;
     this.loading = false;
   }
 
   getDeck(deckId: number): void {
     this.deckService.getDeck(deckId)
-      .subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; });
+      .subscribe(deck => { this.selectedDeck = deck; this.dataSource.data = deck.cards; });
   }
 
   getDecks(): void {
@@ -45,49 +47,62 @@ export class DeckDetailComponent implements OnInit {
 
   setDeck(id: number): void {
     this.deckService.getDeck(id)
-      .subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; this.setCard(0); });
+      .subscribe(deck => { this.selectedDeck = deck; this.setDeckHelper(); });
+  }
+
+  setDeckHelper(): void {
+    if (this.selectedDeck.cards.length != 0) {
+      this.dataSource.data = this.selectedDeck.cards; 
+      this.setCard(0);
+    } 
+    else {
+      this.dataSource.data = []; 
+      this.resetSelectedCard();
+    }
   }
 
   setCard(index: number): void {
-    this.selectedCard = this.deck.cards[index];
+    this.selectedCard = this.selectedDeck.cards[index];
+  }
+
+  resetSelectedDeck(): void {
+    this.selectedDeck = this.emptyDeck;
   }
 
   resetSelectedCard(): void {
     this.selectedCard = this.emptyCard;
   }
 
-  // TODO refresh deck table
   saveCard(isFoil: boolean, condition: string): void {
     this.selectedCard.cardCondition = condition;
     this.selectedCard.isFoil = isFoil;
-    this.deckService.saveCard(this.selectedCard, this.deck.id).
-      subscribe(card => { this.getDeck(this.deck.id); this.selectedCard = card; });
+    this.deckService.saveCard(this.selectedCard, this.selectedDeck.id).
+      subscribe(card => { this.getDeck(this.selectedDeck.id); this.selectedCard = card; });
   }
 
-  // TODO refresh deck table
   deleteCard(): void {
-    this.deckService.deleteCard(this.selectedCard.id).
-      subscribe(deck => { this.getDeck(this.deck.id); this.resetSelectedCard(); });
+    this.deckService.deleteCard(this.selectedDeck.id, this.selectedCard.id).
+      subscribe(deck => { this.getDeck(this.selectedDeck.id); this.setCard(0); });
   }
 
   saveDeck(): void {
-    this.deckService.saveDeck(this.deck).subscribe(deck => { this.getDecks(); });
+    this.deckService.saveDeck(this.selectedDeck).subscribe(deck => { this.getDecks(); });
   }
 
   deleteDeck(): void {
-    this.deckService.deleteDeck(this.deck.id).subscribe(deck => { this.getDecks(); });
+    this.deckService.deleteDeck(this.selectedDeck.id).subscribe(deck => { this.getDecks(); this.setDeck(0); this.setCard(0); });
   }
 
   refreshDeck():void {
     this.loading = true;
-    this.deckService.refreshDeck(this.deck.id)
-      .subscribe(deck => { this.setDeck(this.deck.id); this.loading = false; this.getTotalCost(); });
+    this.deckService.refreshDeck(this.selectedDeck.id)
+      .subscribe(deck => { this.setDeck(this.selectedDeck.id); this.loading = false; this.getTotalCost(); });
   }
 
   getTotalCost() {
     var total = 0;
-    if (this.deck && this.deck.cards) {
-      this.deck.cards.forEach(element => {
+    if (this.selectedDeck && this.selectedDeck.cards) {
+      this.selectedDeck.cards.forEach(element => {
         total += (element.marketPrice * element.quantity) | 0;
       });
     }
