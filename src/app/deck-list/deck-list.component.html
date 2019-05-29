@@ -1,14 +1,6 @@
 <div class="right padded">
   <ul class="decks padded">
-    <!-- <h2>My Decks</h2> -->
     <div>
-      <!-- <label>Deck name:
-        <input #deckName />
-      </label> -->
-      <!-- (click) passes input value to add() and then clears the input -->
-      <!-- <button (click)="add(deckName.value); deckName.value=''">
-        add
-      </button> -->
     </div>
     <li *ngFor="let deck of decks" (click)="emitEvent(deck.id)">
         <span  class="badge">{{deck.id}}</span> {{deck.name}}
