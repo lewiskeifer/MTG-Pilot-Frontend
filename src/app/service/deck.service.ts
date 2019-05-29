@@ -19,7 +19,7 @@ export class DeckService {
 
   constructor(private httpClient: HttpClient, private messageService: MessageService) { }
 
-  /** GET deck by id. Will 404 if id not found */
+  /** GET deck by id */
   getDeck(id: number): Observable<Deck> {
     const url = `${this.decksUrl}/${id}`;
     return this.httpClient.get<Deck>(url).pipe(
@@ -63,14 +63,32 @@ export class DeckService {
     );
   }
 
-    /** PUT: update the deck on the server */
-    saveDeck(deck: Deck, id: number): Observable<any> {
-      const url = `${this.decksUrl}/${id}`;
-      return this.httpClient.put(url, deck, this.httpOptions).pipe(
-        tap(_ => this.log(`updated deck id=${id}`)),
-          catchError(this.handleError<any>('saveDeck'))
+    /** DELETE: delete the card from the server */
+    deleteCard(cardId: number): Observable<any> {
+      const url = `${this.decksUrl}/card/${cardId}`;
+      return this.httpClient.delete<number>(url, this.httpOptions).pipe(
+        tap(_ => this.log(`deleted card id=${cardId}`)),
+          catchError(this.handleError<number>('deleteCard'))
       );
     }
+
+  /** PUT: update the deck on the server */
+  saveDeck(deck: Deck, id: number): Observable<any> {
+    const url = `${this.decksUrl}/${id}`;
+    return this.httpClient.put(url, deck, this.httpOptions).pipe(
+      tap(_ => this.log(`updated deck id=${id}`)),
+        catchError(this.handleError<any>('saveDeck'))
+    );
+  }
+
+  /** DELETE: delete the deck from the server */
+  deleteDeck(deckId: number): Observable<any> {
+    const url = `${this.decksUrl}/${deckId}`;
+    return this.httpClient.delete<number>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted deck id=${deckId}`)),
+        catchError(this.handleError<number>('deleteDeck'))
+    );
+  }
 
   /** PUT: update the deck on the server */
   refreshDeck(id: number): Observable<void> {
@@ -78,17 +96,6 @@ export class DeckService {
     return this.httpClient.put(url, this.httpOptions).pipe(
       tap(_ => this.log(`updated deck id=${id}`)),
         catchError(this.handleError<any>('refreshDeck'))
-    );
-  }
-
-  /** DELETE: delete the deck from the server */
-  deleteDeck(deck: Deck | number): Observable<Deck> {
-    const id = typeof deck === 'number' ? deck : deck.id;
-    const url = `${this.decksUrl}/${id}`;
-
-    return this.httpClient.delete<Deck>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted deck id=${id}`)),
-        catchError(this.handleError<Deck>('deleteDeck'))
     );
   }
 

@@ -19,7 +19,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="setCard(i)"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="setCard(i)" style="cursor: pointer"></tr>
       <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
     </table>
   </div>
@@ -55,6 +55,7 @@
       <span *ngIf="deck.id !== 0">
         <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px">Update Deck</button>
       </span>
+      <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px auto auto 5px">Delete Deck</button>
       <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px">Add New Deck</button>
     </mat-card-actions>
   </div>
@@ -89,7 +90,8 @@
       <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
       <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
       <mat-card-actions>
-        <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Save Current Card</button>
+        <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Update Card</button>
+        <button mat-raised-button (click)="deleteCard()" class="padded">Delete Card</button>
         <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>
       </mat-card-actions>
   </div>

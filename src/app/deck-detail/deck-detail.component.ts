@@ -33,8 +33,9 @@ export class DeckDetailComponent implements OnInit {
     this.loading = false;
   }
 
-  getDeck(): Deck {
-    return this.deck;
+  getDeck(deckId: number): void {
+    this.deckService.getDeck(deckId)
+      .subscribe(deck => this.deck = deck);
   }
 
   getDecks(): void {
@@ -59,11 +60,22 @@ export class DeckDetailComponent implements OnInit {
   saveCard(isFoil: boolean, condition: string): void {
     this.selectedCard.cardCondition = condition;
     this.selectedCard.isFoil = isFoil;
-    this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe(card => { this.selectedCard = card; });
+    this.deckService.saveCard(this.selectedCard, this.deck.id).
+      subscribe(card => { this.getDeck(this.deck.id); this.selectedCard = card; });
+  }
+
+  // TODO refresh deck table
+  deleteCard(): void {
+    this.deckService.deleteCard(this.selectedCard.id).
+      subscribe(deck => { this.getDeck(this.deck.id); this.resetSelectedCard(); });
   }
 
   saveDeck(): void {
     this.deckService.saveDeck(this.deck, this.deck.id).subscribe(deck => { this.getDecks(); });
+  }
+
+  deleteDeck(): void {
+    this.deckService.deleteDeck(this.deck.id).subscribe(deck => { this.getDecks(); });
   }
 
   refreshDeck():void {

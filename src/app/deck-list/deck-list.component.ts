@@ -43,9 +43,9 @@ export class DeckListComponent implements OnInit {
     this.deckService.addDeck({name} as Deck).subscribe(deck => {this.decks.push(deck);});
   }
 
-  delete(deck: Deck): void {
-    this.decks = this.decks.filter(d => d !== deck);
-    this.deckService.deleteDeck(deck).subscribe();
-  }
+  // delete(deck: Deck): void {
+  //   this.decks = this.decks.filter(d => d !== deck);
+  //   this.deckService.deleteDeck(deck).subscribe();
+  // }
 
 }
