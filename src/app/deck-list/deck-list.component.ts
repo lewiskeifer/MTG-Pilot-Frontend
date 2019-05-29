@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
-import { Deck } from '../model/deck';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { Card } from '../model/card';
+import { Deck } from '../model/deck';
 import { DeckService } from '../service/deck.service';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class DeckListComponent implements OnInit {
   @Output() selectDeck = new EventEmitter<Deck>();
   @Output() selectCards = new EventEmitter<Card[]>();
 
-  selectedDeck: Deck;
+  @Input() selectedDeck: Deck;
   selectedCards: Card[];
   decks: Deck[];
 
@@ -43,9 +43,9 @@ export class DeckListComponent implements OnInit {
     this.deckService.addDeck({name} as Deck).subscribe(deck => {this.decks.push(deck);});
   }
 
-  delete(deck: Deck): void {
-    this.decks = this.decks.filter(d => d !== deck);
-    this.deckService.deleteDeck(deck).subscribe();
-  }
+  // delete(deck: Deck): void {
+  //   this.decks = this.decks.filter(d => d !== deck);
+  //   this.deckService.deleteDeck(deck).subscribe();
+  // }
 
 }

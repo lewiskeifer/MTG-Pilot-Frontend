@@ -1,10 +1,10 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { MessageService } from './message.service';
-import { Deck } from '../model/deck';
+import { catchError, tap } from 'rxjs/operators';
 import { Card } from '../model/card';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Deck } from '../model/deck';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class DeckService {
 
   constructor(private httpClient: HttpClient, private messageService: MessageService) { }
 
-  /** GET deck by id. Will 404 if id not found */
+  /** GET deck by id */
   getDeck(id: number): Observable<Deck> {
     const url = `${this.decksUrl}/${id}`;
     return this.httpClient.get<Deck>(url).pipe(
@@ -46,8 +46,9 @@ export class DeckService {
     );
   }
 
+  // TODO use or remove
   /** POST: add a new deck to the server */
-  addDeck (deck: Deck): Observable<Deck> {
+  addDeck(deck: Deck): Observable<Deck> {
     return this.httpClient.post<Deck>(this.decksUrl, deck, this.httpOptions).pipe(
       tap((newDeck: Deck) => this.log(`added deck w/ id=${newDeck.id}`)),
         catchError(this.handleError<Deck>('addDeck'))
@@ -55,31 +56,47 @@ export class DeckService {
   }
 
   /** PUT: update the deck on the server */
-  saveCard (card: Card, id: number): Observable<any> {
-    const url = `${this.decksUrl}/${id}`;
+  saveCard(card: Card, id: number): Observable<Card> {
+    const url = `${this.decksUrl}/${id}/cards`;
     return this.httpClient.put(url, card, this.httpOptions).pipe(
-      tap(_ => this.log(`updated deck id=${id}`)),
-        catchError(this.handleError<any>('saveCard'))
+      tap((newCard: Card) => this.log(`updated card id=${id}`)),
+        catchError(this.handleError<Card>('saveCard'))
     );
   }
 
-    /** PUT: update the deck on the server */
-    refreshDeck (id: number): Observable<void> {
-      const url = `${this.decksUrl}/${id}/refresh`;
-      return this.httpClient.put(url, this.httpOptions).pipe(
-        tap(_ => this.log(`updated deck id=${id}`)),
-          catchError(this.handleError<any>('refreshDeck'))
+    /** DELETE: delete the card from the server */
+    deleteCard(deckId: number, cardId: number): Observable<any> {
+      const url = `${this.decksUrl}/${deckId}/cards/${cardId}`;
+      return this.httpClient.delete(url, this.httpOptions).pipe(
+        tap(_ => this.log(`deleted card id=${cardId}`)),
+          catchError(this.handleError<number>('deleteCard'))
       );
     }
 
-  /** DELETE: delete the deck from the server */
-  deleteDeck (deck: Deck | number): Observable<Deck> {
-    const id = typeof deck === 'number' ? deck : deck.id;
-    const url = `${this.decksUrl}/${id}`;
+  /** PUT: update the deck on the server */
+  saveDeck(deck: Deck): Observable<any> {
+    const url = `${this.decksUrl}`;
+    return this.httpClient.put(url, deck, this.httpOptions).pipe(
+      tap(_ => this.log(`updated deck id=${deck.id}`)),
+        catchError(this.handleError<any>('saveDeck'))
+    );
+  }
 
-    return this.httpClient.delete<Deck>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted deck id=${id}`)),
-        catchError(this.handleError<Deck>('deleteDeck'))
+  /** DELETE: delete the deck from the server */
+  deleteDeck(deckId: number): Observable<any> {
+    const url = `${this.decksUrl}/${deckId}`;
+    return this.httpClient.delete(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted deck id=${deckId}`)),
+        catchError(this.handleError<number>('deleteDeck'))
+    );
+  }
+
+  /** PUT: update the deck on the server */
+  refreshDeck(id: number): Observable<void> {
+    const url = `${this.decksUrl}/${id}/refresh`;
+    return this.httpClient.put(url, this.httpOptions).pipe(
+      tap(_ => this.log(`updated deck id=${id}`)),
+        catchError(this.handleError<any>('refreshDeck'))
     );
   }
 

@@ -1,3 +1,5 @@
+<!-- TODO prevent bad inputs -->
+
 <div class="left padded table wid">
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
@@ -18,14 +20,14 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="setCard(i)"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="setCard(i)" style="cursor: pointer"></tr>
       <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
     </table>
   </div>
 
   <!-- Disable refresh on decks other than overview until graph can be made smarter -->
-  <span *ngIf="deck">
-    <span *ngIf="deck.id === 0">
+  <span *ngIf="selectedDeck">
+    <span *ngIf="selectedDeck.id === 0">
       <span *ngIf="!loading">
         <button mat-raised-button (click)="refreshDeck()" class="but">Refresh</button>
       </span>
@@ -36,22 +38,34 @@
       </span>
     </span>
   </span>
+</div>
 
+<div class="right">
+  <ul class="decks">
+    <li *ngFor="let deck of decks" (click)="setDeck(deck.id)">
+      <span  class="badge">{{deck.id}}</span> {{deck.name}}
+    </li>
+  </ul>
 </div>
 
 <mat-card class="center deck">
-  <div *ngIf="deck">
-    <mat-card-title> <input [(ngModel)]="deck.name" placeholder="Deck Name"/> </mat-card-title>
+  <div *ngIf="selectedDeck">
+    <mat-card-title> <input [(ngModel)]="selectedDeck.name" placeholder="Deck Name"/> </mat-card-title>
     <mat-card-actions>
-      <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px">Update Deck</button>
-      <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px auto auto 5px">Add New Deck</button>
+      <!-- Prevent rename deck overview -->
+      <span *ngIf="selectedDeck.id !== 0">
+        <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px">Update Deck</button>
+      </span>
+      <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px 5px auto 5px">Delete Deck</button>
+      <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px">Add New Deck</button>
     </mat-card-actions>
   </div>
 </mat-card>
 
-<mat-card class="center card">
-  <div *ngIf="selectedCard">
-    <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
+<div *ngIf="selectedCard">
+  <span *ngIf="selectedDeck.id !== 0">
+    <mat-card class="center card">
+      <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
       <mat-card-subtitle>	
         <input [(ngModel)]="selectedCard.version" placeholder="Version"/>
         <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price"/> 
@@ -66,9 +80,9 @@
         <mat-form-field class="form">
           <mat-label>Condition</mat-label>
           <mat-select [(value)]="selectedCondition">
-            <mat-option value="NEAR_MINT">Near-mint</mat-option>
-            <mat-option value="LIGHT_PLAY">Light-play</mat-option>
-            <mat-option value="MODERATE_PLAY">Moderate-play</mat-option>
+            <mat-option value="Near Mint">Near Mint</mat-option>
+            <mat-option value="Lightly Played">Lightly Played</mat-option>
+            <mat-option value="Moderately Played">Moderately Played</mat-option>
           </mat-select>
         </mat-form-field>
         <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
@@ -78,8 +92,10 @@
       <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
       <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
       <mat-card-actions>
-        <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Save Current Card</button>
+        <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Update Card</button>
+        <button mat-raised-button (click)="deleteCard()" class="padded">Delete Card</button>
         <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>
       </mat-card-actions>
-  </div>
-</mat-card>
+    </mat-card>
+  </span>
+</div>
