@@ -1,5 +1,4 @@
 <div class="left padded table wid">
-
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
       
@@ -40,12 +39,12 @@
 </div>
 
 <div class="right">
-    <ul class="decks">
-      <li *ngFor="let deck of decks" (click)="setDeck(deck.id)">
-          <span  class="badge">{{deck.id}}</span> {{deck.name}}
-      </li>
-    </ul>
-  </div>
+  <ul class="decks">
+    <li *ngFor="let deck of decks" (click)="setDeck(deck.id)">
+      <span  class="badge">{{deck.id}}</span> {{deck.name}}
+    </li>
+  </ul>
+</div>
 
 <mat-card class="center deck">
   <div *ngIf="deck">
@@ -64,35 +63,35 @@
 <mat-card class="center card">
   <div *ngIf="selectedCard">
     <mat-card-title> <input [(ngModel)]="selectedCard.name" placeholder="Name"/> </mat-card-title>
-      <mat-card-subtitle>	
-        <input [(ngModel)]="selectedCard.version" placeholder="Version"/>
-        <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price"/> 
-        <!-- TODO try formgroup-->
-        <mat-form-field class="form">
-          <mat-label>Foil</mat-label>
-          <mat-select [(value)]="selectedFoil">
-            <mat-option value=false>Non-foil</mat-option>
-            <mat-option value=true>Foil</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="form">
-          <mat-label>Condition</mat-label>
-          <mat-select [(value)]="selectedCondition">
-            <mat-option value="Near Mint">Near Mint</mat-option>
-            <mat-option value="Lightly Played">Lightly Played</mat-option>
-            <mat-option value="Moderately Played">Moderately Played</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
-      </mat-card-subtitle>
+    <mat-card-subtitle>	
+      <input [(ngModel)]="selectedCard.version" placeholder="Version"/>
+      <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price"/> 
+      <!-- TODO try formgroup-->
+      <mat-form-field class="form">
+        <mat-label>Foil</mat-label>
+        <mat-select [(value)]="selectedFoil">
+          <mat-option value=false>Non-foil</mat-option>
+          <mat-option value=true>Foil</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form">
+        <mat-label>Condition</mat-label>
+        <mat-select [(value)]="selectedCondition">
+          <mat-option value="Near Mint">Near Mint</mat-option>
+          <mat-option value="Lightly Played">Lightly Played</mat-option>
+          <mat-option value="Moderately Played">Moderately Played</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
+    </mat-card-subtitle>
 
-      <!-- TODO pull card description from backend -->
-      <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
-      <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
-      <mat-card-actions>
-        <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Update Card</button>
-        <button mat-raised-button (click)="deleteCard()" class="padded">Delete Card</button>
-        <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>
-      </mat-card-actions>
+    <!-- TODO pull card description from backend -->
+    <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
+    <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
+    <mat-card-actions>
+      <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Update Card</button>
+      <button mat-raised-button (click)="deleteCard()" class="padded">Delete Card</button>
+      <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>
+    </mat-card-actions>
   </div>
 </mat-card>
