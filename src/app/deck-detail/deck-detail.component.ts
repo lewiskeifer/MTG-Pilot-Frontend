@@ -35,7 +35,7 @@ export class DeckDetailComponent implements OnInit {
 
   getDeck(deckId: number): void {
     this.deckService.getDeck(deckId)
-      .subscribe(deck => this.deck = deck);
+      .subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; });
   }
 
   getDecks(): void {
@@ -71,7 +71,7 @@ export class DeckDetailComponent implements OnInit {
   }
 
   saveDeck(): void {
-    this.deckService.saveDeck(this.deck, this.deck.id).subscribe(deck => { this.getDecks(); });
+    this.deckService.saveDeck(this.deck).subscribe(deck => { this.getDecks(); });
   }
 
   deleteDeck(): void {

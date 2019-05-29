@@ -1,10 +1,10 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { MessageService } from './message.service';
-import { Deck } from '../model/deck';
+import { catchError, tap } from 'rxjs/operators';
 import { Card } from '../model/card';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Deck } from '../model/deck';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +46,7 @@ export class DeckService {
     );
   }
 
+  // TODO use or remove
   /** POST: add a new deck to the server */
   addDeck(deck: Deck): Observable<Deck> {
     return this.httpClient.post<Deck>(this.decksUrl, deck, this.httpOptions).pipe(
@@ -73,10 +74,10 @@ export class DeckService {
     }
 
   /** PUT: update the deck on the server */
-  saveDeck(deck: Deck, id: number): Observable<any> {
-    const url = `${this.decksUrl}/${id}`;
+  saveDeck(deck: Deck): Observable<any> {
+    const url = `${this.decksUrl}/${deck.id}`;
     return this.httpClient.put(url, deck, this.httpOptions).pipe(
-      tap(_ => this.log(`updated deck id=${id}`)),
+      tap(_ => this.log(`updated deck id=${deck.id}`)),
         catchError(this.handleError<any>('saveDeck'))
     );
   }

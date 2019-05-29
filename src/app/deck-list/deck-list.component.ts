@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Injectable, OnInit, Output, Input } from '@angular/core';
-import { Deck } from '../model/deck';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { Card } from '../model/card';
+import { Deck } from '../model/deck';
 import { DeckService } from '../service/deck.service';
 
 @Injectable({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { LineChartConfig } from '../google-charts/line-chart-config';
 import { Deck } from '../model/deck';
 import { DeckService } from '../service/deck.service';
-import { LineChartConfig } from '../google-charts/line-chart-config'
  
 declare var google: any;
 
