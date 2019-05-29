@@ -55,10 +55,11 @@ export class DeckDetailComponent implements OnInit {
     this.selectedCard = this.emptyCard;
   }
 
+  // TODO refresh deck table
   saveCard(isFoil: boolean, condition: string): void {
     this.selectedCard.cardCondition = condition;
     this.selectedCard.isFoil = isFoil;
-    this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
+    this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe(card => { this.selectedCard = card; });
   }
 
   saveDeck(): void {
