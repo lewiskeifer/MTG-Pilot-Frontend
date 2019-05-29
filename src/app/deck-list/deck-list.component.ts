@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injectable, OnInit, Output, Input } from '@angular/core';
 import { Deck } from '../model/deck';
 import { Card } from '../model/card';
 import { DeckService } from '../service/deck.service';
@@ -16,7 +16,7 @@ export class DeckListComponent implements OnInit {
   @Output() selectDeck = new EventEmitter<Deck>();
   @Output() selectCards = new EventEmitter<Card[]>();
 
-  selectedDeck: Deck;
+  @Input() selectedDeck: Deck;
   selectedCards: Card[];
   decks: Deck[];
 

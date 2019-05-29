@@ -47,7 +47,7 @@ export class DeckService {
   }
 
   /** POST: add a new deck to the server */
-  addDeck (deck: Deck): Observable<Deck> {
+  addDeck(deck: Deck): Observable<Deck> {
     return this.httpClient.post<Deck>(this.decksUrl, deck, this.httpOptions).pipe(
       tap((newDeck: Deck) => this.log(`added deck w/ id=${newDeck.id}`)),
         catchError(this.handleError<Deck>('addDeck'))
@@ -55,8 +55,8 @@ export class DeckService {
   }
 
   /** PUT: update the deck on the server */
-  saveCard (card: Card, id: number): Observable<any> {
-    const url = `${this.decksUrl}/${id}`;
+  saveCard(card: Card, id: number): Observable<any> {
+    const url = `${this.decksUrl}/${id}/card`;
     return this.httpClient.put(url, card, this.httpOptions).pipe(
       tap(_ => this.log(`updated deck id=${id}`)),
         catchError(this.handleError<any>('saveCard'))
@@ -64,16 +64,25 @@ export class DeckService {
   }
 
     /** PUT: update the deck on the server */
-    refreshDeck (id: number): Observable<void> {
-      const url = `${this.decksUrl}/${id}/refresh`;
-      return this.httpClient.put(url, this.httpOptions).pipe(
+    saveDeck(deck: Deck, id: number): Observable<any> {
+      const url = `${this.decksUrl}/${id}`;
+      return this.httpClient.put(url, deck, this.httpOptions).pipe(
         tap(_ => this.log(`updated deck id=${id}`)),
-          catchError(this.handleError<any>('refreshDeck'))
+          catchError(this.handleError<any>('saveDeck'))
       );
     }
 
+  /** PUT: update the deck on the server */
+  refreshDeck(id: number): Observable<void> {
+    const url = `${this.decksUrl}/${id}/refresh`;
+    return this.httpClient.put(url, this.httpOptions).pipe(
+      tap(_ => this.log(`updated deck id=${id}`)),
+        catchError(this.handleError<any>('refreshDeck'))
+    );
+  }
+
   /** DELETE: delete the deck from the server */
-  deleteDeck (deck: Deck | number): Observable<Deck> {
+  deleteDeck(deck: Deck | number): Observable<Deck> {
     const id = typeof deck === 'number' ? deck : deck.id;
     const url = `${this.decksUrl}/${id}`;
 

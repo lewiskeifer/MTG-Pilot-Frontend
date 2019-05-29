@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
 import { Card } from '../model/card';
 import { Deck } from '../model/deck';
 import { DeckService } from '../service/deck.service';
@@ -11,11 +11,11 @@ import { DeckService } from '../service/deck.service';
 })
 export class DeckDetailComponent implements OnInit {
 
-  @Input() deck: Deck;
-  @Input() dataSource: MatTableDataSource<Card>;
+  dataSource: MatTableDataSource<Card>;
+  displayedColumns: string[] = ['card', 'value'];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  decks: Deck[];
+  deck: Deck;
 
   emptyCard: Card;
   selectedCard: Card;
@@ -27,32 +27,28 @@ export class DeckDetailComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
     this.setDeck(0);
+    this.getDecks();
     this.emptyCard = new Card();
     this.selectedCard = this.emptyCard;
     this.loading = false;
-  }
-
-  /**
-   * Set the paginator and sort after the view init since this component will
-   * be able to query its view for the initialized paginator and sort.
-   */
-  ngAfterViewInit() {
-    if (this.dataSource == null) return;
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   getDeck(): Deck {
     return this.deck;
   }
 
+  getDecks(): void {
+    this.deckService.getDecks()
+      .subscribe(decks => this.decks = decks);
+  }
+
   setDeck(id: number): void {
     this.deckService.getDeck(id)
-      .subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; });
+      .subscribe(deck => { this.deck = deck; this.dataSource.data = deck.cards; this.setCard(0); });
   }
 
   setCard(index: number): void {
-    this.selectedCard = this.dataSource[index];
+    this.selectedCard = this.deck.cards[index];
   }
 
   resetSelectedCard(): void {
@@ -65,13 +61,15 @@ export class DeckDetailComponent implements OnInit {
     this.deckService.saveCard(this.selectedCard, this.deck.id).subscribe();
   }
 
+  saveDeck(): void {
+    this.deckService.saveDeck(this.deck, this.deck.id).subscribe(deck => { this.getDecks(); });
+  }
+
   refreshDeck():void {
     this.loading = true;
     this.deckService.refreshDeck(this.deck.id)
       .subscribe(deck => { this.setDeck(this.deck.id); this.loading = false; this.getTotalCost(); });
   }
-
-  displayedColumns: string[] = ['card', 'value'];
 
   getTotalCost() {
     var total = 0;
