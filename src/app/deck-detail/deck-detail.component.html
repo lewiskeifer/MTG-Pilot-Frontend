@@ -122,7 +122,7 @@
       <!-- <mat-card-content> Primary card content. Intended for blocks of text. </mat-card-content> -->
       <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
       <mat-card-actions>
-        <button mat-raised-button (click)="saveCard(selectedFoil, selectedCondition)" class="padded">Update Card</button>
+        <button mat-raised-button (click)="saveCard()" class="padded">Update Card</button>
         <button mat-raised-button (click)="deleteCard()" class="padded">Delete Card</button>
         <button mat-raised-button (click)="resetSelectedCard()" class="padded">Add New Card</button>
       </mat-card-actions>

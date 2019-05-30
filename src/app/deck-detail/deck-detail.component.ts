@@ -164,9 +164,16 @@ export class DeckDetailComponent implements OnInit {
     this.selectedCard = this.emptyCard;
   }
 
-  saveCard(isFoil: boolean, condition: string): void {
-    this.selectedCard.cardCondition = condition;
-    this.selectedCard.isFoil = isFoil;
+  // TODO
+  saveCard(): void {
+
+    console.log(this.foilForm.getRawValue());
+    console.log(this.conditionForm.getRawValue());
+    console.log(this.decksForm.getRawValue());
+    // console.log(condition);
+
+    // this.selectedCard.cardCondition = condition;
+    // this.selectedCard.isFoil = isFoil;
     this.deckService.saveCard(this.selectedCard, this.selectedDeck.id).
       subscribe(card => { this.getDeck(this.selectedDeck.id); this.selectedCard = card; });
   }
