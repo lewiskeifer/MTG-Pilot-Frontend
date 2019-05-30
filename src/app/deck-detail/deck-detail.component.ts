@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
+import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { Card } from '../model/card';
 import { Deck } from '../model/deck';
 import { DeckService } from '../service/deck.service';
+import { of } from 'rxjs';
+import { CdkVirtualForOf } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-deck-detail',
@@ -24,30 +27,80 @@ export class DeckDetailComponent implements OnInit {
 
   loading: boolean;
 
-  constructor(private deckService: DeckService) { }
+  foilForm: FormGroup;
+  foilOptions = [];
+
+  conditionForm: FormGroup;
+  conditionOptions = [];
+
+  decksForm: FormGroup;
+  decksOptions = [];
+
+  constructor(private deckService: DeckService, private formBuilder: FormBuilder) { 
+    this.foilForm = this.formBuilder.group({
+      foilOptions: ['']
+    });
+    // // async foilOptions
+    // of(this.getFoilOptions()).subscribe(foilOptions => {
+    //   this.foilOptions = foilOptions;
+    // });
+
+    this.conditionForm = this.formBuilder.group({
+      conditionOptions: ['']
+    });
+    // // async foilOptions
+    // of(this.getConditionOptions()).subscribe(conditionOptions => {
+    //   this.conditionOptions = conditionOptions;
+    // });
+
+    this.decksForm = this.formBuilder.group({
+      decksOptions: ['']
+    });
+    // // async foilOptions
+    // of(this.getDecksOptions()).subscribe(decksOptions => {
+    //   this.decksOptions = decksOptions;
+    // });
+  }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
     this.emptyDeck = new Deck();
     this.emptyCard = new Card();
-    this.setDeck(0);
-    this.getDecks();
     this.loading = false;
+    this.foilOptions = this.getFoilOptions();
+    this.conditionOptions = this.getConditionOptions();
+    this.decksOptions = this.getDecksOptions();
+    this.getDecks();
   }
 
   getDeck(deckId: number): void {
     this.deckService.getDeck(deckId)
-      .subscribe(deck => { this.selectedDeck = deck; this.dataSource.data = deck.cards; });
+      .subscribe(deck => { this.selectedDeck = deck; });
   }
 
   getDecks(): void {
     this.deckService.getDecks()
-      .subscribe(decks => this.decks = decks);
+      .subscribe(decks => { this.decks = decks; this.decksOptions = this.getDecksOptions(); this.setDeck(0); });
   }
 
   setDeck(id: number): void {
-    this.deckService.getDeck(id)
-      .subscribe(deck => { this.selectedDeck = deck; this.setDeckHelper(); });
+
+    // TODO use map
+    var count = 0;
+    this.decks.forEach(deck => {
+      if (deck.id == id) {
+        
+        this.selectedDeck = this.decks[count]; 
+        this.setDeckHelper();
+
+        return;
+      }
+      count++;
+    });
+
+
+    // this.deckService.getDeck(id)
+    //   .subscribe(deck => { this.selectedDeck = deck; this.decksOptions = this.getDecksOptions(); this.setDeckHelper(); });
   }
 
   setDeckHelper(): void {
@@ -62,7 +115,47 @@ export class DeckDetailComponent implements OnInit {
   }
 
   setCard(index: number): void {
+
     this.selectedCard = this.selectedDeck.cards[index];
+
+    var isFoil = 0;
+    switch (this.selectedCard.isFoil) {
+      case false:
+        break;
+      case true:
+        isFoil = 1;
+        break;
+    }
+    this.foilForm.controls['foilOptions'].patchValue(this.foilOptions[isFoil].id, {onlySelf: true});
+
+    var condition = 0;
+    switch (this.selectedCard.cardCondition) {
+      case "Near-mint":
+        break;
+      case "Light-play":
+        condition = 1;
+        break;
+      case "Moderately-played":
+        condition = 2;
+        break;
+      case "Heavily-played":
+        condition = 3;
+        break;
+      case "Damaged":
+        condition = 4;
+        break;
+    }
+    this.conditionForm.controls['conditionOptions'].patchValue(this.conditionOptions[condition].id, {onlySelf: true});
+
+    var count = 0;
+    var deckIndex = 0;
+    this.decks.forEach(deck => {
+      if (deck.id == this.selectedDeck.id) {
+        deckIndex = count;
+      }
+      count++;
+    });
+    this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[deckIndex].id, {onlySelf: true});
   }
 
   resetSelectedDeck(): void {
@@ -108,6 +201,36 @@ export class DeckDetailComponent implements OnInit {
     }
 
     return total;
+  }
+
+  getFoilOptions() {
+    return [
+      { id: '1', name: 'Non-foil' },
+      { id: '2', name: 'Foil' }
+    ];
+  }
+
+  getConditionOptions() {
+    return [
+      { id: '1', name: 'Near Mint' },
+      { id: '2', name: 'Lightly Played' },
+      { id: '3', name: 'Moderately Played' },
+      { id: '4', name: 'Heavily Played' },
+      { id: '5', name: 'Damaged' }
+    ];
+  }
+
+  getDecksOptions() {
+
+    if (this.decks == null) return [];
+
+    var data = [];
+    var count = 0;
+    this.decks.forEach(deck => {
+      data.push({id: count++, name: deck.name});
+    });
+
+    return data;
   }
 
 }

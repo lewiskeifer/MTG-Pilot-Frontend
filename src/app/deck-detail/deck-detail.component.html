@@ -69,22 +69,52 @@
       <mat-card-subtitle>	
         <input [(ngModel)]="selectedCard.version" placeholder="Version"/>
         <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price"/> 
-        <!-- TODO try formgroup-->
-        <mat-form-field class="form">
+
+        <!-- TODO styling -->
+
+        <form [formGroup]="foilForm">
+          <label for="foilOptions">Foil</label>
+          <select formControlName="foilOptions" id="foilOptions">
+            <option *ngFor="let foilOption of foilOptions; let i = index" [ngValue]="foilOptions[i].id">
+              {{foilOptions[i].name}}
+            </option>
+          </select>
+        </form>
+
+        <form [formGroup]="conditionForm">
+          <label for="conditionOptions">Condition</label>
+          <select formControlName="conditionOptions" id="conditionOptions">
+            <option *ngFor="let conditionOption of conditionOptions; let i = index" [ngValue]="conditionOptions[i].id">
+              {{conditionOptions[i].name}}
+            </option>
+          </select>
+        </form>
+
+        <form [formGroup]="decksForm">
+            <label for="decksOptions">Deck</label>
+            <select formControlName="decksOptions" id="decksOptions">
+              <option *ngFor="let decksOption of decksOptions; let i = index" [ngValue]="decksOptions[i].id">
+                {{decksOptions[i].name}}
+              </option>
+            </select>
+          </form>
+<!-- 
+      <mat-form-field class="form">
           <mat-label>Foil</mat-label>
           <mat-select [(value)]="selectedFoil">
             <mat-option value=false>Non-foil</mat-option>
             <mat-option value=true>Foil</mat-option>
           </mat-select>
-        </mat-form-field>
-        <mat-form-field class="form">
+        </mat-form-field> -->
+
+        <!-- <mat-form-field class="form">
           <mat-label>Condition</mat-label>
           <mat-select [(value)]="selectedCondition">
             <mat-option value="Near Mint">Near Mint</mat-option>
             <mat-option value="Lightly Played">Lightly Played</mat-option>
             <mat-option value="Moderately Played">Moderately Played</mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
         <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity"/> 
       </mat-card-subtitle>
 
