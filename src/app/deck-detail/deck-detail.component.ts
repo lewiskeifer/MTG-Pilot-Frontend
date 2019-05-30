@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource, MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material';
-import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material';
 import { Card } from '../model/card';
 import { Deck } from '../model/deck';
 import { DeckService } from '../service/deck.service';
-import { of } from 'rxjs';
-import { CdkVirtualForOf } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-deck-detail',
