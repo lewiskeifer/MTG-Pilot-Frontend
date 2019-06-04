@@ -33,21 +33,21 @@ export class InMemoryDataService implements InMemoryDbService {
       {value: 69, timestamp:"3/1/19"},
     ];
      const cards = [
-      { id: 10, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near-mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 11, name: 'Walking Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near-mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 12, name: 'Ravager Ravager', version: 'Darksteel', isFoil: true, cardCondition: "Near-mint", purchasePrice: 120, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 13, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near-mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 14, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Light-play", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 15, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near-mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 10, name: 'Arcbound Ravager1', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 11, name: 'Walking Ravager2', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 12, name: 'Ravager Ravager3', version: 'Darksteel', isFoil: true, cardCondition: "Near Mint", purchasePrice: 120, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 13, name: 'Arcbound Ravager4', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 14, name: 'Arcbound Ravager5', version: 'Darksteel', isFoil: false, cardCondition: "Lightly Played", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 15, name: 'Arcbound Ravager6', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
     ];
 
     const cards2 = [
-      { id: 16, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near-mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 17, name: 'Walking Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near-mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 18, name: 'Ravager Ravager', version: 'Darksteel', isFoil: true, cardCondition: "Near-mint", purchasePrice: 120, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 19, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near-mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 20, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Light-play", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 21, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near-mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 10, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 11, name: 'Walking Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 12, name: 'Ravager Ravager', version: 'Darksteel', isFoil: true, cardCondition: "Near Mint", purchasePrice: 120, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 13, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 14, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Lightly Played", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 15, name: 'Arcbound Ravager', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
     ];
     
      const decks = [

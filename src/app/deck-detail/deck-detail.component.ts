@@ -71,7 +71,7 @@ export class DeckDetailComponent implements OnInit {
 
   getDecks(): void {
     this.deckService.getDecks()
-      .subscribe(decks => { this.decks = decks; this.setDeck(this.selectedDeck.id); this.decksOptions = this.getDecksOptions(); });
+      .subscribe(decks => { this.decks = decks; this.decksOptions = this.getDecksOptions(); this.setDeck(this.selectedDeck.id); });
   }
 
   setDeck(id: number): void {
@@ -92,8 +92,7 @@ export class DeckDetailComponent implements OnInit {
 
   setDeckHelper(): void {
     if (this.selectedDeck.cards.length != 0) {
-      this.dataSource.data = this.selectedDeck.cards; 
-      this.setCard(0);
+      this.dataSource.data = this.selectedDeck.cards;
     } 
     else {
       this.dataSource.data = []; 
@@ -157,10 +156,18 @@ export class DeckDetailComponent implements OnInit {
 
     this.selectedCard.isFoil = this.convertFoilForm();
     this.selectedCard.cardCondition = this.convertConditionForm();
+    var newDeckId = this.convertDeckForm();
+
 
     // TODO bug where first card after changing decks gets sent to previous deck
-    this.deckService.saveCard(this.selectedCard, this.convertDeckForm()).
+    this.deckService.saveCard(this.selectedCard, newDeckId).
       subscribe(card => { this.getDecks(); this.selectedCard = card; });
+
+    if (this.selectedDeck.id !== newDeckId) {
+
+      // Move card called
+      this.setDeck(0);
+    }
   }
 
   deleteCard(): void {
@@ -225,7 +232,8 @@ export class DeckDetailComponent implements OnInit {
 
   convertFoilForm(): boolean {
     
-    if (this.foilForm.value.foilOptions === "2") {
+    // if (this.foilForm.value.foilOptions === "2") {
+    if (this.foilForm.controls["foilOptions"].value === "2") {
       return true;
     }
     return false;
@@ -233,7 +241,8 @@ export class DeckDetailComponent implements OnInit {
 
   convertConditionForm(): string {
 
-    switch (this.conditionForm.value.conditionOptions) {
+    // switch (this.conditionForm.value.conditionOptions) {
+    switch (this.conditionForm.controls["conditionOptions"].value) {
       case "1":
         return "Near Mint";
       case "2":
@@ -249,7 +258,8 @@ export class DeckDetailComponent implements OnInit {
 
   convertDeckForm(): number {
 
-    return this.decks[this.decksForm.value.decksOptions].id;
+    return this.decks[this.decksForm.controls["decksOptions"].value].id;
+    // return this.decks[this.decksForm.value.decksOptions].id;
   }
 
 }
