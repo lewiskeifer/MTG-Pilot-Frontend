@@ -38,26 +38,14 @@ export class DeckDetailComponent implements OnInit {
     this.foilForm = this.formBuilder.group({
       foilOptions: ['']
     });
-    // // async foilOptions
-    // of(this.getFoilOptions()).subscribe(foilOptions => {
-    //   this.foilOptions = foilOptions;
-    // });
 
     this.conditionForm = this.formBuilder.group({
       conditionOptions: ['']
     });
-    // // async foilOptions
-    // of(this.getConditionOptions()).subscribe(conditionOptions => {
-    //   this.conditionOptions = conditionOptions;
-    // });
 
     this.decksForm = this.formBuilder.group({
       decksOptions: ['']
     });
-    // // async foilOptions
-    // of(this.getDecksOptions()).subscribe(decksOptions => {
-    //   this.decksOptions = decksOptions;
-    // });
   }
 
   ngOnInit(): void {
@@ -68,7 +56,12 @@ export class DeckDetailComponent implements OnInit {
     this.foilOptions = this.getFoilOptions();
     this.conditionOptions = this.getConditionOptions();
     this.decksOptions = this.getDecksOptions();
-    this.getDecks();
+    this.initDecks();
+  }
+
+  initDecks(): void {
+    this.deckService.getDecks()
+      .subscribe(decks => { this.decks = decks; this.decksOptions = this.getDecksOptions(); this.setDeck(0); });
   }
 
   getDeck(deckId: number): void {
@@ -78,7 +71,7 @@ export class DeckDetailComponent implements OnInit {
 
   getDecks(): void {
     this.deckService.getDecks()
-      .subscribe(decks => { this.decks = decks; this.decksOptions = this.getDecksOptions(); this.setDeck(0); });
+      .subscribe(decks => { this.decks = decks; this.setDeck(this.selectedDeck.id); this.decksOptions = this.getDecksOptions(); });
   }
 
   setDeck(id: number): void {
@@ -95,10 +88,6 @@ export class DeckDetailComponent implements OnInit {
       }
       count++;
     });
-
-
-    // this.deckService.getDeck(id)
-    //   .subscribe(deck => { this.selectedDeck = deck; this.decksOptions = this.getDecksOptions(); this.setDeckHelper(); });
   }
 
   setDeckHelper(): void {
@@ -153,7 +142,7 @@ export class DeckDetailComponent implements OnInit {
       }
       count++;
     });
-    this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[deckIndex].id, {onlySelf: true});
+    this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[deckIndex-1].id, {onlySelf: true});
   }
 
   resetSelectedDeck(): void {
@@ -164,23 +153,18 @@ export class DeckDetailComponent implements OnInit {
     this.selectedCard = this.emptyCard;
   }
 
-  // TODO
   saveCard(): void {
 
-    console.log(this.foilForm.getRawValue());
-    console.log(this.conditionForm.getRawValue());
-    console.log(this.decksForm.getRawValue());
-    // console.log(condition);
+    this.selectedCard.isFoil = this.convertFoilForm();
+    this.selectedCard.cardCondition = this.convertConditionForm();
 
-    // this.selectedCard.cardCondition = condition;
-    // this.selectedCard.isFoil = isFoil;
-    this.deckService.saveCard(this.selectedCard, this.selectedDeck.id).
-      subscribe(card => { this.getDeck(this.selectedDeck.id); this.selectedCard = card; });
+    this.deckService.saveCard(this.selectedCard, this.convertDeckForm()).
+      subscribe(card => { this.getDecks(); this.selectedCard = card; });
   }
 
   deleteCard(): void {
     this.deckService.deleteCard(this.selectedDeck.id, this.selectedCard.id).
-      subscribe(deck => { this.getDeck(this.selectedDeck.id); this.setCard(0); });
+      subscribe(deck => { this.getDecks(); this.setCard(0); });
   }
 
   saveDeck(): void {
@@ -235,7 +219,36 @@ export class DeckDetailComponent implements OnInit {
       data.push({id: count++, name: deck.name});
     });
 
-    return data;
+    return data.slice(1);
+  }
+
+  convertFoilForm(): boolean {
+    
+    if (this.foilForm.value.foilOptions === "2") {
+      return true;
+    }
+    return false;
+  }
+
+  convertConditionForm(): string {
+
+    switch (this.conditionForm.value.conditionOptions) {
+      case "1":
+        return "Near Mint"
+      case "2":
+        return "Lightly Played";
+      case "3":
+        return "Moderately Played";
+      case "4":
+        return "Heavily Played";
+      case "5":
+        return "Damaged";
+    }
+  }
+
+  convertDeckForm(): number {
+
+    return this.decks[this.decksForm.value.decksOptions].id;
   }
 
 }
