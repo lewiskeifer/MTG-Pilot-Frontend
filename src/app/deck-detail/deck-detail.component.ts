@@ -189,6 +189,17 @@ export class DeckDetailComponent implements OnInit {
       .subscribe(deck => { this.setDeck(this.selectedDeck.id); this.loading = false; this.getTotalCost(); });
   }
 
+  getTotalQuantity() {
+    var total = 0;
+    if (this.selectedDeck && this.selectedDeck.cards) {
+      this.selectedDeck.cards.forEach(element => {
+        total += element.quantity;
+      });
+    }
+
+    return total;
+  }
+
   getTotalCost() {
     var total = 0;
     if (this.selectedDeck && this.selectedDeck.cards) {

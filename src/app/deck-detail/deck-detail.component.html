@@ -8,28 +8,28 @@
       <ng-container matColumnDef="card">
         <th mat-header-cell *matHeaderCellDef> Card </th>
         <td mat-cell *matCellDef="let card"> {{card.name}} </td>
-        <td mat-footer-cell *matFooterCellDef> </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       
       <!-- Condition Column -->
       <ng-container matColumnDef="condition">
         <th mat-header-cell *matHeaderCellDef> Condition </th>
         <td mat-cell *matCellDef="let card"> {{card.cardCondition}} </td>
-        <td mat-footer-cell *matFooterCellDef>  </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Version Column -->
       <ng-container matColumnDef="version">
         <th mat-header-cell *matHeaderCellDef> Version </th>
         <td mat-cell *matCellDef="let card"> {{card.version}} </td>
-        <td mat-footer-cell *matFooterCellDef>  </td>
+        <td mat-footer-cell *matFooterCellDef> Total </td>
       </ng-container>
 
       <!-- Quantity Column -->
       <ng-container matColumnDef="quantity">
         <th mat-header-cell *matHeaderCellDef> Quantity </th>
         <td mat-cell *matCellDef="let card"> {{card.quantity}} </td>
-        <td mat-footer-cell *matFooterCellDef> Total </td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalQuantity()}} </td>
       </ng-container>
 
       <!-- Value Column -->
