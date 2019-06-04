@@ -79,7 +79,7 @@ export class DeckDetailComponent implements OnInit {
     // TODO use map
     var count = 0;
     this.decks.forEach(deck => {
-      if (deck.id == id) {
+      if (deck.id === id) {
         
         this.selectedDeck = this.decks[count]; 
         this.setDeckHelper();
@@ -117,15 +117,15 @@ export class DeckDetailComponent implements OnInit {
 
     var condition = 0;
     switch (this.selectedCard.cardCondition) {
-      case "Near-mint":
+      case "Near Mint":
         break;
-      case "Light-play":
+      case "Lightly Played":
         condition = 1;
         break;
-      case "Moderately-played":
+      case "Moderately Played":
         condition = 2;
         break;
-      case "Heavily-played":
+      case "Heavily Played":
         condition = 3;
         break;
       case "Damaged":
@@ -158,6 +158,7 @@ export class DeckDetailComponent implements OnInit {
     this.selectedCard.isFoil = this.convertFoilForm();
     this.selectedCard.cardCondition = this.convertConditionForm();
 
+    // TODO bug where first card after changing decks gets sent to previous deck
     this.deckService.saveCard(this.selectedCard, this.convertDeckForm()).
       subscribe(card => { this.getDecks(); this.selectedCard = card; });
   }
@@ -234,7 +235,7 @@ export class DeckDetailComponent implements OnInit {
 
     switch (this.conditionForm.value.conditionOptions) {
       case "1":
-        return "Near Mint"
+        return "Near Mint";
       case "2":
         return "Lightly Played";
       case "3":
