@@ -13,7 +13,7 @@ import { DeckService } from '../service/deck.service';
 export class DeckDetailComponent implements OnInit {
 
   dataSource: MatTableDataSource<Card>;
-  displayedColumns: string[] = ['card', 'value'];
+  displayedColumns: string[] = ['card', 'condition', 'version', 'quantity', 'value'];
 
   decks: Deck[];
 
