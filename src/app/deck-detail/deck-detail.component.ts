@@ -183,7 +183,8 @@ export class DeckDetailComponent implements OnInit {
   }
 
   deleteDeck(): void {
-    this.deckService.deleteDeck(this.selectedDeck.id).subscribe(deck => { this.getDecks(); this.setDeck(0); this.setCard(0); });
+    this.deckService.deleteDeck(this.selectedDeck.id).
+      subscribe(deck => { this.getDecks(); this.setDeck(0); this.setCard(0); });
   }
 
   refreshDeck():void {
