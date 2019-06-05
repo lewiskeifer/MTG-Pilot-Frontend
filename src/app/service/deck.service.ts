@@ -46,15 +46,6 @@ export class DeckService {
     );
   }
 
-  // TODO use or remove
-  /** POST: add a new deck to the server */
-  addDeck(deck: Deck): Observable<Deck> {
-    return this.httpClient.post<Deck>(this.decksUrl, deck, this.httpOptions).pipe(
-      tap((newDeck: Deck) => this.log(`added deck w/ id=${newDeck.id}`)),
-        catchError(this.handleError<Deck>('addDeck'))
-    );
-  }
-
   /** PUT: update the deck on the server */
   saveCard(card: Card, id: number): Observable<Card> {
     const url = `${this.decksUrl}/${id}/cards`;
