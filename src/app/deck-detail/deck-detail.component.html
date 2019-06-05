@@ -14,7 +14,7 @@
       <!-- Condition Column -->
       <ng-container matColumnDef="condition">
         <th mat-header-cell *matHeaderCellDef> Condition </th>
-        <td mat-cell *matCellDef="let card"> {{card.cardCondition}} </td>
+        <td mat-cell *matCellDef="let card"> {{(card.cardCondition || '') + (card.isFoil ? ' Foil' : '')}} </td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
