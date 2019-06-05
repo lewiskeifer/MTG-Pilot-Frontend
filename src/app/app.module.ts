@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component';
 import { DecksComponent } from './decks/decks.component';
@@ -32,6 +32,7 @@ import { MatCardModule, MatTableModule, MatFormFieldModule, MatPaginatorModule, 
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatCardModule,
     MatTableModule,
