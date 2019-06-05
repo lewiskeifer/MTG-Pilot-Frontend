@@ -2,8 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
-![alt text](https://raw.githubusercontent.com/lewiskeifer/Finance-Manager-Frontend/master/src/assets/img/1.png)
-![alt text](https://raw.githubusercontent.com/lewiskeifer/Finance-Manager-Frontend/master/src/assets/img2.png)
+![alt text](https://raw.githubusercontent.com/lewiskeifer/Finance-Manager-Frontend/master/src/assets/img/1.PNG)
+![alt text](https://raw.githubusercontent.com/lewiskeifer/Finance-Manager-Frontend/master/src/assets/img2.PNG)
 
 
 ## How to Setup
