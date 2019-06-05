@@ -93,6 +93,7 @@ export class DeckDetailComponent implements OnInit {
   setDeckHelper(): void {
     if (this.selectedDeck.cards.length != 0) {
       this.dataSource.data = this.selectedDeck.cards;
+      this.setCard(0);
     } 
     else {
       this.dataSource.data = []; 
