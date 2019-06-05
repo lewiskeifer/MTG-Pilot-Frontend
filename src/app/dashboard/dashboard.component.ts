@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
 
     var rows = [[]];
 
-    // TODO ensure all snapshots are equal length or make this smarter
+    // All snapshots are of equal length
     for (var _j = 0; _j < this.decks[1].deckSnapshots.length; ++_j) {
 
       var deckOverviewValue = 0;
