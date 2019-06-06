@@ -1,82 +1,89 @@
 /* DeckDetailComponent's private CSS styles */
+
 label {
-    display: inline-block;
-    width: 3em;
-    margin: .5em 0;
-    color: #607D8B;
-    font-weight: bold;
-  }
-  input {
-    height: 2em;
-    font-size: 1em;
-    padding-left: .4em;
-  }
-  button {
-    margin-top: 20px;
-    font-family: Arial;
-    background-color: #eee;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    cursor: hand;
-  }
-  button:hover {
-    background-color: #cfd8dc;
-  }
-  button:disabled {
-    background-color: #eee;
-    color: #ccc;
-    cursor: auto;
-  }
-  table {
-    width: 600px;
-  }
-  
-  tr.mat-footer-row {
-    font-weight: bold;
-  }
-  .card {
-    width: 500px;
-    height: 600px;
-    margin: 5px auto 5px auto;
-  }
-  .deck {
-    width: 500px;
-    height: 100px;
-    margin: 5px auto 5px auto;
-  }
-  .example-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-  }
-  .example-header {
-    min-height: 64px;
-    padding: 8px 24px 0;
-  }
-  .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-  .mat-table {
-    overflow: auto;
-    max-height: 500px;
-  }
-  
-  .form {
-    width: 179px !important; 
-  }
-  .but {
-    width: 70px; 
-    height: 25px;
-    margin: 5px;
-  }
-  .wid {
-    width: 600px; 
-  }
+  display: inline-block;
+  width: 3em;
+  margin: .5em 0;
+  color: #607D8B;
+  font-weight: bold;
+}
+input {
+  height: 2em;
+  font-size: 1em;
+  padding-left: .4em;
+}
+button {
+  margin-top: 20px;
+  font-family: Arial;
+  background-color: #eee;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  cursor: hand;
+}
+button:hover {
+  background-color: #cfd8dc;
+}
+button:disabled {
+  background-color: #eee;
+  color: #ccc;
+  cursor: auto;
+}
+table {
+  width: 600px;
+}
 
+tr.mat-footer-row {
+  font-weight: bold;
+}
+.card {
+  width: 500px;
+  min-width: 400px;
+  height: 600px;
+}
+.deck {
+  width: 500px;
+  height: 100px;
+}
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.mat-table {
+  // overflow: auto;
+  // max-height: 500px;
+}
 
+.form {
+  width: 179px !important; 
+}
+.but {
+  width: 70px; 
+  height: 25px;
+  margin: 5px;
+}
+
+.layout {
+  display: flex;
+  justify-content: space-between;
+  @media only screen and (max-width: 1500px) { 
+    flex-flow: row wrap;
+    @media only screen and (max-width: 1100px) { 
+      flex-flow: column wrap;
+      align-items: center;
+    }
+  }
+}
   
 .selected {
   background-color: #CFD8DC !important;
