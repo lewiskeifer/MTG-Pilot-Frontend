@@ -43,20 +43,6 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
       </table>
     </div>
-
-    <!-- Disable refresh on decks other than overview until graph can be made smarter -->
-    <span *ngIf="selectedDeck">
-      <span *ngIf="selectedDeck.id === 0">
-        <span *ngIf="!loading">
-          <button mat-raised-button (click)="refreshDeck()" class="but">Refresh</button>
-        </span>
-        <span *ngIf="loading">
-          <button mat-raised-button class="but">
-            <mat-progress-spinner style="margin:0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
-          </button>
-        </span>
-      </span>
-    </span>
   </div>
 
   <div class="center">
@@ -73,6 +59,20 @@
         </mat-card-actions>
       </div>
     </mat-card>
+
+    <!-- Disable refresh on decks other than overview until graph can be made smarter -->
+    <div *ngIf="selectedDeck">
+      <span *ngIf="selectedDeck.id === 0">
+        <span *ngIf="!loading">
+          <button mat-raised-button (click)="refreshDeck()" class="but">Refresh</button>
+        </span>
+        <span *ngIf="loading">
+          <button mat-raised-button class="but">
+            <mat-progress-spinner style="margin:0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
+          </button>
+        </span>
+      </span>
+    </div>
 
     <div *ngIf="selectedCard">
       <span *ngIf="selectedDeck.id !== 0">

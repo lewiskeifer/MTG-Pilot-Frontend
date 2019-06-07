@@ -33,12 +33,11 @@ export class InMemoryDataService implements InMemoryDbService {
       {value: 69, timestamp:"3/1/19"},
     ];
      const cards = [
-      { id: 10, name: 'Arcbound Ravager1', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 11, name: 'Walking Ravager2', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 12, name: 'Ravager Ravager3', version: 'Darksteel', isFoil: true, cardCondition: "Near Mint", purchasePrice: 120, marketPrice: 20, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 13, name: 'Arcbound Ravager4', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 5, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 14, name: 'Arcbound Ravager5', version: 'Darksteel', isFoil: false, cardCondition: "Lightly Played", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
-      { id: 15, name: 'Arcbound Ravager6', version: 'Darksteel', isFoil: false, cardCondition: "Near Mint", purchasePrice: 40, marketPrice: 10, quantity: 4, url: "assets/img/0-0.jpg" },
+      { id: 10, name: 'Affinity Modern', marketPrice: 10, quantity: 1, url: "assets/img/0-0.jpg" },
+      { id: 11, name: 'Mono Blue', marketPrice: 10, quantity: 1, url: "assets/img/0-0.jpg" },
+      { id: 12, name: 'Junder', marketPrice: 20, quantity: 1, url: "assets/img/0-0.jpg" },
+      { id: 13, name: 'Esper', marketPrice: 5, quantity: 1, url: "assets/img/0-0.jpg" },
+      { id: 14, name: 'Bant', marketPrice: 10, quantity: 1, url: "assets/img/0-0.jpg" },
     ];
 
     const cards2 = [
@@ -50,12 +49,12 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
     
      const decks = [
-      { id: 0, name: 'Affinity Legacy', format: "Legacy", value: 10, cards: cards, deckSnapshots: deckSnapshots },
+      { id: 0, name: 'Deck Overview', format: "Legacy", value: 50, cards: cards, deckSnapshots: deckSnapshots },
       { id: 1, name: 'Affinity Modern', format: "Legacy", value: 10, cards: cards2, deckSnapshots: deckSnapshots },
       { id: 2, name: 'Mono Blue', format: "Legacy", value: 10, cards: cards2, deckSnapshots: deckSnapshots2 },
-      { id: 3, name: 'Jund', format: "Legacy", value: 10, cards: cards, deckSnapshots: deckSnapshots3 },
-      { id: 4, name: 'Esper', format: "Legacy", value: 10, cards: cards, deckSnapshots: deckSnapshots4 },
-      { id: 5, name: 'Bant', format: "Legacy", value: 10, cards: cards, deckSnapshots: deckSnapshots5 },
+      { id: 3, name: 'Jund', format: "Legacy", value: 10, cards: cards2, deckSnapshots: deckSnapshots3 },
+      { id: 4, name: 'Esper', format: "Legacy", value: 10, cards: cards2, deckSnapshots: deckSnapshots4 },
+      { id: 5, name: 'Bant', format: "Legacy", value: 10, cards: cards2, deckSnapshots: deckSnapshots5 },
     ];
     return {decks};
   }
