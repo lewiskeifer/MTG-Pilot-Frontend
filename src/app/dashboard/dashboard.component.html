@@ -1,10 +1,9 @@
 <div *ngIf="decks">
-  <div class="divTable graph center">
+  <div class="divTable">
     <div class="divTableBody">
-      <div class="divTableRow">
-        <div class="divTableCell">
-          <line-chart [data]="data" [config]="config" [elementId]="elementId"></line-chart>
-        </div>
+      <div class="divTableRow layout">
+        <div class="divTableCell left padded" style="width: 800px; height: 900px;"><line-chart [data]="data" [config]="config" [elementId]="elementId"></line-chart></div>
+        <div class="divTableCell right padded" style="width: 800px; height: 900px;"><line-chart [data]="data2" [config]="config2" [elementId]="elementId2"></line-chart></div>
       </div>
     </div>
   </div>

@@ -1,6 +1,18 @@
 /* DashboardComponent's private CSS styles */
 
-  .graph {
-    max-width: 1000px;
-    min-width: 400px;
+.layout {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  @media only screen and (max-width: 1500px) { 
+    @media only screen and (max-width: 1200px) { 
+      flex-flow: column wrap;
+      align-items: center;
+    }
   }
+}
+
+.graph {
+  max-width: 1000px;
+  min-width: 400px;
+}
