@@ -59,8 +59,14 @@ export class DashboardComponent implements OnInit {
     var rows = [[]];
     var rows2 = [[]];
 
-    // All snapshots are of equal length
+    var dates = [];
+
+    // First deck must have most snapshots; create array of y axis points
     for (var _j = 0; _j < this.decks[1].deckSnapshots.length; ++_j) {
+      dates.push(this.decks[1].deckSnapshots[_j].timestamp.substr(0,10));
+    }
+
+    for (var _j = 0; _j < dates.length; ++_j) {
 
       var deckOverviewValue = 0;
       var deckOverviewPurchasePrice = 0;
@@ -68,25 +74,45 @@ export class DashboardComponent implements OnInit {
       var row = [];
       var row2 = [];
 
-      row.push(this.decks[1].deckSnapshots[_j].timestamp.substr(0,10));
-      row2.push(this.decks[1].deckSnapshots[_j].timestamp.substr(0,10));
+      row.push(dates[_j]);
+      row2.push(dates[_j]);
       
+      // K == 0, skip deck overview
       row.push(0);
       row2.push(0);
+
+      // K == 1+
       for (var _k = 1; _k < this.decks.length; ++_k) {
 
-        var value = this.decks[_k].deckSnapshots[_j].value;
-        deckOverviewValue += value;
-        row.push(value);
+        var numSnapshots = this.decks[_k].deckSnapshots.length;
+        var snapshotIndex = _j;
 
-        var purchasePrice = this.decks[_k].deckSnapshots[_j].purchasePrice;
-        deckOverviewPurchasePrice += purchasePrice;
-
-        if (purchasePrice !== 0) {
-          row2.push(value / purchasePrice);
+        // Set invalid dates to zero values
+        if (numSnapshots < dates.length && snapshotIndex < (dates.length - numSnapshots)) {
+          row.push(0);
+          row2.push(0);
         }
         else {
-          row2.push(0);
+
+          // Adjust index on decks with fewer snapshots
+          if (numSnapshots < dates.length) {
+            snapshotIndex -= (dates.length - numSnapshots);
+          }
+
+          var value = this.decks[_k].deckSnapshots[snapshotIndex].value;
+          deckOverviewValue += value;
+          row.push(value);
+
+          var purchasePrice = this.decks[_k].deckSnapshots[snapshotIndex].purchasePrice;
+          deckOverviewPurchasePrice += purchasePrice;
+
+          // Check for division by 0
+          if (purchasePrice !== 0) {
+            row2.push(value / purchasePrice);
+          }
+          else {
+            row2.push(0);
+          }
         }
       }
 

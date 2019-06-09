@@ -64,11 +64,11 @@
     <div *ngIf="selectedDeck">
       <span *ngIf="selectedDeck.id === 0">
         <span *ngIf="!loading">
-          <button mat-raised-button (click)="refreshDeck()" class="but">Refresh</button>
+          <button mat-raised-button (click)="refreshDeck()" class="but" style="width: 150px">Recalculate Values</button>
         </span>
         <span *ngIf="loading">
           <button mat-raised-button class="but">
-            <mat-progress-spinner style="margin:0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
+            <mat-progress-spinner style="margin:0 auto; width: 150px" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
           </button>
         </span>
       </span>
