@@ -103,6 +103,11 @@ export class DeckDetailComponent implements OnInit {
 
   setCard(index: number): void {
 
+    // Deck Overview cannot set card
+    if (this.selectedDeck.id === 0) {
+      return;
+    }
+
     this.selectedCard = this.selectedDeck.cards[index];
 
     var isFoil = 0;
