@@ -8,29 +8,29 @@ import { Deck } from '../model/deck';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const deckSnapshots = [
-      {value: 100, timestamp:"1/1/19"},
-      {value: 95, timestamp:"2/1/19"},
-      {value: 130, timestamp:"3/1/19"},
+      { purchasePrice: 50, value: 100, timestamp:"1/1/19" },
+      { purchasePrice: 50, value: 95, timestamp:"2/1/19" },
+      { purchasePrice: 50, value: 130, timestamp:"3/1/19" },
     ];
     const deckSnapshots2 = [
-      {value: 50, timestamp:"1/1/19"},
-      {value: 95, timestamp:"2/1/19"},
-      {value: 150, timestamp:"3/1/19"},
+      { purchasePrice: 50, value: 50, timestamp:"1/1/19" },
+      { purchasePrice: 50, value: 95, timestamp:"2/1/19" },
+      { purchasePrice: 50, value: 150, timestamp:"3/1/19" },
     ];
     const deckSnapshots3 = [
-      {value: 10, timestamp:"1/1/19"},
-      {value: 25, timestamp:"2/1/19"},
-      {value: 30, timestamp:"3/1/19"},
+      { purchasePrice: 50, value: 10, timestamp:"1/1/19" },
+      { purchasePrice: 50, value: 25, timestamp:"2/1/19" },
+      { purchasePrice: 50, value: 30, timestamp:"3/1/19" },
     ];
     const deckSnapshots4 = [
-      {value: 80, timestamp:"1/1/19"},
-      {value: 160, timestamp:"2/1/19"},
-      {value: 240, timestamp:"3/1/19"},
+      { purchasePrice: 50, value: 80, timestamp:"1/1/19" },
+      { purchasePrice: 50, value: 160, timestamp:"2/1/19" },
+      { purchasePrice: 50, value: 240, timestamp:"3/1/19" },
     ];
     const deckSnapshots5 = [
-      {value: 50, timestamp:"1/1/19"},
-      {value: 55, timestamp:"2/1/19"},
-      {value: 69, timestamp:"3/1/19"},
+      { purchasePrice: 50, value: 50, timestamp:"1/1/19" },
+      { purchasePrice: 50, value: 55, timestamp:"2/1/19" },
+      { purchasePrice: 50, value: 69, timestamp:"3/1/19" },
     ];
      const cards = [
       { id: 10, name: 'Affinity Modern', marketPrice: 10, quantity: 1, url: "assets/img/0-0.jpg" },
