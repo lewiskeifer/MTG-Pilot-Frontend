@@ -16,6 +16,7 @@ import { GoogleLineChartService } from './google-charts/google-line-chart-servic
 import { LineChartComponent } from './google-charts/line-chart.component';
 import { MessagesComponent } from './messages/messages.component';
 import { InMemoryDataService } from './service/in-memory-data.service';
+import { LoginComponent } from './login/login.component';
  
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { InMemoryDataService } from './service/in-memory-data.service';
     DeckSearchComponent,
     DeckListComponent,
     LineChartComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
