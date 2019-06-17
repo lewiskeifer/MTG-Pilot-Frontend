@@ -15,7 +15,7 @@ import { DecksComponent } from './decks/decks.component';
 import { GoogleLineChartService } from './google-charts/google-line-chart-service';
 import { LineChartComponent } from './google-charts/line-chart.component';
 import { MessagesComponent } from './messages/messages.component';
-import { InMemoryDataService } from './service/in-memory-data.service';
+import { InMemoryDataService } from './_service/in-memory-data.service';
 import { LoginComponent } from './login/login.component';
  
 @NgModule({
@@ -48,9 +48,9 @@ import { LoginComponent } from './login/login.component';
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    // HttpClientInMemoryWebApiModule.forRoot(
+    //   InMemoryDataService, { dataEncapsulation: false }
+    // )
   ],
   providers: [
     GoogleLineChartService

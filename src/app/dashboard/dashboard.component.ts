@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LineChartConfig } from '../google-charts/line-chart-config';
-import { Deck } from '../model/deck';
-import { DeckService } from '../service/deck.service';
+import { Deck } from '../_model/deck';
+import { DeckService } from '../_service/deck.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,10 +23,10 @@ export class DashboardComponent implements OnInit {
   constructor(private deckService: DeckService) { }
  
   ngOnInit() {
-    this.config = new LineChartConfig('Total Value', 'in USD', 900, 800);
+    this.config = new LineChartConfig('Total Value', '', 1000, 800);
     this.elementId = 'linechart_material';
 
-    this.config2 = new LineChartConfig('Purchase Price / Value', '', 900, 800);
+    this.config2 = new LineChartConfig('Purchase Price / Value', '', 1000, 800);
     this.elementId2 = 'linechart_material2';
 
     this.getDecks();

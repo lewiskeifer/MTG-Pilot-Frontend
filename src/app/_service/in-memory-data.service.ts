@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Deck } from '../model/deck';
+import { Deck } from '../_model/deck';
 
 @Injectable({
   providedIn: 'root'

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
-import { Card } from '../model/card';
-import { Deck } from '../model/deck';
-import { DeckService } from '../service/deck.service';
+import { Card } from '../_model/card';
+import { Deck } from '../_model/deck';
+import { DeckService } from '../_service/deck.service';
 
 @Component({
   selector: 'app-deck-detail',

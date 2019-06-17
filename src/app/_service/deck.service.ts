@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Card } from '../model/card';
-import { Deck } from '../model/deck';
+import { Card } from '../_model/card';
+import { Deck } from '../_model/deck';
 import { MessageService } from './message.service';
 
 @Injectable({
