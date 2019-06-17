@@ -1,11 +1,14 @@
 <!-- TODO restructure for login page -->
 
-<div class="center">
-  <h1 class="center">{{title}}</h1>
-  <nav>
-    <a routerLink="/dashboard" class="padded">Dashboard</a>
-    <a routerLink="/decks" class="padded">Decks</a>
-  </nav>
+<div *ngIf="currentUser">
+  <div class="center">
+    <h1 class="center">{{title}}</h1>
+    <nav>
+      <a routerLink="/dashboard" class="padded">Dashboard</a>
+      <a routerLink="/decks" class="padded">Decks</a>
+      <a class="padded" (click)="logout()">Logout</a>
+    </nav>
+  </div>
 </div>
 
 <router-outlet></router-outlet>

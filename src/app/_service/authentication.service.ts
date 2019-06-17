@@ -15,7 +15,7 @@ export class AuthenticationService {
 
     private httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-      };
+    };
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -27,25 +27,30 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        console.log("chungle");
-        var login2: Login = new Login(username, password);
-        console.log(login2);
-        this.http.post<any>(`${this.usersUrl}/login`, login2, this.httpOptions)
-            .pipe(map(user => {
 
-                console.log("wungle");
-                // login successful if there's a jwt token in the response
-                if (user && user.token) {
+        let user = new User(username, password);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
 
-                    console.log(user);
+        // console.log("chungle");
+        // var login2: Login = new Login(username, password);
+        // console.log(login2);
+        // this.http.post<User>(`${this.usersUrl}/login`, login2, this.httpOptions)
+        //     .pipe(map(user => {
 
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    this.currentUserSubject.next(user);
-                }
+        //         console.log("wungle");
+        //         // login successful if there's a jwt token in the response
+        //         if (user && user.token) {
 
-                // return user;
-            }));
+        //             console.log(user);
+
+        //             // store user details and jwt token in local storage to keep user logged in between page refreshes
+        //             localStorage.setItem('currentUser', JSON.stringify(user));
+        //             this.currentUserSubject.next(user);
+        //         }
+
+        //         return user;
+        //     }));
     }
 
     logout() {
@@ -55,6 +60,6 @@ export class AuthenticationService {
     }
 
     register(user: User) {
-        return this.http.post(`${this.usersUrl}/register`, user);
+        return this.http.post<User>(`${this.usersUrl}/register`, user);
     }
 }
