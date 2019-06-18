@@ -5,6 +5,7 @@ import { User } from '../_model/user';
 import { AlertService } from '../_service/alert.service';
 import { AuthenticationService } from '../_service/authentication.service';
 import { first } from 'rxjs/operators';
+import { MustMatch } from '../_helper/must-match.validator';
 
 @Component({
   selector: 'app-registration',
@@ -12,11 +13,6 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-
-  username: string;
-  password: string;
-  confirmPassword: string;
-  email: string;
 
   registerForm: FormGroup;
   loading = false;
@@ -37,8 +33,9 @@ export class RegistrationComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.required],
       username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
+    }, {validator: MustMatch('password', 'confirmPassword')});
   }
 
   // convenience getter for easy access to form fields
@@ -73,5 +70,12 @@ export class RegistrationComponent implements OnInit {
             });
 
     console.log(3);
+  }
+
+  checkPasswords(group: FormGroup) {
+    let pass = group.controls.password.value;
+    let confirmPass = group.controls.confirmPassword.value;
+
+    return pass === confirmPass ? null : { notSame: true }     
   }
 }

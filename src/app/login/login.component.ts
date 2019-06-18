@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../_service/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DeckService } from '../_service/deck.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from '../_service/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -10,15 +12,30 @@ import { DeckService } from '../_service/deck.service';
 })
 export class LoginComponent implements OnInit {
 
-  username: string;
-  password: string;
+  loginForm: FormGroup;
+  loading = false;
+  submitted = false;
 
-  constructor(private authenticationService: AuthenticationService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private authenticationService: AuthenticationService, 
+              private route: ActivatedRoute, 
+              private router: Router, 
+              private alertService: AlertService,
+              private formBuilder: FormBuilder) {
+    // redirect to home if already logged in
+    if (this.authenticationService.currentUserValue) { 
+      this.router.navigate(['/']);
+    }
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required]]
+    });
+  }
 
-  login(): void {
-    this.authenticationService.login(this.username, this.password).subscribe(user => 
+  onSubmit(): void {
+    this.authenticationService.login(this.loginForm.value).subscribe(user => 
       { 
         user.token === null ? this.router.navigate(['/login']) : this.router.navigate(['/dashboard']);
       });
