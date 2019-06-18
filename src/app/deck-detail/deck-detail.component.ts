@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
-import { Card } from '../model/card';
-import { Deck } from '../model/deck';
-import { DeckService } from '../service/deck.service';
+import { Card } from '../_model/card';
+import { Deck } from '../_model/deck';
+import { User } from '../_model/user';
+import { DeckService } from '../_service/deck.service';
 
 @Component({
   selector: 'app-deck-detail',
@@ -11,6 +12,8 @@ import { DeckService } from '../service/deck.service';
   styleUrls: ['./deck-detail.component.scss'],
 })
 export class DeckDetailComponent implements OnInit {
+
+  currentUser: User;
 
   dataSource: MatTableDataSource<Card>;
   displayedColumns: string[] = ['card', 'condition', 'version', 'quantity', 'value'];
@@ -56,21 +59,22 @@ export class DeckDetailComponent implements OnInit {
     this.foilOptions = this.getFoilOptions();
     this.conditionOptions = this.getConditionOptions();
     this.decksOptions = this.getDecksOptions();
+    this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.initDecks();
   }
 
   initDecks(): void {
-    this.deckService.getDecks()
+    this.deckService.getDecks(this.currentUser.id)
       .subscribe(decks => { this.decks = decks; this.decksOptions = this.getDecksOptions(); this.setDeck(0); });
   }
 
   getDeck(deckId: number): void {
-    this.deckService.getDeck(deckId)
+    this.deckService.getDeck(this.currentUser.id, deckId)
       .subscribe(deck => { this.selectedDeck = deck; });
   }
 
   getDecks(): void {
-    this.deckService.getDecks()
+    this.deckService.getDecks(this.currentUser.id)
       .subscribe(decks => { this.decks = decks; this.decksOptions = this.getDecksOptions(); this.setDeck(this.selectedDeck.id); });
   }
 
@@ -164,7 +168,7 @@ export class DeckDetailComponent implements OnInit {
     this.selectedCard.cardCondition = this.convertConditionForm();
     var newDeckId = this.convertDeckForm();
 
-    this.deckService.saveCard(this.selectedCard, newDeckId).
+    this.deckService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
       subscribe(card => 
         { 
           this.getDecks(); 
@@ -179,22 +183,22 @@ export class DeckDetailComponent implements OnInit {
   }
 
   deleteCard(): void {
-    this.deckService.deleteCard(this.selectedDeck.id, this.selectedCard.id).
+    this.deckService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id).
       subscribe(deck => { this.getDecks(); this.setCard(0); });
   }
 
   saveDeck(): void {
-    this.deckService.saveDeck(this.selectedDeck).subscribe(deck => { this.getDecks(); });
+    this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).subscribe(deck => { this.getDecks(); });
   }
 
   deleteDeck(): void {
-    this.deckService.deleteDeck(this.selectedDeck.id).
+    this.deckService.deleteDeck(this.currentUser.id, this.selectedDeck.id).
       subscribe(deck => { this.getDecks(); this.setDeck(0); this.setCard(0); });
   }
 
   refreshDeck():void {
     this.loading = true;
-    this.deckService.refreshDeck(this.selectedDeck.id)
+    this.deckService.refreshDeck(this.currentUser.id, this.selectedDeck.id)
       .subscribe(deck => { this.setDeck(this.selectedDeck.id); this.loading = false; this.getTotalCost(); });
   }
 

@@ -1,0 +1,12 @@
+<mat-card class="center card">
+  <mat-card-title> Register </mat-card-title>
+  <mat-card-subtitle>	
+    <input [(ngModel)]="username" placeholder="Username" style="width: 250px"/>
+    <input type="password" [(ngModel)]="password" placeholder="Password" style="width: 250px;"/>
+    <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirm Password" style="width: 250px;"/>
+    <input [(ngModel)]="email" placeholder="Email" style="width: 250px"/>
+  </mat-card-subtitle>
+  <mat-card-actions>
+    <button mat-raised-button (click)="register()" class="padded">Submit</button>
+  </mat-card-actions>
+</mat-card>

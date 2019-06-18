@@ -15,7 +15,11 @@ import { DecksComponent } from './decks/decks.component';
 import { GoogleLineChartService } from './google-charts/google-line-chart-service';
 import { LineChartComponent } from './google-charts/line-chart.component';
 import { MessagesComponent } from './messages/messages.component';
-import { InMemoryDataService } from './service/in-memory-data.service';
+import { InMemoryDataService } from './_service/in-memory-data.service';
+import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { TokenInterceptor } from './_service/token-interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
  
 @NgModule({
   declarations: [
@@ -27,6 +31,8 @@ import { InMemoryDataService } from './service/in-memory-data.service';
     DeckSearchComponent,
     DeckListComponent,
     LineChartComponent,
+    LoginComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +57,12 @@ import { InMemoryDataService } from './service/in-memory-data.service';
     // )
   ],
   providers: [
-    GoogleLineChartService
+    GoogleLineChartService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [ AppComponent ]
 })

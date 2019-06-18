@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Deck } from '../model/deck';
-import { DeckService } from '../service/deck.service';
+import { Deck } from '../_model/deck';
+import { DeckService } from '../_service/deck.service';
 
 @Component({
   selector: 'app-deck-search',
