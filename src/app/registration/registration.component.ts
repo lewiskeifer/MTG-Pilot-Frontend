@@ -21,7 +21,7 @@ export class RegistrationComponent implements OnInit {
 
   register(): void {
     let user = new User(this.username, this.password, this.email);
-    this.authenticationService.register(user);
+    this.authenticationService.register(user).subscribe();
     this.router.navigate(['/login']);
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../_service/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DeckService } from '../_service/deck.service';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +18,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   login(): void {
-    console.log("bungle");
-    this.authenticationService.login(this.username, this.password);
-    this.router.navigate(['/dashboard']);
+    this.authenticationService.login(this.username, this.password).subscribe(user => 
+      { 
+        user.token === null ? this.router.navigate(['/login']) : this.router.navigate(['/dashboard']);
+      });
   }
 }

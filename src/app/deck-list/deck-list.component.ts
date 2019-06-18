@@ -23,18 +23,12 @@ export class DeckListComponent implements OnInit {
   constructor(private deckService: DeckService) { }
 
   ngOnInit() {
-    this.getDecks();
   }
 
-  emitEvent(id: number) {
-    this.deckService.getDeck(id)
-      .subscribe(deck =>{ this.selectedDeck = deck; this.selectedCards = deck.cards; 
-        this.selectDeck.emit(this.selectedDeck); this.selectCards.emit(this.selectedCards); });
-  }
-
-  getDecks(): void {
-    this.deckService.getDecks()
-      .subscribe(decks => this.decks = decks);
-  }
+  // emitEvent(id: number) {
+  //   this.deckService.getDeck(id)
+  //     .subscribe(deck =>{ this.selectedDeck = deck; this.selectedCards = deck.cards; 
+  //       this.selectDeck.emit(this.selectedDeck); this.selectCards.emit(this.selectedCards); });
+  // }
 
 }

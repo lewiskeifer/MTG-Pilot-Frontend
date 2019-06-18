@@ -18,6 +18,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { InMemoryDataService } from './_service/in-memory-data.service';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { TokenInterceptor } from './_service/token-interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
  
 @NgModule({
   declarations: [
@@ -50,12 +52,17 @@ import { RegistrationComponent } from './registration/registration.component';
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    // HttpClientInMemoryWebApiModule.forRoot(
+    //   InMemoryDataService, { dataEncapsulation: false }
+    // )
   ],
   providers: [
-    GoogleLineChartService
+    GoogleLineChartService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [ AppComponent ]
 })

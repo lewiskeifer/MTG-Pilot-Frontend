@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LineChartConfig } from '../google-charts/line-chart-config';
 import { Deck } from '../_model/deck';
+import { User } from '../_model/user';
 import { DeckService } from '../_service/deck.service';
 
 @Component({
@@ -9,6 +10,8 @@ import { DeckService } from '../_service/deck.service';
   styleUrls: [ './dashboard.component.scss' ]
 })
 export class DashboardComponent implements OnInit {
+
+  currentUser: User;
 
   decks: Deck[];
  
@@ -29,11 +32,12 @@ export class DashboardComponent implements OnInit {
     this.config2 = new LineChartConfig('Purchase Price / Value', '', 1000, 800);
     this.elementId2 = 'linechart_material2';
 
+    this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.getDecks();
   }
  
   getDecks(): void {
-    this.deckService.getDecks()
+    this.deckService.getDecks(this.currentUser.id)
       .subscribe(decks => { this.decks = decks; this.setChart() });
   }
 
