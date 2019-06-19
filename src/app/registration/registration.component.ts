@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { MustMatch } from '../_helper/must-match.validator';
+import { User } from '../_model/user';
 import { AlertService } from '../_service/alert.service';
 import { AuthenticationService } from '../_service/authentication.service';
-import { ErrorStateMatcher } from '@angular/material/core';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -56,6 +57,7 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(): void {
 
+    console.log("bung");
     this.submitted = true;
 
     // stop here if form is invalid
@@ -63,8 +65,11 @@ export class RegistrationComponent implements OnInit {
         return;
     }
 
+    let user = new User(this.registerForm.controls["usernameForm"].value, 
+                        this.registerForm.controls["passwordForm"].value, 
+                        this.registerForm.controls["emailForm"].value);
     this.loading = true;
-    this.authenticationService.register(this.registerForm.value)
+    this.authenticationService.register(user)
         .pipe(first())
         .subscribe(
             data => {

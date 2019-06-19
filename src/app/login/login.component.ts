@@ -1,9 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../_service/authentication.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DeckService } from '../_service/deck.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../_service/alert.service';
+import { AuthenticationService } from '../_service/authentication.service';
+import { Login } from '../_model/login'
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-login',
@@ -12,9 +21,14 @@ import { AlertService } from '../_service/alert.service';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  matcher = new MyErrorStateMatcher();
+
   loading = false;
   submitted = false;
+
+  loginForm = this.formBuilder.group({
+    usernameForm: ['', [Validators.required]],
+    passwordForm: ['', [Validators.required]]});
 
   constructor(private authenticationService: AuthenticationService, 
               private route: ActivatedRoute, 
@@ -28,14 +42,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', [Validators.required]]
-    });
   }
 
   onSubmit(): void {
-    this.authenticationService.login(this.loginForm.value).subscribe(user => 
+    let login = new Login(this.loginForm.controls["usernameForm"].value, this.loginForm.controls["passwordForm"].value);
+
+    this.authenticationService.login(login).subscribe(user => 
       { 
         user.token === null ? this.router.navigate(['/login']) : this.router.navigate(['/dashboard']);
       });

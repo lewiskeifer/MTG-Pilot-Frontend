@@ -64,11 +64,11 @@
     <div *ngIf="selectedDeck">
       <span *ngIf="selectedDeck.id === 0">
         <span *ngIf="!loading">
-          <button mat-raised-button (click)="refreshDeck()" class="but" style="width: 150px">Recalculate Values</button>
+          <button mat-raised-button (click)="refreshDeck()" class="but" style="width: 125px">Refresh Values</button>
         </span>
         <span *ngIf="loading">
-          <button mat-raised-button class="but">
-            <mat-progress-spinner style="margin:0 auto; width: 150px" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
+          <button mat-raised-button class="but" style="width: 125px">
+            <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
           </button>
         </span>
       </span>
@@ -83,8 +83,8 @@
             <!-- TODO styling, labels, and input sanitation -->
 
             <input [(ngModel)]="selectedCard.version" placeholder="Version"/>
-            <input [(ngModel)]="selectedCard.quantity" placeholder="Quantity" style="width: 88px;"/>
-            <input [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price" style="width: 88px;"/> 
+            <input type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" style="width: 88px;"/>
+            <input type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Purchase Price" style="width: 88px;"/> 
 
             <form [formGroup]="foilForm">
               <label for="foilOptions" style="width: 80px;">Foil</label>
@@ -105,13 +105,13 @@
             </form>
 
             <form [formGroup]="decksForm">
-                <label for="decksOptions" style="width: 80px;">Deck</label>
-                <select formControlName="decksOptions" id="decksOptions">
-                  <option *ngFor="let decksOption of decksOptions; let i = index" [ngValue]="decksOptions[i].id">
-                    {{decksOptions[i].name}}
-                  </option>
-                </select>
-              </form>
+              <label for="decksOptions" style="width: 80px;">Deck</label>
+              <select formControlName="decksOptions" id="decksOptions">
+                <option *ngFor="let decksOption of decksOptions; let i = index" [ngValue]="decksOptions[i].id">
+                  {{decksOptions[i].name}}
+                </option>
+              </select>
+            </form>
 
           </mat-card-subtitle>
 
@@ -128,9 +128,10 @@
 
   <div class="right" style="width: 600px;">
     <ul class="decks">
-      <li *ngFor="let deck of decks" (click)="setDeck(deck.id)">
-        <span  class="badge">{{deck.id}}</span> {{deck.name}}
+      <li *ngFor="let deck of decks; let i = index" (click)="setDeck(deck.id)">
+        <span class="badge">{{i}}</span> {{deck.name}}
       </li>
     </ul>
   </div>
+
 </div>

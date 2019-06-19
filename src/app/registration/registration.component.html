@@ -2,53 +2,52 @@
   <mat-card-title> Register </mat-card-title>
   <mat-card-subtitle>	
 
-        <form [formGroup]="registerForm" class="example-form">
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Username" formControlName="usernameForm" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="registerForm.controls.usernameForm.hasError('required')">
-                    Username is <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput type="password" placeholder="Password" formControlName="passwordForm" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="registerForm.controls.passwordForm.hasError('required')">
-                    Password is <strong>required</strong>
-                </mat-error>
-                <mat-error *ngIf="registerForm.controls.passwordForm.hasError('minLength')">
-                    Password must be at least six characters
-                </mat-error>
-                <mat-error *ngIf="registerForm.controls.passwordForm.hasError('mustMatch')">
-                    Passwords must match
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput type="password" placeholder="Confirm Password" formControlName="passwordConfirmForm" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('required')">
-                    Confirm Password is <strong>required</strong>
-                </mat-error>
-                <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('minLength')">
-                    Confirm Password must be at least six characters
-                </mat-error>
-                <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('mustMatch')">
-                    Passwords must match
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput type="email" placeholder="Email" formControlName="emailForm" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="registerForm.controls.emailForm.hasError('required')">
-                    Email is <strong>required</strong>
-                </mat-error>
-                <mat-error *ngIf="registerForm.controls.emailForm.hasError('email')">
-                    Must be a valid email address    
-                </mat-error>
-            </mat-form-field>
-        </form>
-
-        <div class="form-group">
-            <button [disabled]="loading" class="btn btn-primary">Register</button>
-            <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-            <a routerLink="/login" class="btn btn-link">Cancel</a>
-        </div>
+    <form [formGroup]="registerForm" class="example-form" (ngSubmit)="onSubmit()">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Username" formControlName="usernameForm" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="registerForm.controls.usernameForm.hasError('required')">
+                Username is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput type="password" placeholder="Password" formControlName="passwordForm" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="registerForm.controls.passwordForm.hasError('required')">
+                Password is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls.passwordForm.hasError('minLength')">
+                Password must be at least six characters
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls.passwordForm.hasError('mustMatch')">
+                Passwords must match
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput type="password" placeholder="Confirm Password" formControlName="passwordConfirmForm" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('required')">
+                Confirm Password is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('minLength')">
+                Confirm Password must be at least six characters
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('mustMatch')">
+                Passwords must match
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput type="email" placeholder="Email" formControlName="emailForm" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="registerForm.controls.emailForm.hasError('required')">
+                Email is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls.emailForm.hasError('email')">
+                Must be a valid email address    
+            </mat-error>
+        </mat-form-field>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">Register</button>
+        <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <a routerLink="/login" class="btn btn-link">Cancel</a>
+    </div>
+</form>
 
   </mat-card-subtitle>
 </mat-card>
