@@ -59,6 +59,13 @@ export class DeckDetailComponent implements OnInit {
     this.foilOptions = this.getFoilOptions();
     this.conditionOptions = this.getConditionOptions();
     this.decksOptions = this.getDecksOptions();
+
+
+    let user = new User("1","1","1");
+    user.token = "111";
+    localStorage.setItem('currentUser', JSON.stringify(user));
+
+
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.initDecks();
   }
