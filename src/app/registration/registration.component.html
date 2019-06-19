@@ -5,34 +5,42 @@
         <form [formGroup]="registerForm" class="example-form">
             <mat-form-field class="example-full-width">
                 <input matInput placeholder="Username" formControlName="usernameForm" [errorStateMatcher]="matcher">
-                <mat-hint>Errors appear instantly!</mat-hint>
                 <mat-error *ngIf="registerForm.controls.usernameForm.hasError('required')">
                     Username is <strong>required</strong>
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Password" formControlName="passwordForm" [errorStateMatcher]="matcher">
-                <mat-hint>Errors appear instantly!</mat-hint>
+                <input matInput type="password" placeholder="Password" formControlName="passwordForm" [errorStateMatcher]="matcher">
                 <mat-error *ngIf="registerForm.controls.passwordForm.hasError('required')">
                     Password is <strong>required</strong>
                 </mat-error>
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Confirm Password" formControlName="passwordConfirmForm" [errorStateMatcher]="matcher">
-                <mat-hint>Errors appear instantly!</mat-hint>
-                <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('required')">
-                    Confirm Password is <strong>required</strong>
+                <mat-error *ngIf="registerForm.controls.passwordForm.hasError('minLength')">
+                    Password must be at least six characters
+                </mat-error>
+                <mat-error *ngIf="registerForm.controls.passwordForm.hasError('mustMatch')">
+                    Passwords must match
                 </mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Email" formControlName="emailForm" [errorStateMatcher]="matcher">
-                <mat-hint>Errors appear instantly!</mat-hint>
+                <input matInput type="password" placeholder="Confirm Password" formControlName="passwordConfirmForm" [errorStateMatcher]="matcher">
+                <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('required')">
+                    Confirm Password is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('minLength')">
+                    Confirm Password must be at least six characters
+                </mat-error>
+                <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('mustMatch')">
+                    Passwords must match
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input matInput type="email" placeholder="Email" formControlName="emailForm" [errorStateMatcher]="matcher">
                 <mat-error *ngIf="registerForm.controls.emailForm.hasError('required')">
                     Email is <strong>required</strong>
                 </mat-error>
                 <mat-error *ngIf="registerForm.controls.emailForm.hasError('email')">
-                        Email is <strong>chungus</strong>
-                    </mat-error>
+                    Must be a valid email address    
+                </mat-error>
             </mat-form-field>
         </form>
 

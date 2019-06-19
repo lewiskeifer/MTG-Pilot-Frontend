@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators';
 import { MustMatch } from '../_helper/must-match.validator';
 import { AlertService } from '../_service/alert.service';
 import { AuthenticationService } from '../_service/authentication.service';
-import {ErrorStateMatcher} from '@angular/material/core';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -30,10 +30,10 @@ export class RegistrationComponent implements OnInit {
 
   registerForm = this.formBuilder.group({
     usernameForm: ['', [Validators.required]],
-    passwordForm: ['', [Validators.required]],
-    passwordConfirmForm: ['', [Validators.required]],
+    passwordForm: ['', [Validators.required, Validators.minLength(6)]],
+    passwordConfirmForm: ['', [Validators.required, Validators.minLength(6)]],
     emailForm: ['', [Validators.required, Validators.email]]
-  }, { updateOn: 'change' });
+  }, {validator: MustMatch('passwordForm', 'passwordConfirmForm')});
 
   constructor(private authenticationService: AuthenticationService, 
               private route: ActivatedRoute, 
@@ -51,29 +51,29 @@ export class RegistrationComponent implements OnInit {
 
   }
 
-  // // convenience getter for easy access to form fields
-  // get f() { return this.registerForm; }
+  // convenience getter for easy access to form fields
+  get f() { return this.registerForm; }
 
-  // onSubmit(): void {
+  onSubmit(): void {
 
-  //   this.submitted = true;
+    this.submitted = true;
 
-  //   // stop here if form is invalid
-  //   if (this.registerForm.invalid) {
-  //       return;
-  //   }
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+        return;
+    }
 
-  //   this.loading = true;
-  //   this.authenticationService.register(this.registerForm.value)
-  //       .pipe(first())
-  //       .subscribe(
-  //           data => {
-  //               this.alertService.success('Registration successful', true);
-  //               this.router.navigate(['/login']);
-  //           },
-  //           error => {
-  //               this.alertService.error(error);
-  //               this.loading = false;
-  //           });
-  // }
+    this.loading = true;
+    this.authenticationService.register(this.registerForm.value)
+        .pipe(first())
+        .subscribe(
+            data => {
+                this.alertService.success('Registration successful', true);
+                this.router.navigate(['/login']);
+            },
+            error => {
+                this.alertService.error(error);
+                this.loading = false;
+            });
+  }
 }
