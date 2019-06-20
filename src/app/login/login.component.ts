@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { Login } from '../_model/login';
 import { AlertService } from '../_service/alert.service';
 import { AuthenticationService } from '../_service/authentication.service';
-import { Login } from '../_model/login'
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -47,9 +48,28 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     let login = new Login(this.loginForm.controls["usernameForm"].value, this.loginForm.controls["passwordForm"].value);
 
-    this.authenticationService.login(login).subscribe(user => 
-      { 
-        user.token === null ? this.router.navigate(['/login']) : this.router.navigate(['/dashboard']);
-      });
+    // this.authenticationService.login(login).subscribe(user => 
+    //   { 
+    //     user.token === null ? this.router.navigate(['/login']) : this.router.navigate(['/dashboard']);
+    //   });
+
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    this.authenticationService.login(login)
+        .pipe(first())
+        .subscribe(
+            data => {
+                this.router.navigate(['/dashboard']);
+            },
+            error => {
+                console.log("bung");
+                console.log(error.message);
+                this.alertService.error(error.message);
+                this.loading = false;
+            });
   }
 }

@@ -45,3 +45,13 @@ body, input[type="text"], button {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.alert-success {
+  color: green;
+  background-color: greenyellow;
+}
+
+.alert-danger {
+  color: #D8000C;
+  background-color: #FFBABA;
+}

@@ -57,7 +57,6 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(): void {
 
-    console.log("bung");
     this.submitted = true;
 
     // stop here if form is invalid
@@ -77,7 +76,7 @@ export class RegistrationComponent implements OnInit {
                 this.router.navigate(['/login']);
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error(error.message);
                 this.loading = false;
             });
   }

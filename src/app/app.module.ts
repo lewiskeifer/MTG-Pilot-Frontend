@@ -19,7 +19,8 @@ import { LineChartComponent } from './google-charts/line-chart.component';
 import { LoginComponent } from './login/login.component';
 import { MessagesComponent } from './messages/messages.component';
 import { RegistrationComponent } from './registration/registration.component';
-import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material/core';
+import { AlertComponent } from './alert/alert.component';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
  
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material
     LineChartComponent,
     LoginComponent,
     RegistrationComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
