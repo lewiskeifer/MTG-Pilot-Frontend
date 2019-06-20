@@ -17,9 +17,6 @@
             <mat-error *ngIf="registerForm.controls.passwordForm.hasError('minLength')">
                 Password must be at least six characters
             </mat-error>
-            <mat-error *ngIf="registerForm.controls.passwordForm.hasError('mustMatch')">
-                Passwords must match
-            </mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <input matInput type="password" placeholder="Confirm Password" formControlName="passwordConfirmForm" [errorStateMatcher]="matcher">
