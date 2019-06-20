@@ -61,7 +61,7 @@ export class RegistrationComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.registerForm.invalid) {
-        return;
+      return;
     }
 
     let user = new User(this.registerForm.controls["usernameForm"].value, 
@@ -72,12 +72,16 @@ export class RegistrationComponent implements OnInit {
         .pipe(first())
         .subscribe(
             data => {
-                this.alertService.success('Registration successful', true);
+              this.alertService.success('Registration successful', true);
+              setTimeout(() => 
+              {
                 this.router.navigate(['/login']);
+              },
+              1500);
             },
             error => {
-                this.alertService.error(error.message);
-                this.loading = false;
+              this.alertService.error(error.error.message);
+              this.loading = false;
             });
   }
 }
