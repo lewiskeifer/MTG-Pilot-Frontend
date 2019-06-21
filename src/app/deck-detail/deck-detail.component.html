@@ -31,9 +31,17 @@
           <td mat-footer-cell *matFooterCellDef> {{getTotalQuantity()}} </td>
         </ng-container>
 
+        <!-- Purchase Price Column -->
+        <ng-container matColumnDef="totalPurchasePrice">
+          <th mat-header-cell *matHeaderCellDef> Total Purchase Price </th>
+          <td mat-cell *matCellDef="let card"> {{card.purchasePrice | currency}} </td>
+          <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
+        </ng-container>
+
+
         <!-- Value Column -->
-        <ng-container matColumnDef="value">
-          <th mat-header-cell *matHeaderCellDef> Value </th>
+        <ng-container matColumnDef="totalValue">
+          <th mat-header-cell *matHeaderCellDef> Total Value </th>
           <td mat-cell *matCellDef="let card"> {{card.marketPrice * card.quantity | currency}} </td>
           <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
         </ng-container>
@@ -49,6 +57,8 @@
     <mat-card class="deck">
       <div *ngIf="selectedDeck">
         <mat-card-title> <input [(ngModel)]="selectedDeck.name" placeholder="Deck Name"/> </mat-card-title>
+        <!-- TODO form -->
+        <mat-card-subtitle> <input [(ngModel)]="selectedDeck.format" placeholder="Deck Format"/> </mat-card-subtitle>
         <mat-card-actions>
           <!-- Prevent actions on deck overview -->
           <span *ngIf="selectedDeck.id !== 0">

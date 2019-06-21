@@ -59,7 +59,6 @@ export class RegistrationComponent implements OnInit {
 
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
@@ -69,19 +68,19 @@ export class RegistrationComponent implements OnInit {
                         this.registerForm.controls["emailForm"].value);
     this.loading = true;
     this.authenticationService.register(user)
-        .pipe(first())
-        .subscribe(
-            data => {
-              this.alertService.success('Registration successful', true);
-              setTimeout(() => 
-              {
-                this.router.navigate(['/login']);
-              },
-              1500);
-            },
-            error => {
-              this.alertService.error(error.error.message);
-              this.loading = false;
-            });
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.alertService.success('Registration successful', true);
+          setTimeout(() => 
+          {
+            this.router.navigate(['/login']);
+          },
+          1500);
+        },
+        error => {
+          this.alertService.error(error.error.message);
+          this.loading = false;
+        });
   }
 }

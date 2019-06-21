@@ -1,6 +1,7 @@
 .card {
+  margin-top: 100px; 
   width: 500px;
-  height: 650px;
+  height: 400px;
   @media only screen and (max-width: 600px) { 
     width: 350px;
   }
@@ -13,5 +14,5 @@
 }
 
 .example-full-width {
-  width: 100%;
+  width: 75%;
 }
