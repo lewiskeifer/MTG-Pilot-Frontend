@@ -38,7 +38,6 @@
           <td mat-footer-cell *matFooterCellDef> {{getTotalPurchasePrice() | currency}} </td>
         </ng-container>
 
-
         <!-- Value Column -->
         <ng-container matColumnDef="totalValue">
           <th mat-header-cell *matHeaderCellDef> Total Value </th>
@@ -62,25 +61,27 @@
         <span *ngIf="selectedDeck.id === 0">
           <mat-card-title> Deck Overview </mat-card-title>
           <mat-card-content> 
-            The deck overview displays aggregate totals for all your decks. <br><br>
-            Create a new deck to get started. <br><br>
-            Click the refresh values button below to refresh market prices for your decks.
+            <br> The deck overview displays aggregate totals for all your decks. <br>
+            Create a new deck to get started.
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px">Create New Deck</button>
           </mat-card-actions>
+          <mat-card-content> 
+            Create a new deck to get started.
+          </mat-card-content>
         </span>
 
         <!-- New Deck -->
         <span *ngIf="selectedDeck.id === -1">
-            <mat-card-title> <input [(ngModel)]="selectedDeck.name" placeholder="Deck Name"/> </mat-card-title>
-            <!-- TODO form -->
-            <mat-card-subtitle> <input [(ngModel)]="selectedDeck.format" placeholder="Deck Format"/> </mat-card-subtitle>
-            <mat-card-actions>
-              <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px">Save New Deck</button>
-              <button mat-raised-button (click)="setDeck(0)" class="padded" style="margin: 1px 5px">Cancel</button>
-            </mat-card-actions>
-          </span>
+          <mat-card-title> <input [(ngModel)]="selectedDeck.name" placeholder="Deck Name"/> </mat-card-title>
+          <!-- TODO form -->
+          <mat-card-subtitle> <input [(ngModel)]="selectedDeck.format" placeholder="Deck Format"/> </mat-card-subtitle>
+          <mat-card-actions>
+            <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px">Save New Deck</button>
+            <button mat-raised-button (click)="setDeck(0)" class="padded" style="margin: 1px 5px">Cancel</button>
+          </mat-card-actions>
+        </span>
 
         <!-- Selected Deck -->
         <span *ngIf="selectedDeck.id > 0">
@@ -97,18 +98,27 @@
     </mat-card>
 
     <!-- Disable refresh on decks other than overview until graph can be made smarter -->
-    <div *ngIf="selectedDeck">
+    <span *ngIf="selectedDeck">
       <span *ngIf="selectedDeck.id === 0">
-        <span *ngIf="!loading">
-          <button mat-raised-button (click)="refreshDeck()" class="refresh-button">Refresh Values</button>
-        </span>
-        <span *ngIf="loading">
-          <button mat-raised-button class="refresh-button">
-            <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
-          </button>
-        </span>
+        <mat-card class="deck" style="margin-top: 20px;">
+          <mat-card-title> Recalculate Values </mat-card-title>
+
+          <span *ngIf="!loading">
+            <button mat-raised-button (click)="refreshDeck()" class="refresh-button">Refresh Values</button>
+          </span>
+          <span *ngIf="loading">
+            <button mat-raised-button class="refresh-button">
+              <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
+            </button>
+          </span>
+
+          <mat-card-content> 
+            <br> The refresh values button updates the current value for all your cards and creates a new data point on the graphs in your dashboard.
+          </mat-card-content>
+
+        </mat-card>
       </span>
-    </div>
+    </span>
 
     <!-- Selected Card -->
     <span *ngIf="selectedDeck.id > 0">
