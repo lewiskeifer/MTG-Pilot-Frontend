@@ -32,13 +32,24 @@ export class DashboardComponent implements OnInit {
     this.config2 = new LineChartConfig('Purchase Price / Value', '', 1000, 800);
     this.elementId2 = 'linechart_material2';
 
+
+    //TODO
+    let user = new User("1","1","1");
+    user.token = "1";
+    user.id = 1;
+    localStorage.setItem('currentUser', JSON.stringify(user));
+
+
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.getDecks();
   }
  
   getDecks(): void {
     this.deckService.getDecks(this.currentUser.id)
-      .subscribe(decks => { this.decks = decks; this.setChart() });
+      .subscribe(decks => { 
+        this.decks = decks;
+        if (this.decks) { this.setChart(); } 
+      });
   }
 
   // Format data sent to google chart service

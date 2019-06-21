@@ -54,6 +54,7 @@ export class DeckDetailComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
     this.emptyDeck = new Deck();
+    this.emptyDeck.id = -1;
     this.emptyCard = new Card();
     this.loading = false;
     this.foilOptions = this.getFoilOptions();
@@ -207,6 +208,17 @@ export class DeckDetailComponent implements OnInit {
     if (this.selectedDeck && this.selectedDeck.cards) {
       this.selectedDeck.cards.forEach(element => {
         total += element.quantity;
+      });
+    }
+
+    return total;
+  }
+
+  getTotalPurchasePrice() {
+    var total = 0;
+    if (this.selectedDeck && this.selectedDeck.cards) {
+      this.selectedDeck.cards.forEach(element => {
+        total += (element.purchasePrice) | 0;
       });
     }
 
