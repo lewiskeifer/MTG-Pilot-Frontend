@@ -13,9 +13,7 @@ import { MessageService } from './message.service';
 })
 export class DeckService {
 
-  //TODO
-  // private decksUrl = 'http://localhost:8080/manager/users';
-  private decksUrl = 'http://localhost:8080/manager';
+  private decksUrl = 'http://localhost:8080/manager/users';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,8 +25,8 @@ export class DeckService {
   getDeck(userId: number, deckId: number): Observable<Deck> {
     
     //TODO
-    // const url = `${this.decksUrl}/${userId}/decks/${deckId}`;
-    const url = `${this.decksUrl}/decks/${deckId}`;
+    const url = `${this.decksUrl}/${userId}/decks/${deckId}`;
+    // const url = `${this.decksUrl}/decks/${deckId}`;
     
     return this.httpClient.get<Deck>(url).pipe(
       tap(_ => this.log(`fetched deck id=${deckId}`)),
@@ -39,7 +37,8 @@ export class DeckService {
   getDecks(userId: number): Observable<Deck[]> {
 
     //TODO
-    const url = `${this.decksUrl}/decks`;
+    // const url = `${this.decksUrl}/decks`;
+    const url = `${this.decksUrl}/${userId}/decks`;
 
     return this.httpClient.get<Deck[]>(url).pipe(
       tap(_ => this.log('fetched decks')),
