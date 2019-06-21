@@ -54,7 +54,7 @@
   </div>
 
   <div class="center">
-    <mat-card class="deck">
+    <mat-card class="deck padded">
       <div *ngIf="selectedDeck">
 
         <!-- Deck Overview -->
@@ -97,10 +97,10 @@
       </div>
     </mat-card>
 
-    <!-- Disable refresh on decks other than overview until graph can be made smarter -->
+    <!-- Recalculate Card -->
     <span *ngIf="selectedDeck">
       <span *ngIf="selectedDeck.id === 0">
-        <mat-card class="deck" style="margin-top: 20px;">
+        <mat-card class="deck padded" style="margin-top: 20px;">
           <mat-card-title> Recalculate Values </mat-card-title>
 
           <span *ngIf="!loading">

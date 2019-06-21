@@ -1,28 +1,30 @@
-<!-- TODO -->
-<div *ngIf="!decks">
-  <div class="divTable">
-    <div class="divTableBody">
-      <div class="divTableRow layout">
-        <div class="divTableCell left padded" style="width: 800px; height: 1000px;">
-          <line-chart [data]="data" [config]="config" [elementId]="elementId"></line-chart>
-        </div>
-        <div class="divTableCell right padded" style="width: 800px; height: 1000px;">
-          <line-chart [data]="data2" [config]="config2" [elementId]="elementId2"></line-chart>
+<div style="border: 5px solid white" class ="block padded">
+  <!-- TODO -->
+  <div *ngIf="decks">
+    <div class="divTable">
+      <div class="divTableBody">
+        <div class="divTableRow layout">
+          <div class="divTableCell left padded" style="width: 800px; height: 1000px;">
+            <line-chart [data]="data" [config]="config" [elementId]="elementId"></line-chart>
+          </div>
+          <div class="divTableCell right padded" style="width: 800px; height: 1000px;">
+            <line-chart [data]="data2" [config]="config2" [elementId]="elementId2"></line-chart>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!-- TODO -->
-<div *ngIf="decks">
-  <div class="center">
-    <mat-card class="deck">
-      <mat-card-title> You Have No Decks Yet! </mat-card-title>
-      <mat-card-content> 
-        Click the "Decks" button above to create a new deck.
-      </mat-card-content>
-      <mat-card-actions>
-      </mat-card-actions>
-    </mat-card>
+  <!-- TODO -->
+  <div *ngIf="!decks">
+    <div class="center padded">
+      <mat-card class="center deck">
+        <mat-card-title> You Have No Decks Yet! </mat-card-title>
+        <mat-card-content> 
+          Click the "Decks" button above to create a new deck.
+        </mat-card-content>
+        <mat-card-actions>
+        </mat-card-actions>
+      </mat-card>
+    </div>
   </div>
 </div>

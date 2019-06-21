@@ -1,11 +1,13 @@
 <div *ngIf="currentUser">
-  <div class="center">
-    <h1 class="center">{{title}}</h1>
-    <nav>
-      <a routerLink="/dashboard" class="padded">Dashboard</a>
-      <a routerLink="/decks" class="padded">Decks</a>
-      <a class="padded" (click)="logout()">Logout</a>
-    </nav>
+  <div class="center padded" style="margin-top: 5px">
+    <div style="border: 5px solid white" class ="block">
+      <h1 class="center padded">{{title}}</h1>
+      <nav>
+        <a routerLink="/dashboard" class="padded">Dashboard</a>
+        <a routerLink="/decks" class="padded">Decks</a>
+        <a class="padded" (click)="logout()">Logout</a>
+      </nav>
+    </div>
   </div>
 </div>
 
