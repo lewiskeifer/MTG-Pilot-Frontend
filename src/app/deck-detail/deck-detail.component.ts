@@ -1,10 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { Card } from '../_model/card';
 import { Deck } from '../_model/deck';
 import { User } from '../_model/user';
 import { DeckService } from '../_service/deck.service';
+
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-deck-detail',
@@ -16,7 +26,7 @@ export class DeckDetailComponent implements OnInit {
   currentUser: User;
 
   dataSource: MatTableDataSource<Card>;
-  displayedColumns: string[] = ['card', 'condition', 'version', 'quantity', 'value'];
+  displayedColumns: string[] = ['card', 'condition', 'version', 'quantity', 'totalPurchasePrice', 'totalValue'];
 
   decks: Deck[];
 
@@ -37,6 +47,26 @@ export class DeckDetailComponent implements OnInit {
   decksForm: FormGroup;
   decksOptions = [];
 
+  formatsForm: FormGroup;
+  formatsOptions = [];
+
+  matcher = new MyErrorStateMatcher();
+
+  deckForm = this.formBuilder.group({
+    name: ['', [Validators.required]],
+    format: ['', [Validators.required]]
+  });
+
+  cardForm = this.formBuilder.group({
+    name: ['', [Validators.required]],
+    version: ['', [Validators.required]],
+    quantity: ['', [Validators.required]],
+    purchasePrice: ['', [Validators.required]],
+    foilF: [''],
+    conditionF: [''],
+    deckF: ['']
+  });
+
   constructor(private deckService: DeckService, private formBuilder: FormBuilder) { 
     this.foilForm = this.formBuilder.group({
       foilOptions: ['']
@@ -49,16 +79,24 @@ export class DeckDetailComponent implements OnInit {
     this.decksForm = this.formBuilder.group({
       decksOptions: ['']
     });
+
+    this.formatsForm = this.formBuilder.group({
+      formatsOptions: ['']
+    });
   }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
     this.emptyDeck = new Deck();
+    this.emptyDeck.id = -1;
     this.emptyCard = new Card();
     this.loading = false;
+
     this.foilOptions = this.getFoilOptions();
     this.conditionOptions = this.getConditionOptions();
     this.decksOptions = this.getDecksOptions();
+    this.formatsOptions = this.getFormatsOptions();
+
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.initDecks();
   }
@@ -86,6 +124,28 @@ export class DeckDetailComponent implements OnInit {
       if (deck.id === id) {
         
         this.selectedDeck = this.decks[count]; 
+        var format = 0;
+        switch (this.selectedDeck.format) {
+          case "Standard":
+            break;
+          case "Modern":
+            format = 1;
+            break;
+          case "Legacy":
+            format = 2;
+            break;
+          case "Vintage":
+            format = 3;
+            break;
+          case "Commander":
+            format = 4;
+            break;
+          case "Casual":
+            format = 5;
+            break;
+        }
+        this.formatsForm.controls['formatsOptions'].patchValue(this.formatsOptions[format].id, {onlySelf: true});
+
         this.setDeckHelper();
 
         return;
@@ -188,6 +248,7 @@ export class DeckDetailComponent implements OnInit {
   }
 
   saveDeck(): void {
+    this.selectedDeck.format = this.convertFormatForm();
     this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).subscribe(deck => { this.getDecks(); });
   }
 
@@ -207,6 +268,17 @@ export class DeckDetailComponent implements OnInit {
     if (this.selectedDeck && this.selectedDeck.cards) {
       this.selectedDeck.cards.forEach(element => {
         total += element.quantity;
+      });
+    }
+
+    return total;
+  }
+
+  getTotalPurchasePrice() {
+    var total = 0;
+    if (this.selectedDeck && this.selectedDeck.cards) {
+      this.selectedDeck.cards.forEach(element => {
+        total += (element.purchasePrice) | 0;
       });
     }
 
@@ -254,6 +326,18 @@ export class DeckDetailComponent implements OnInit {
     return data.slice(1);
   }
 
+  getFormatsOptions() {
+
+    return [
+      { id: '1', name: 'Standard' },
+      { id: '2', name: 'Modern' },
+      { id: '3', name: 'Legacy' },
+      { id: '4', name: 'Vintage' },
+      { id: '5', name: 'Commander' },
+      { id: '6', name: 'Casual' }
+    ];
+  }
+
   convertFoilForm(): boolean {
 
     if (this.foilForm.controls["foilOptions"].value === "2") {
@@ -276,11 +360,31 @@ export class DeckDetailComponent implements OnInit {
       case "5":
         return "Damaged";
     }
+
+
   }
 
   convertDeckForm(): number {
 
     return this.decks[this.decksForm.controls["decksOptions"].value].id;
+  }
+
+  convertFormatForm(): string {
+
+    switch (this.formatsForm.controls["formatsOptions"].value) {
+      case "1":
+        return "Standard";
+      case "2":
+        return "Modern";
+      case "3":
+        return "Legacy";
+      case "4":
+        return "Vintage";
+      case "5":
+        return "Commander";
+      case "6":
+        return "Casual";
+    }
   }
 
 }

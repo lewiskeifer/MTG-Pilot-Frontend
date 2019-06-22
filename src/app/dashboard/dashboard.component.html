@@ -1,14 +1,32 @@
-<div *ngIf="decks">
-  <div class="divTable">
-    <div class="divTableBody">
-      <div class="divTableRow layout">
-        <div class="divTableCell left padded" style="width: 800px; height: 1000px;">
-          <line-chart [data]="data" [config]="config" [elementId]="elementId"></line-chart>
-        </div>
-        <div class="divTableCell right padded" style="width: 800px; height: 1000px;">
-          <line-chart [data]="data2" [config]="config2" [elementId]="elementId2"></line-chart>
+<div style="border: 5px solid white" class ="block padded">
+
+  <div *ngIf="decks">
+    <div *ngIf="!showWelcomePage">
+      <div class="divTable">
+        <div class="divTableBody">
+          <div class="divTableRow layout">
+            <div class="divTableCell left padded" style="width: 800px; height: 1000px;">
+              <line-chart [data]="data" [config]="config" [elementId]="elementId"></line-chart>
+            </div>
+            <div class="divTableCell right padded" style="width: 800px; height: 1000px;">
+              <line-chart [data]="data2" [config]="config2" [elementId]="elementId2"></line-chart>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div *ngIf="showWelcomePage">
+    <div class="center padded">
+      <mat-card class="center deck">
+        <mat-card-title> You Have No Cards Yet! </mat-card-title>
+        <mat-card-content> 
+          <br> Click the "Decks" button above and then click the "Create New Deck" button. <br> <br>  
+          You will need to add at least one card to a deck and hit the "Refresh Values" button before viewing your graphs.
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
 </div>

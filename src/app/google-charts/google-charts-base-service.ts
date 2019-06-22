@@ -10,9 +10,8 @@ export class GoogleChartsBaseService {
 
     var func = (datatable, chartFunc, options) => {
 
-      // TODO display info on empty graph
-
       var datatable = new google.visualization.DataTable();
+
       datatable.addColumn('string', 'Date');
 
       for (var _i = 0; _i < data[0].length; ++_i) {

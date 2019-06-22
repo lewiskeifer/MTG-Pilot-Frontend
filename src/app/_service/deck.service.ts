@@ -23,7 +23,11 @@ export class DeckService {
 
   /** GET deck by id */
   getDeck(userId: number, deckId: number): Observable<Deck> {
+    
+    //TODO
     const url = `${this.decksUrl}/${userId}/decks/${deckId}`;
+    // const url = `${this.decksUrl}/decks/${deckId}`;
+    
     return this.httpClient.get<Deck>(url).pipe(
       tap(_ => this.log(`fetched deck id=${deckId}`)),
         catchError(this.handleError<Deck>(`getDeck id=${deckId}`))
@@ -31,7 +35,12 @@ export class DeckService {
   }
 
   getDecks(userId: number): Observable<Deck[]> {
-    return this.httpClient.get<Deck[]>(`${this.decksUrl}/${userId}/decks`).pipe(
+
+    //TODO
+    // const url = `${this.decksUrl}/decks`;
+    const url = `${this.decksUrl}/${userId}/decks`;
+
+    return this.httpClient.get<Deck[]>(url).pipe(
       tap(_ => this.log('fetched decks')),
         catchError(this.handleError<Deck[]>('getDecks', [])));
   }
@@ -100,11 +109,11 @@ export class DeckService {
   }
 
   /**
- * Handle Http operation that failed.
- * Let the app continue.
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
+  * Handle Http operation that failed.
+  * Let the app continue.
+  * @param operation - name of the operation that failed
+  * @param result - optional value to return as the observable result
+  */
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
   

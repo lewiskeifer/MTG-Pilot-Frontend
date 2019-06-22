@@ -54,14 +54,14 @@ tr.mat-footer-row {
 }
 .card {
   width: 500px;
-  height: 600px;
+  height: 650px;
   @media only screen and (max-width: 600px) { 
     width: 350px;
   }
 }
 .deck {
   width: 500px;
-  height: 100px;
+  height: 175px;
   @media only screen and (max-width: 600px) { 
     width: 350px;
   }
@@ -80,13 +80,17 @@ tr.mat-footer-row {
   width: 100%;
 }
 
+.example-full-width {
+  width: 45%;
+}
+
 .form {
   width: 179px !important; 
 }
-.but {
-  width: 70px; 
+.refresh-button {
+  width: 125px; 
   height: 25px;
-  margin: 5px;
+  margin-top: 20px;
 }
   
 .selected {
