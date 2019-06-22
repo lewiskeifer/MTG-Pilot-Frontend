@@ -12,6 +12,7 @@ import { DeckService } from '../_service/deck.service';
 export class DashboardComponent implements OnInit {
 
   currentUser: User;
+  showWelcomePage: boolean;
 
   decks: Deck[];
  
@@ -40,7 +41,11 @@ export class DashboardComponent implements OnInit {
     this.deckService.getDecks(this.currentUser.id)
       .subscribe(decks => { 
         this.decks = decks;
-        if (this.decks) { this.setChart(); } 
+        if (this.decks.length > 1) { 
+          this.showWelcomePage = false;
+          this.setChart(); }
+        else { 
+          this.showWelcomePage = true; } 
       });
   }
 
