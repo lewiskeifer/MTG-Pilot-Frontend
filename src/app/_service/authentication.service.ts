@@ -26,19 +26,13 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(username: string, password: string): Observable<User> {
+    login(login: Login): Observable<User> {
 
-        var login2: Login = new Login(username, password);
         const url = `${this.usersUrl}/login`;
-        return this.http.post<User>(url, login2, this.httpOptions)
+        return this.http.post<User>(url, login, this.httpOptions)
             .pipe(map(user => {
-
-                console.log("wungle");
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
-
-                    console.log(user);
-
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);

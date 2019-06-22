@@ -1,10 +1,12 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule, MatFormFieldModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatTableModule } from '@angular/material';
+import { MatCardModule, MatFormFieldModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule, MatTableModule, MatInputModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { TokenInterceptor } from './_helper/token.interceptor';
+import { InMemoryDataService } from './_service/in-memory-data.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -14,12 +16,11 @@ import { DeckSearchComponent } from './deck-search/deck-search.component';
 import { DecksComponent } from './decks/decks.component';
 import { GoogleLineChartService } from './google-charts/google-line-chart-service';
 import { LineChartComponent } from './google-charts/line-chart.component';
-import { MessagesComponent } from './messages/messages.component';
-import { InMemoryDataService } from './_service/in-memory-data.service';
 import { LoginComponent } from './login/login.component';
+import { MessagesComponent } from './messages/messages.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { TokenInterceptor } from './_service/token-interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AlertComponent } from './alert/alert.component';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
  
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     LineChartComponent,
     LoginComponent,
     RegistrationComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     MatProgressBarModule,
     MatSelectModule,
     HttpClientModule,
+    MatInputModule,
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
@@ -58,11 +61,13 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
   ],
   providers: [
     GoogleLineChartService,
+    // Token Interceptor
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
   ],
   bootstrap: [ AppComponent ]
 })

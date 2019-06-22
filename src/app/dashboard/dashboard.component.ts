@@ -12,6 +12,7 @@ import { DeckService } from '../_service/deck.service';
 export class DashboardComponent implements OnInit {
 
   currentUser: User;
+  showWelcomePage: boolean;
 
   decks: Deck[];
  
@@ -38,7 +39,14 @@ export class DashboardComponent implements OnInit {
  
   getDecks(): void {
     this.deckService.getDecks(this.currentUser.id)
-      .subscribe(decks => { this.decks = decks; this.setChart() });
+      .subscribe(decks => { 
+        this.decks = decks;
+        if (this.decks.length > 1) { 
+          this.showWelcomePage = false;
+          this.setChart(); }
+        else { 
+          this.showWelcomePage = true; } 
+      });
   }
 
   // Format data sent to google chart service
