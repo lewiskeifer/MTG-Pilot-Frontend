@@ -62,7 +62,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "finance-manager:build"
+            "browserTarget": "finance-manager:build",
+            "port": 80
           },
           "configurations": {
             "production": {

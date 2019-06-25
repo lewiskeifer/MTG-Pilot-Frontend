@@ -1,4 +1,4 @@
-import { DeckSnapshot } from './DeckSnapshot'
+import { DeckSnapshot } from './deckSnapshot'
 import { Card } from './card'
 
 export class Deck {
