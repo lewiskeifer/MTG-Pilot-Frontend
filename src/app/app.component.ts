@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   
-  title = 'MTG Finance Manager';
+  title = 'MTG Pilot';
   currentUser: User;
   
   constructor(private router: Router, private authenticationService: AuthenticationService) {
