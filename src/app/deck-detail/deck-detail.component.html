@@ -277,7 +277,9 @@
                   </select>
                 </form>
 
-                <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
+                <span *ngIf="selectedCard.url">
+                  <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black;">
+                </span>
                 <mat-card-actions>
                   <button mat-raised-button (click)="saveCard()" class="padded">Save New Card</button>
                   <button mat-raised-button (click)="setCard(0)" class="padded">Cancel</button>

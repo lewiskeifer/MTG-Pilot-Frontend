@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
     this.deckService.getDecks(this.currentUser.id)
       .subscribe(decks => { 
         this.decks = decks;
-        if (this.decks.length > 1 && this.decks[0].deckSnapshots.length > 1) { 
+        if (this.decks.length > 1 && this.decks[1].deckSnapshots.length > 1) { 
           this.showWelcomePage = false;
           this.setChart(); }
         else { 
