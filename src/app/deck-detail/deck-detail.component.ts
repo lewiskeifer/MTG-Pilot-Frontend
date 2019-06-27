@@ -156,15 +156,11 @@ export class DeckDetailComponent implements OnInit {
 
   setDeckHelper(): void {
 
-    console.log(this.selectedDeck.cards);
-
     if (this.selectedDeck.cards.length != 0) {
-      console.log("crung");
       this.dataSource.data = this.selectedDeck.cards;
       this.setCard(0);
     } 
     else {
-      console.log("bung");
       this.dataSource.data = []; 
       this.resetSelectedCard();
     }
