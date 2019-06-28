@@ -19,6 +19,7 @@ import { LineChartComponent } from './google-charts/line-chart.component';
 import { LoginComponent } from './login/login.component';
 import { MessagesComponent } from './messages/messages.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { HomeComponent } from './home/home.component';
  
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { RegistrationComponent } from './registration/registration.component';
     LoginComponent,
     RegistrationComponent,
     AlertComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,8 @@
+<app-home></app-home>
+
 <mat-card class="center card">
   <mat-card-title> Register </mat-card-title>
   <mat-card-subtitle>	
-
     <form [formGroup]="registerForm" class="example-form" (ngSubmit)="onSubmit()">
       <mat-form-field class="example-full-width" style="margin-top: 20px;">
         <input matInput placeholder="Username" formControlName="usernameForm" [errorStateMatcher]="matcher">
@@ -47,9 +48,8 @@
       </div>
     
     </form>
-
   </mat-card-subtitle>
-    <mat-card-footer>
-      <alert></alert>
-    </mat-card-footer>
+  <mat-card-footer>
+    <alert></alert>
+  </mat-card-footer>
 </mat-card>
