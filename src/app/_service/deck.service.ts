@@ -13,8 +13,7 @@ import { MessageService } from './message.service';
 })
 export class DeckService {
 
-  private decksUrl = 'http://18.217.76.231:8080/manager/users';
-  // private decksUrl = 'http://localhost:8080/manager/users';
+  private decksUrl = 'https://mtgpilot.com:8080/manager/users';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
