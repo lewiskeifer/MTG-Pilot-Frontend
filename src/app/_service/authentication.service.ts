@@ -8,7 +8,8 @@ import { Login } from '../_model/login';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-    private usersUrl = 'http://localhost:8080';
+    private usersUrl = 'http://18.217.76.231:8080';
+    // private usersUrl = 'http://localhost:8080';
 
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
