@@ -10,6 +10,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `npm install -g @angular/cli`
 Run `ng add @angular/material`
+Run `npm install --save angular-in-memory-web-api`
 
 ## Development server
 

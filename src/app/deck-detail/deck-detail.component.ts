@@ -155,6 +155,7 @@ export class DeckDetailComponent implements OnInit {
   }
 
   setDeckHelper(): void {
+
     if (this.selectedDeck.cards.length != 0) {
       this.dataSource.data = this.selectedDeck.cards;
       this.setCard(0);
@@ -220,6 +221,9 @@ export class DeckDetailComponent implements OnInit {
 
   resetSelectedCard(): void {
     this.selectedCard = this.emptyCard;
+    this.foilForm.controls['foilOptions'].patchValue(this.foilOptions[0].id, {onlySelf: true});
+    this.conditionForm.controls['conditionOptions'].patchValue(this.conditionOptions[0].id, {onlySelf: true});
+    this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[0].id, {onlySelf: true});
   }
 
   saveCard(): void {

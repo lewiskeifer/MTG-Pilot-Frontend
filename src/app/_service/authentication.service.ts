@@ -8,7 +8,8 @@ import { Login } from '../_model/login';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-    private usersUrl = 'http://localhost:8080';
+    private usersUrl = 'https://mtgpilot.com:8080';
+    // private usersUrl = 'http://localhost:8080';
 
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
