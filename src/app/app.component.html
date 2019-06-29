@@ -11,4 +11,16 @@
   </div>
 </div>
 
+<div *ngIf="!currentUser">
+  <div class="center padded" style="margin-top: 5px">
+    <div style="border: 5px solid white" class ="block">
+      <h1 class="center padded">{{title}}</h1>
+      <nav>
+        <a routerLink="/home" class="padded">Home</a>
+        <a routerLink="/login" class="padded">Login</a>
+      </nav>
+    </div>
+  </div>
+</div>
+
 <router-outlet></router-outlet>
