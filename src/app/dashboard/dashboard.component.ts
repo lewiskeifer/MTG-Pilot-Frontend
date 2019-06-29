@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
     this.config = new LineChartConfig('Total Value', '', 1000, 800);
     this.elementId = 'linechart_material';
 
-    this.config2 = new LineChartConfig('Purchase Price / Value', '', 1000, 800);
+    this.config2 = new LineChartConfig('Value / Purchase Price', '', 1000, 800);
     this.elementId2 = 'linechart_material2';
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));

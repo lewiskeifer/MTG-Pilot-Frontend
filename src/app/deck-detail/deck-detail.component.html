@@ -64,7 +64,7 @@
             <br> The deck overview displays aggregate totals for all your decks. <br>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px">Create New Deck</button>
+            <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="line-height: 20px;">Create New Deck</button>
           </mat-card-actions>
         </span>
 
@@ -87,8 +87,8 @@
                 </select>
               </form>
             <mat-card-actions>
-              <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px">Save New Deck</button>
-              <button mat-raised-button (click)="setDeck(0)" class="padded" style="margin: 1px 5px">Cancel</button>
+              <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px; line-height: 20px;">Save New Deck</button>
+              <button mat-raised-button (click)="setDeck(0)" class="padded" style="margin: 1px 5px; line-height: 20px;">Cancel</button>
             </mat-card-actions>
           </form>
         </span>
@@ -113,9 +113,9 @@
             </form>
 
             <mat-card-actions>
-              <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px">Update Deck</button>
-              <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px 5px auto 5px">Delete Deck</button>
-              <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px">Create New Deck</button>
+              <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px; line-height: 20px;">Update Deck</button>
+              <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px 5px auto 5px; line-height: 20px;">Delete Deck</button>
+              <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px; line-height: 20px;">Create New Deck</button>
             </mat-card-actions>
           </form>
         </span>
@@ -125,16 +125,16 @@
     <!-- Recalculate Card -->
     <span *ngIf="selectedDeck">
       <span *ngIf="selectedDeck.id === 0">
-        <mat-card class="deck padded" style="margin-top: 20px;">
+        <mat-card class="deck padded">
           <mat-card-title> Recalculate Values </mat-card-title>
           <mat-card-content> 
             <br> The refresh values button updates the current value for all your cards and creates a new data point on the graphs in your dashboard.
           </mat-card-content>
           <span *ngIf="!loading">
-            <button mat-raised-button (click)="refreshDeck()" class="refresh-button">Refresh Values</button>
+            <button mat-raised-button (click)="refreshDeck()" class="refresh-button" style="line-height: 20px;">Refresh Values</button>
           </span>
           <span *ngIf="loading">
-            <button mat-raised-button class="refresh-button">
+            <button mat-raised-button class="refresh-button" style="line-height: 20px;">
               <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
             </button>
           </span>
@@ -210,9 +210,9 @@
           
                 <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
                 <mat-card-actions>
-                  <button mat-raised-button (click)="saveCard()" class="padded">Update Card</button>
-                  <button mat-raised-button (click)="deleteCard()" class="padded">Delete Card</button>
-                  <button mat-raised-button (click)="resetSelectedCard()" class="padded">Create New Card</button>
+                  <button mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Update Card</button>
+                  <button mat-raised-button (click)="deleteCard()" class="padded" style="line-height: 20px;">Delete Card</button>
+                  <button mat-raised-button (click)="resetSelectedCard()" class="padded" style="line-height: 20px;">Create New Card</button>
                 </mat-card-actions>
 
               </form>
@@ -281,8 +281,8 @@
                   <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black;">
                 </span>
                 <mat-card-actions>
-                  <button mat-raised-button (click)="saveCard()" class="padded">Save New Card</button>
-                  <button mat-raised-button (click)="setCard(0)" class="padded">Cancel</button>
+                  <button mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Save New Card</button>
+                  <button mat-raised-button (click)="setCard(0)" class="padded" style="line-height: 20px;">Cancel</button>
                 </mat-card-actions>
               </form>
             </mat-card-subtitle>
