@@ -25,6 +25,9 @@ export class DeckDetailComponent implements OnInit {
 
   currentUser: User;
 
+  searchText: string = "";
+  version: String[];
+
   dataSource: MatTableDataSource<Card>;
   displayedColumns: string[] = ['card', 'condition', 'version', 'quantity', 'totalPurchasePrice', 'totalValue'];
 
@@ -50,6 +53,9 @@ export class DeckDetailComponent implements OnInit {
   formatsForm: FormGroup;
   formatsOptions = [];
 
+  versionsForm: FormGroup;
+  versionsOptions = [];
+
   matcher = new MyErrorStateMatcher();
 
   deckForm = this.formBuilder.group({
@@ -61,10 +67,7 @@ export class DeckDetailComponent implements OnInit {
     name: ['', [Validators.required]],
     version: ['', [Validators.required]],
     quantity: ['', [Validators.required]],
-    purchasePrice: ['', [Validators.required]],
-    foilF: [''],
-    conditionF: [''],
-    deckF: ['']
+    purchasePrice: ['', [Validators.required]]
   });
 
   constructor(private deckService: DeckService, private formBuilder: FormBuilder) { 
@@ -83,6 +86,10 @@ export class DeckDetailComponent implements OnInit {
     this.formatsForm = this.formBuilder.group({
       formatsOptions: ['']
     });
+
+    this.versionsForm = this.formBuilder.group({
+      versionsOptions: ['']
+    });
   }
 
   ngOnInit(): void {
@@ -96,6 +103,7 @@ export class DeckDetailComponent implements OnInit {
     this.conditionOptions = this.getConditionOptions();
     this.decksOptions = this.getDecksOptions();
     this.formatsOptions = this.getFormatsOptions();
+    this.getVersions();
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.initDecks();
@@ -331,7 +339,6 @@ export class DeckDetailComponent implements OnInit {
   }
 
   getFormatsOptions() {
-
     return [
       { id: '1', name: 'Standard' },
       { id: '2', name: 'Modern' },
@@ -340,6 +347,20 @@ export class DeckDetailComponent implements OnInit {
       { id: '5', name: 'Commander' },
       { id: '6', name: 'Casual' }
     ];
+  }
+
+  getVersions() {
+    this.deckService.getVersions().
+      subscribe(versions => { 
+        var data = [];
+        var count = 0;
+        versions.forEach(version => {
+          data.push({id: count++, name: version});
+        });
+        this.versionsOptions = data;
+        this.version = data;
+        console.log(this.version);
+      });
   }
 
   convertFoilForm(): boolean {

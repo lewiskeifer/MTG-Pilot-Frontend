@@ -156,12 +156,16 @@
                     Name is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
+
+
                 <mat-form-field class="example-full-width">
                   <input matInput [(ngModel)]="selectedCard.version" placeholder="Version" formControlName="version" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.version.hasError('required')">
                     Version is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
+
+
                 <mat-form-field class="example-full-width">
                   <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
@@ -201,12 +205,6 @@
                     </option>
                   </select>
                 </form>
-                
-                <!-- <div class="form-group">
-                  <button mat-raised-button [disabled]="loading" class="padded" style="margin-top: 20px;">Register</button>
-                  <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                  <a routerLink="/login" class="padded">Cancel</a>
-                </div> -->
           
                 <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
                 <mat-card-actions>
@@ -231,12 +229,16 @@
                     Name is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
+
+
                 <mat-form-field class="example-full-width">
                   <input matInput [(ngModel)]="selectedCard.version" placeholder="Version" formControlName="version" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.version.hasError('required')">
                     Version is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
+
+
                 <mat-form-field class="example-full-width">
                   <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
@@ -300,4 +302,13 @@
     </ul>
   </div>
 
+</div>
+
+
+
+<div *ngIf="version">
+  <input type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Start searching">
+  <div *ngFor="let v of version | filter:searchText">
+    <p> {{v.name}} </p>
+  </div>
 </div>

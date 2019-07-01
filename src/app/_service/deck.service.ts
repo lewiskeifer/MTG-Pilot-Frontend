@@ -13,8 +13,8 @@ import { MessageService } from './message.service';
 })
 export class DeckService {
 
-  private decksUrl = 'https://mtgpilot.com:8080/manager/users';
-  // private decksUrl = 'http://localhost:8080/manager/users';
+  // private decksUrl = 'https://mtgpilot.com:8080/manager/users';
+  private decksUrl = 'http://localhost:8080/manager/users';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -22,37 +22,30 @@ export class DeckService {
 
   constructor(private httpClient: HttpClient, private messageService: MessageService) { }
 
+  /** GET versions */
+  getVersions(): Observable<String[]> {
+    const url = `${this.decksUrl}/versions`;
+    return this.httpClient.get<String[]>(url).pipe(
+      tap(_ => this.log(`fetched versions`)),
+        catchError(this.handleError<String[]>(`getVersions`))
+    );
+  }
+
   /** GET deck by id */
   getDeck(userId: number, deckId: number): Observable<Deck> {
-    
     const url = `${this.decksUrl}/${userId}/decks/${deckId}`;
-    
     return this.httpClient.get<Deck>(url).pipe(
       tap(_ => this.log(`fetched deck id=${deckId}`)),
         catchError(this.handleError<Deck>(`getDeck id=${deckId}`))
     );
   }
 
+    /** GET decks */
   getDecks(userId: number): Observable<Deck[]> {
-
     const url = `${this.decksUrl}/${userId}/decks`;
-
     return this.httpClient.get<Deck[]>(url).pipe(
       tap(_ => this.log('fetched decks')),
         catchError(this.handleError<Deck[]>('getDecks', [])));
-  }
-
-  // TODO update
-  /* GET decks whose name contains search term */
-  searchDecks(term: string): Observable<Deck[]> {
-    if (!term.trim()) {
-      // if not search term, return empty deck array.
-      return of([]);
-    }
-    return this.httpClient.get<Deck[]>(`${this.decksUrl}/?name=${term}`).pipe(
-      tap(_ => this.log(`found decks matching "${term}"`)),
-        catchError(this.handleError<Deck[]>('searchDecks', []))
-    );
   }
 
   /** PUT: update the deck on the server */

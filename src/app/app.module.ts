@@ -11,8 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeckDetailComponent } from './deck-detail/deck-detail.component';
-import { DeckListComponent } from './deck-list/deck-list.component';
-import { DeckSearchComponent } from './deck-search/deck-search.component';
 import { DecksComponent } from './decks/decks.component';
 import { GoogleLineChartService } from './google-charts/google-line-chart-service';
 import { LineChartComponent } from './google-charts/line-chart.component';
@@ -20,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { MessagesComponent } from './messages/messages.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { HomeComponent } from './home/home.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
  
 @NgModule({
   declarations: [
@@ -28,13 +27,11 @@ import { HomeComponent } from './home/home.component';
     DeckDetailComponent,
     MessagesComponent,
     DashboardComponent,
-    DeckSearchComponent,
-    DeckListComponent,
     LineChartComponent,
     LoginComponent,
     RegistrationComponent,
     AlertComponent,
-    HomeComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +49,7 @@ import { HomeComponent } from './home/home.component';
     MatInputModule,
     MatButtonModule,
     HttpClientModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     GoogleLineChartService,
