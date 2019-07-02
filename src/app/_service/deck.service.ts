@@ -4,8 +4,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Card } from '../_model/card';
 import { Deck } from '../_model/deck';
-import { Login } from '../_model/login';
-import { User } from '../_model/user';
 import { MessageService } from './message.service';
 
 @Injectable({
@@ -13,8 +11,8 @@ import { MessageService } from './message.service';
 })
 export class DeckService {
 
-  // private decksUrl = 'https://mtgpilot.com:8080/manager/users';
-  private decksUrl = 'http://localhost:8080/manager/users';
+  private decksUrl = 'https://mtgpilot.com:8080/manager/users';
+  // private decksUrl = 'http://localhost:8080/manager/users';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -22,12 +20,30 @@ export class DeckService {
 
   constructor(private httpClient: HttpClient, private messageService: MessageService) { }
 
-  /** GET versions */
+  /** GET all versions */
   getVersions(): Observable<String[]> {
-    const url = `${this.decksUrl}/versions`;
+    const url = `${this.decksUrl}/sets`;
     return this.httpClient.get<String[]>(url).pipe(
       tap(_ => this.log(`fetched versions`)),
         catchError(this.handleError<String[]>(`getVersions`))
+    );
+  }
+
+  /** GET versions by card name */
+  getVersionsByCardName(cardName: string): Observable<String[]> {
+    const url = `${this.decksUrl}/sets/${cardName}`;
+    return this.httpClient.get<String[]>(url).pipe(
+      tap(_ => this.log(`fetched versions`)),
+        catchError(this.handleError<String[]>(`getVersions`))
+    );
+  }
+
+  /** GET version by groupId */
+  getVersion(groupId: number): Observable<String> {
+    const url = `${this.decksUrl}/set/${groupId}`;
+    return this.httpClient.get<String>(url).pipe(
+      tap(_ => this.log(`fetched version`)),
+        catchError(this.handleError<String>(`getVersion`))
     );
   }
 

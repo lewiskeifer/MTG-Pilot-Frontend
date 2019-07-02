@@ -26,7 +26,7 @@ export class DeckDetailComponent implements OnInit {
   currentUser: User;
 
   searchText: string = "";
-  version: String[];
+  versions: any[];
 
   dataSource: MatTableDataSource<Card>;
   displayedColumns: string[] = ['card', 'condition', 'version', 'quantity', 'totalPurchasePrice', 'totalValue'];
@@ -107,6 +107,12 @@ export class DeckDetailComponent implements OnInit {
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.initDecks();
+
+    // TODO
+    // this.cardForm.valueChanges.subscribe(change => {
+    //   console.log("change");
+    //   this.getVersionsForCard(change);
+    // });
   }
 
   initDecks(): void {
@@ -183,6 +189,8 @@ export class DeckDetailComponent implements OnInit {
 
     this.selectedCard = this.selectedDeck.cards[index];
 
+    this.getVersionsForCard(this.selectedCard.name);
+
     var isFoil = 0;
     switch (this.selectedCard.isFoil) {
       case false:
@@ -232,12 +240,15 @@ export class DeckDetailComponent implements OnInit {
     this.foilForm.controls['foilOptions'].patchValue(this.foilOptions[0].id, {onlySelf: true});
     this.conditionForm.controls['conditionOptions'].patchValue(this.conditionOptions[0].id, {onlySelf: true});
     this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[0].id, {onlySelf: true});
+
+    this.getVersions();
   }
 
   saveCard(): void {
 
     this.selectedCard.isFoil = this.convertFoilForm();
     this.selectedCard.cardCondition = this.convertConditionForm();
+    this.selectedCard.version = this.convertVersionForm();
     var newDeckId = this.convertDeckForm();
 
     this.deckService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
@@ -354,12 +365,38 @@ export class DeckDetailComponent implements OnInit {
       subscribe(versions => { 
         var data = [];
         var count = 0;
+        // TODO nullcheck
         versions.forEach(version => {
           data.push({id: count++, name: version});
         });
         this.versionsOptions = data;
-        this.version = data;
-        console.log(this.version);
+        this.versions = data;
+        this.versionsForm.controls['versionsOptions'].patchValue(this.versionsOptions[0].id, {onlySelf: true});
+      });
+  }
+
+  getVersionsForCard(cardName: string) {
+    this.deckService.getVersionsByCardName(cardName).
+      subscribe(versions => { 
+        var data = [];
+        var count = 0;
+        // TODO nullcheck
+        versions.forEach(version => {
+          data.push({id: count++, name: version});
+        });
+        this.versionsOptions = data;
+        this.versions = data;
+
+        var count2 = 0;
+        var versionIndex = 0;
+
+        this.versions.forEach(v => {
+          if (v.name === this.selectedCard.version) {
+            versionIndex = count2;
+          }
+          count2++;
+        });
+        this.versionsForm.controls['versionsOptions'].patchValue(this.versionsOptions[versionIndex].id, {onlySelf: true});
       });
   }
 
@@ -385,13 +422,16 @@ export class DeckDetailComponent implements OnInit {
       case "5":
         return "Damaged";
     }
-
-
   }
 
   convertDeckForm(): number {
 
     return this.decks[this.decksForm.controls["decksOptions"].value].id;
+  }
+
+  convertVersionForm(): string {
+
+    return this.versionsOptions[this.versionsForm.controls["versionsOptions"].value].name;
   }
 
   convertFormatForm(): string {

@@ -146,6 +146,7 @@
     <span *ngIf="selectedDeck">
       <span *ngIf="selectedDeck.id > 0">
         <span *ngIf="selectedCard.id > 0">
+            <span *ngIf="versionsOptions">
           
           <mat-card class="center card">
             <mat-card-subtitle>	
@@ -156,32 +157,6 @@
                     Name is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
-
-
-                <mat-form-field class="example-full-width">
-                  <input matInput [(ngModel)]="selectedCard.version" placeholder="Version" formControlName="version" [errorStateMatcher]="matcher">
-                  <mat-error *ngIf="cardForm.controls.version.hasError('required')">
-                    Version is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
-
-                <form [formGroup]="versionsForm">
-                  <label for="versionsOptions" style="width: 80px;">Deck</label>
-                  <select formControlName="versionsOptions" id="versionsOptions">
-                    <option *ngFor="let versionsOption of versionsOptions; let i = index" [ngValue]="versionsOptions[i].id">
-                      {{versionsOptions[i].name}}
-                    </option>
-                  </select>
-                </form>
-
-
-                <div *ngIf="version">
-                  <input type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Start searching">
-                  <div *ngFor="let v of version | filter:searchText">
-                    <p> {{v.name}} </p>
-                  </div>
-                </div>
-
 
                 <mat-form-field class="example-full-width">
                   <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" [errorStateMatcher]="matcher">
@@ -195,6 +170,15 @@
                     Purchase Price is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
+
+                <form [formGroup]="versionsForm">
+                  <label for="versionsOptions" style="width: 80px;">Version</label>
+                  <select formControlName="versionsOptions" id="versionsOptions">
+                    <option *ngFor="let versionsOption of versionsOptions; let i = index" [ngValue]="versionsOptions[i].id">
+                      {{versionsOptions[i].name}}
+                    </option>
+                  </select>
+                </form>
 
                 <form [formGroup]="foilForm">
                   <label for="foilOptions" style="width: 80px;">Foil</label>
@@ -234,6 +218,7 @@
             </mat-card-subtitle>
           </mat-card>
         </span>
+        </span>
 
         <!-- New Card -->
         <span *ngIf="!selectedCard.id">
@@ -246,16 +231,6 @@
                     Name is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
-
-
-                <mat-form-field class="example-full-width">
-                  <input matInput [(ngModel)]="selectedCard.version" placeholder="Version" formControlName="version" [errorStateMatcher]="matcher">
-                  <mat-error *ngIf="cardForm.controls.version.hasError('required')">
-                    Version is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
-
-
                 <mat-form-field class="example-full-width">
                   <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
@@ -268,6 +243,15 @@
                     Purchase Price is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
+
+                <form [formGroup]="versionsForm">
+                  <label for="versionsOptions" style="width: 80px;">Version</label>
+                  <select formControlName="versionsOptions" id="versionsOptions">
+                    <option *ngFor="let versionsOption of versionsOptions; let i = index" [ngValue]="versionsOptions[i].id">
+                      {{versionsOptions[i].name}}
+                    </option>
+                  </select>
+                </form>
 
                 <form [formGroup]="foilForm">
                   <label for="foilOptions" style="width: 80px;">Foil</label>
@@ -323,9 +307,9 @@
 
 
 
-<div *ngIf="version">
+<!-- <div *ngIf="version">
   <input type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Start searching">
   <div *ngFor="let v of version | filter:searchText">
     <p> {{v.name}} </p>
   </div>
-</div>
+</div> -->
