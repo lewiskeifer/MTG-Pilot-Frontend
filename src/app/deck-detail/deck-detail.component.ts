@@ -6,6 +6,8 @@ import { Card } from '../_model/card';
 import { Deck } from '../_model/deck';
 import { User } from '../_model/user';
 import { DeckService } from '../_service/deck.service';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -109,10 +111,10 @@ export class DeckDetailComponent implements OnInit {
     this.initDecks();
 
     // TODO
-    // this.cardForm.valueChanges.subscribe(change => {
-    //   console.log("change");
-    //   this.getVersionsForCard(change);
-    // });
+    this.cardForm.valueChanges.pipe(debounceTime(500)).subscribe(change => {
+      console.log("change");
+      this.getVersionsForCard(change);
+    });
   }
 
   initDecks(): void {
