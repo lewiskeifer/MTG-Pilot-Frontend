@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { debounceTime } from 'rxjs/operators';
 import { Card } from '../_model/card';
 import { Deck } from '../_model/deck';
 import { User } from '../_model/user';
 import { DeckService } from '../_service/deck.service';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -31,7 +30,8 @@ export class DeckDetailComponent implements OnInit {
   versions: any[];
 
   dataSource: MatTableDataSource<Card>;
-  displayedColumns: string[] = ['card', 'condition', 'version', 'quantity', 'totalPurchasePrice', 'totalValue'];
+  displayedColumns: string[] = ['card', 'condition', 'version', 
+    'quantity', 'totalPurchasePrice', 'totalValue'];
 
   decks: Deck[];
 
@@ -42,6 +42,7 @@ export class DeckDetailComponent implements OnInit {
   selectedCard: Card;
 
   loading: boolean;
+  loading2: boolean;
 
   foilForm: FormGroup;
   foilOptions = [];
@@ -95,6 +96,8 @@ export class DeckDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading2 = true;
+
     this.dataSource = new MatTableDataSource();
     this.emptyDeck = new Deck();
     this.emptyDeck.id = -1;
@@ -103,23 +106,26 @@ export class DeckDetailComponent implements OnInit {
 
     this.foilOptions = this.getFoilOptions();
     this.conditionOptions = this.getConditionOptions();
-    this.decksOptions = this.getDecksOptions();
     this.formatsOptions = this.getFormatsOptions();
     this.getVersions();
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.initDecks();
 
-    // TODO
     this.cardForm.valueChanges.pipe(debounceTime(500)).subscribe(change => {
-      console.log("change");
-      this.getVersionsForCard(change);
+      this.getVersionsForCard(change.name);
     });
   }
 
   initDecks(): void {
     this.deckService.getDecks(this.currentUser.id)
-      .subscribe(decks => { this.decks = decks; this.decksOptions = this.getDecksOptions(); this.setDeck(0); });
+      .subscribe(decks => { 
+        this.decks = decks; 
+        this.decksOptions = this.getDecksOptions(); 
+        this.setDeck(0); 
+        console.log(1);
+        this.loading2 = false;
+      });
   }
 
   getDeck(deckId: number): void {
@@ -129,7 +135,11 @@ export class DeckDetailComponent implements OnInit {
 
   getDecks(): void {
     this.deckService.getDecks(this.currentUser.id)
-      .subscribe(decks => { this.decks = decks; this.decksOptions = this.getDecksOptions(); this.setDeck(this.selectedDeck.id); });
+      .subscribe(decks => { 
+        this.decks = decks; 
+        this.decksOptions = this.getDecksOptions(); 
+        this.setDeck(this.selectedDeck.id); 
+      });
   }
 
   setDeck(id: number): void {
@@ -241,7 +251,13 @@ export class DeckDetailComponent implements OnInit {
     this.selectedCard = this.emptyCard;
     this.foilForm.controls['foilOptions'].patchValue(this.foilOptions[0].id, {onlySelf: true});
     this.conditionForm.controls['conditionOptions'].patchValue(this.conditionOptions[0].id, {onlySelf: true});
-    this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[0].id, {onlySelf: true});
+
+    if (this.decksOptions[0]) {
+      this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[0].id, {onlySelf: true});
+    }
+    else {
+      this.decksForm.controls['decksOptions'].patchValue(0, {onlySelf: true});
+    }
 
     this.getVersions();
   }
@@ -254,17 +270,16 @@ export class DeckDetailComponent implements OnInit {
     var newDeckId = this.convertDeckForm();
 
     this.deckService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
-      subscribe(card => 
-        { 
-          this.getDecks(); 
-          if (this.selectedDeck.id !== newDeckId) {
-            // Move card called
-            this.setCard(0);
-          }
-          else {
-            this.selectedCard = card; 
-          }
-        });
+      subscribe(card => { 
+        this.getDecks(); 
+        if (this.selectedDeck.id !== newDeckId) {
+          // Move card called
+          this.setCard(0);
+        }
+        else {
+          this.selectedCard = card; 
+        }
+      });
   }
 
   deleteCard(): void {
@@ -364,11 +379,13 @@ export class DeckDetailComponent implements OnInit {
 
   getVersions() {
     this.deckService.getVersions().
-      subscribe(versions => { 
+      subscribe(v => { 
         var data = [];
         var count = 0;
-        // TODO nullcheck
-        versions.forEach(version => {
+        if (!v) {
+          return;
+        }
+        v.forEach(version => {
           data.push({id: count++, name: version});
         });
         this.versionsOptions = data;
@@ -379,11 +396,13 @@ export class DeckDetailComponent implements OnInit {
 
   getVersionsForCard(cardName: string) {
     this.deckService.getVersionsByCardName(cardName).
-      subscribe(versions => { 
+      subscribe(v => { 
         var data = [];
         var count = 0;
-        // TODO nullcheck
-        versions.forEach(version => {
+        if (!v) {
+          return;
+        }
+        v.forEach(version => {
           data.push({id: count++, name: version});
         });
         this.versionsOptions = data;

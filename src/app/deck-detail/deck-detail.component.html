@@ -1,3 +1,8 @@
+<div *ngIf="loading2">
+  <mat-progress-spinner class="center" mode="indeterminate" [diameter]="100"></mat-progress-spinner>
+</div>
+
+<div *ngIf="!loading2">
 <div class="layout">
   <div class="left padded table">
     <div class="mat-elevation-z8">
@@ -128,7 +133,8 @@
         <mat-card class="deck padded">
           <mat-card-title> Recalculate Values </mat-card-title>
           <mat-card-content> 
-            <br> The refresh values button updates the current value for all your cards and creates a new data point on the graphs in your dashboard.
+            <br> The refresh values button updates the current value for all your cards and 
+              creates a new data point on the graphs in your dashboard.
           </mat-card-content>
           <span *ngIf="!loading">
             <button mat-raised-button (click)="refreshDeck()" class="refresh-button" style="line-height: 20px;">Refresh Values</button>
@@ -152,20 +158,23 @@
             <mat-card-subtitle>	
               <form [formGroup]="cardForm" class="example-form">
                 <mat-form-field class="example-full-width" style="margin-top: 20px;">
-                  <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
+                  <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" 
+                    [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.name.hasError('required')">
                     Name is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width">
-                  <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" [errorStateMatcher]="matcher">
+                  <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" 
+                    formControlName="quantity" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                     Quantity is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
                   <mat-form-field class="example-full-width">
-                  <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" formControlName="purchasePrice" [errorStateMatcher]="matcher">
+                  <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
+                    formControlName="purchasePrice" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                     Purchase Price is <strong>required</strong>
                   </mat-error>
@@ -232,13 +241,15 @@
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
-                  <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" [errorStateMatcher]="matcher">
+                  <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" 
+                    [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                     Quantity is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
                   <mat-form-field class="example-full-width">
-                  <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" formControlName="purchasePrice" [errorStateMatcher]="matcher">
+                  <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
+                    formControlName="purchasePrice" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                     Purchase Price is <strong>required</strong>
                   </mat-error>
@@ -303,6 +314,7 @@
     </ul>
   </div>
 
+</div>
 </div>
 
 
