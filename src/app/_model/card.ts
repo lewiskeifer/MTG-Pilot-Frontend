@@ -6,6 +6,7 @@ export class Card {
   }
 
   id: number;
+  groupId: number;
   name: string;
   version: string;
   isFoil: boolean;

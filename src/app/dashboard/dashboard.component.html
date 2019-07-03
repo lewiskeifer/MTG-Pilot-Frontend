@@ -1,5 +1,10 @@
 <div style="border: 5px solid white" class ="block padded">
 
+  <div *ngIf="loading">
+      <mat-progress-spinner class="center" mode="indeterminate" [diameter]="100"></mat-progress-spinner>
+  </div>
+
+  <div *ngIf="!loading">
   <div *ngIf="decks">
     <div *ngIf="!showWelcomePage">
       <div class="divTable">
@@ -29,4 +34,5 @@
     </div>
   </div>
 
+</div>
 </div>
