@@ -1,3 +1,8 @@
+<div *ngIf="loading2">
+  <mat-progress-spinner class="center" mode="indeterminate" [diameter]="100"></mat-progress-spinner>
+</div>
+
+<div *ngIf="!loading2">
 <div class="layout">
   <div class="left padded table">
     <div class="mat-elevation-z8">
@@ -128,7 +133,8 @@
         <mat-card class="deck padded">
           <mat-card-title> Recalculate Values </mat-card-title>
           <mat-card-content> 
-            <br> The refresh values button updates the current value for all your cards and creates a new data point on the graphs in your dashboard.
+            <br> The refresh values button updates the current value for all your cards and 
+              creates a new data point on the graphs in your dashboard.
           </mat-card-content>
           <span *ngIf="!loading">
             <button mat-raised-button (click)="refreshDeck()" class="refresh-button" style="line-height: 20px;">Refresh Values</button>
@@ -146,34 +152,42 @@
     <span *ngIf="selectedDeck">
       <span *ngIf="selectedDeck.id > 0">
         <span *ngIf="selectedCard.id > 0">
+            <span *ngIf="versionsOptions">
           
           <mat-card class="center card">
             <mat-card-subtitle>	
               <form [formGroup]="cardForm" class="example-form">
                 <mat-form-field class="example-full-width" style="margin-top: 20px;">
-                  <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
+                  <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" 
+                    [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.name.hasError('required')">
                     Name is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
+
                 <mat-form-field class="example-full-width">
-                  <input matInput [(ngModel)]="selectedCard.version" placeholder="Version" formControlName="version" [errorStateMatcher]="matcher">
-                  <mat-error *ngIf="cardForm.controls.version.hasError('required')">
-                    Version is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                  <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" [errorStateMatcher]="matcher">
+                  <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" 
+                    formControlName="quantity" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                     Quantity is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
                   <mat-form-field class="example-full-width">
-                  <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" formControlName="purchasePrice" [errorStateMatcher]="matcher">
+                  <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
+                    formControlName="purchasePrice" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                     Purchase Price is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
+
+                <form [formGroup]="versionsForm">
+                  <label for="versionsOptions" style="width: 80px;">Version</label>
+                  <select formControlName="versionsOptions" id="versionsOptions">
+                    <option *ngFor="let versionsOption of versionsOptions; let i = index" [ngValue]="versionsOptions[i].id">
+                      {{versionsOptions[i].name}}
+                    </option>
+                  </select>
+                </form>
 
                 <form [formGroup]="foilForm">
                   <label for="foilOptions" style="width: 80px;">Foil</label>
@@ -201,12 +215,6 @@
                     </option>
                   </select>
                 </form>
-                
-                <!-- <div class="form-group">
-                  <button mat-raised-button [disabled]="loading" class="padded" style="margin-top: 20px;">Register</button>
-                  <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                  <a routerLink="/login" class="padded">Cancel</a>
-                </div> -->
           
                 <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
                 <mat-card-actions>
@@ -218,6 +226,7 @@
               </form>
             </mat-card-subtitle>
           </mat-card>
+        </span>
         </span>
 
         <!-- New Card -->
@@ -232,23 +241,28 @@
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
-                  <input matInput [(ngModel)]="selectedCard.version" placeholder="Version" formControlName="version" [errorStateMatcher]="matcher">
-                  <mat-error *ngIf="cardForm.controls.version.hasError('required')">
-                    Version is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                  <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" [errorStateMatcher]="matcher">
+                  <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" 
+                    [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                     Quantity is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
                   <mat-form-field class="example-full-width">
-                  <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" formControlName="purchasePrice" [errorStateMatcher]="matcher">
+                  <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
+                    formControlName="purchasePrice" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                     Purchase Price is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
+
+                <form [formGroup]="versionsForm">
+                  <label for="versionsOptions" style="width: 80px;">Version</label>
+                  <select formControlName="versionsOptions" id="versionsOptions">
+                    <option *ngFor="let versionsOption of versionsOptions; let i = index" [ngValue]="versionsOptions[i].id">
+                      {{versionsOptions[i].name}}
+                    </option>
+                  </select>
+                </form>
 
                 <form [formGroup]="foilForm">
                   <label for="foilOptions" style="width: 80px;">Foil</label>
@@ -301,3 +315,13 @@
   </div>
 
 </div>
+</div>
+
+
+
+<!-- <div *ngIf="version">
+  <input type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Start searching">
+  <div *ngFor="let v of version | filter:searchText">
+    <p> {{v.name}} </p>
+  </div>
+</div> -->

@@ -4,8 +4,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Card } from '../_model/card';
 import { Deck } from '../_model/deck';
-import { Login } from '../_model/login';
-import { User } from '../_model/user';
 import { MessageService } from './message.service';
 
 @Injectable({
@@ -22,37 +20,48 @@ export class DeckService {
 
   constructor(private httpClient: HttpClient, private messageService: MessageService) { }
 
+  /** GET all versions */
+  getVersions(): Observable<String[]> {
+    const url = `${this.decksUrl}/sets`;
+    return this.httpClient.get<String[]>(url).pipe(
+      tap(_ => this.log(`fetched versions`)),
+        catchError(this.handleError<String[]>(`getVersions`))
+    );
+  }
+
+  /** GET versions by card name */
+  getVersionsByCardName(cardName: string): Observable<String[]> {
+    const url = `${this.decksUrl}/sets/${cardName}`;
+    return this.httpClient.get<String[]>(url).pipe(
+      tap(_ => this.log(`fetched versions`)),
+        catchError(this.handleError<String[]>(`getVersions`))
+    );
+  }
+
+  /** GET version by groupId */
+  getVersion(groupId: number): Observable<String> {
+    const url = `${this.decksUrl}/set/${groupId}`;
+    return this.httpClient.get<String>(url).pipe(
+      tap(_ => this.log(`fetched version`)),
+        catchError(this.handleError<String>(`getVersion`))
+    );
+  }
+
   /** GET deck by id */
   getDeck(userId: number, deckId: number): Observable<Deck> {
-    
     const url = `${this.decksUrl}/${userId}/decks/${deckId}`;
-    
     return this.httpClient.get<Deck>(url).pipe(
       tap(_ => this.log(`fetched deck id=${deckId}`)),
         catchError(this.handleError<Deck>(`getDeck id=${deckId}`))
     );
   }
 
+    /** GET decks */
   getDecks(userId: number): Observable<Deck[]> {
-
     const url = `${this.decksUrl}/${userId}/decks`;
-
     return this.httpClient.get<Deck[]>(url).pipe(
       tap(_ => this.log('fetched decks')),
         catchError(this.handleError<Deck[]>('getDecks', [])));
-  }
-
-  // TODO update
-  /* GET decks whose name contains search term */
-  searchDecks(term: string): Observable<Deck[]> {
-    if (!term.trim()) {
-      // if not search term, return empty deck array.
-      return of([]);
-    }
-    return this.httpClient.get<Deck[]>(`${this.decksUrl}/?name=${term}`).pipe(
-      tap(_ => this.log(`found decks matching "${term}"`)),
-        catchError(this.handleError<Deck[]>('searchDecks', []))
-    );
   }
 
   /** PUT: update the deck on the server */

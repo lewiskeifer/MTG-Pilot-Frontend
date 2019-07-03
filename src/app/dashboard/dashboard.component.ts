@@ -14,6 +14,8 @@ export class DashboardComponent implements OnInit {
   currentUser: User;
   showWelcomePage: boolean;
 
+  loading: boolean;
+
   decks: Deck[];
  
   data: any[];
@@ -27,6 +29,7 @@ export class DashboardComponent implements OnInit {
   constructor(private deckService: DeckService) { }
  
   ngOnInit() {
+    this.loading = true;
     this.config = new LineChartConfig('Total Value', '', 1000, 800);
     this.elementId = 'linechart_material';
 
@@ -45,7 +48,9 @@ export class DashboardComponent implements OnInit {
           this.showWelcomePage = false;
           this.setChart(); }
         else { 
-          this.showWelcomePage = true; } 
+          this.showWelcomePage = true; 
+        } 
+        this.loading = false;
       });
   }
 
