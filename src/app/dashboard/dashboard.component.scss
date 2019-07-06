@@ -21,6 +21,10 @@
 }
 
 .graph {
-  max-width: 1000px;
-  min-width: 400px;
+  width: 800px;
+  height: 1000px;
+  @media only screen and (max-width: 850px) { 
+    width: 400px;
+    height: 500px;
+  }
 }
