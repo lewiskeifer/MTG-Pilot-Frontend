@@ -139,6 +139,7 @@ export class DeckDetailComponent implements OnInit {
       .subscribe(decks => { 
         this.decks = decks; 
         this.decksOptions = this.getDecksOptions(); 
+        this.refreshSelectedDeck();
       });
   }
 
@@ -247,6 +248,16 @@ export class DeckDetailComponent implements OnInit {
     this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[deckIndex-1].id, {onlySelf: true});
   }
 
+  refreshSelectedDeck(): void {
+    var id = this.selectedDeck.id;
+    this.decks.forEach(deck => {
+      if (deck.id === id) {
+        this.selectedDeck = deck;
+        return;
+      }
+    });
+  }
+
   resetSelectedDeck(): void {
     this.selectedDeck = this.emptyDeck;
   }
@@ -278,18 +289,23 @@ export class DeckDetailComponent implements OnInit {
       pipe(first()).subscribe(card => { 
         // TODO add loading
         this.alertService.success("Success");
-        this.getDecks(); //TODO can double call
-        if (this.selectedDeck.id !== newDeckId) {
-          // Move card called
-          // TODO set to new card
-          this.getAndSetDecks(newDeckId, 0);
-        }
-        else {
-          this.getAndSetDecks(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
-        }
-      },
-      error => {
-        this.alertService.error(error.error.message);
+        this.deckService.getDecks(this.currentUser.id)
+        .subscribe(decks => { 
+          this.decks = decks; 
+          this.decksOptions = this.getDecksOptions(); 
+          this.refreshSelectedDeck();
+          if (this.selectedDeck.id !== newDeckId) {
+            // Move card called
+            // TODO set to new card
+            this.setDeck(newDeckId, 0);
+          }
+          else {
+            this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
+          }
+        },
+        error => {
+          this.alertService.error(error.error.message);
+      });
     });
   }
 
@@ -408,6 +424,10 @@ export class DeckDetailComponent implements OnInit {
     this.deckService.getVersionsByCardName(cardName).pipe(first()).
       subscribe(v => { 
 
+        if (!v) {
+          return;
+        }
+        
         this.alertService.success("");
 
         var data = [];
