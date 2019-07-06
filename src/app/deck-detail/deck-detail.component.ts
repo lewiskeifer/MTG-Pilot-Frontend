@@ -268,8 +268,15 @@ export class DeckDetailComponent implements OnInit {
     this.conditionForm.controls['conditionOptions'].patchValue(this.conditionOptions[0].id, {onlySelf: true});
 
     if (this.decksOptions[0]) {
-      //TODO set to current deck id
-      this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[0].id, {onlySelf: true});
+      var index = 0;
+      var id = this.selectedDeck.id;
+      this.decks.forEach(deck => {
+        if (deck.id === id) {
+          this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[index - 1].id, {onlySelf: true});
+        }
+        index++;
+      });
+
     }
     else {
       this.decksForm.controls['decksOptions'].patchValue(0, {onlySelf: true});
@@ -287,7 +294,7 @@ export class DeckDetailComponent implements OnInit {
 
     this.deckService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
       pipe(first()).subscribe(card => { 
-        // TODO add loading
+        // TODO add proper loading
         this.alertService.success("Success");
         this.deckService.getDecks(this.currentUser.id)
         .subscribe(decks => { 
@@ -311,7 +318,9 @@ export class DeckDetailComponent implements OnInit {
 
   saveDeck(): void {
     this.selectedDeck.format = this.convertFormatForm();
-    this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).subscribe(deck => { this.getDecks(); this.setDeck(this.decks[this.decks.length - 1].id, 0) });
+    this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).subscribe(deck => { 
+      this.getAndSetDecks(deck.id, 0);
+    });
   }
 
   deleteCard(): void {
@@ -321,7 +330,7 @@ export class DeckDetailComponent implements OnInit {
 
   deleteDeck(): void {
     this.deckService.deleteDeck(this.currentUser.id, this.selectedDeck.id).
-      subscribe(deck => { this.getDecks(); this.setDeck(0, 0); });
+      subscribe(deck => { this.getAndSetDecks(0, 0); });
   }
 
   refreshDeck():void {
