@@ -1,27 +1,39 @@
 <div *ngIf="currentUser">
-  <div class="center padded" style="margin-top: 5px">
-    <div style="border: 5px solid white" class ="block">
-      <h1 class="center padded">{{title}}</h1>
-      <nav>
-        <a routerLink="/home" class="padded">Home</a>
-        <a routerLink="/dashboard" class="padded">Dashboard</a>
-        <a routerLink="/decks" class="padded">Decks</a>
-        <a class="padded" (click)="logout()">Logout</a>
-      </nav>
+  <div class="center padded" style="border: 5px solid white; height: 150px;">
+    <div class="parent">
+      <div class="left">
+        <img src="assets/img/mtgpilot_logo.png" class="left" style="margin-top: 15px;">
+      </div>
+      <div class="center">
+        <nav>
+          <a routerLink="/home" class="padded">Home</a>
+          <a routerLink="/dashboard" class="padded">Dashboard</a>
+          <a routerLink="/decks" class="padded">Decks</a>
+          <a class="padded" (click)="logout()">Logout</a>
+        </nav>
+      </div>
+      <div class="right"></div>
     </div>
   </div>
 </div>
 
 <div *ngIf="!currentUser">
-  <div class="center padded" style="margin-top: 5px">
-    <div style="border: 5px solid white" class ="block">
-      <h1 class="center padded">{{title}}</h1>
-      <nav>
-        <a routerLink="/home" class="padded">Home</a>
-        <a routerLink="/login" class="padded">Login</a>
-      </nav>
+  <div class="center padded" style="border: 5px solid white; height: 150px;">
+    <div class="parent">
+      <div class="left">
+        <img src="assets/img/mtgpilot_logo.png" class="left" style="margin-top: 15px;">
+      </div>
+      <div class="center">
+        <nav>
+          <a routerLink="/home" class="padded">Home</a>
+          <a routerLink="/login" class="padded">Login</a>
+        </nav>
+      </div>
+      <div class="right"></div>
     </div>
   </div>
 </div>
 
 <router-outlet></router-outlet>
+
+

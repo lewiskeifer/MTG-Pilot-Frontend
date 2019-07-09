@@ -4,7 +4,7 @@
 
 <div *ngIf="!loading2">
   <div class="layout">
-    <div class="left padded table">
+    <div class="padded table">
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>
           
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div class="center" style="margin: 0px;">
+    <div style="margin: 0px; text-align: center">
       <mat-card class="deck padded">
         <div *ngIf="selectedDeck">
 
@@ -310,7 +310,7 @@
       </span>
     </div>
 
-    <div class="right" style="width: 600px;">
+    <div style="width: 600px;">
       <ul class="decks">
         <li *ngFor="let deck of decks; let i = index" (click)="setDeck(deck.id, 0)">
           <span class="badge">{{i}}</span> {{deck.name}}
