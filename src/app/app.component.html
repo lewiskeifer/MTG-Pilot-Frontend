@@ -1,5 +1,5 @@
-<div *ngIf="currentUser">
-  <div class="center padded" style="border: 5px solid white; height: 150px;">
+<div class="center" style="background-color: #125A85; border: 1px solid #0C3C59; height: 150px;">
+  <div *ngIf="currentUser">
     <div class="parent">
       <div class="left">
         <img src="assets/img/mtgpilot_logo.png" class="left" style="margin-top: 15px;">
@@ -15,10 +15,8 @@
       <div class="right"></div>
     </div>
   </div>
-</div>
 
-<div *ngIf="!currentUser">
-  <div class="center padded" style="border: 5px solid white; height: 150px;">
+  <div *ngIf="!currentUser">
     <div class="parent">
       <div class="left">
         <img src="assets/img/mtgpilot_logo.png" class="left" style="margin-top: 15px;">
