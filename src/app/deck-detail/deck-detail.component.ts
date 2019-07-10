@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, first } from 'rxjs/operators';
 import { Card } from '../_model/card';
 import { Deck } from '../_model/deck';
 import { User } from '../_model/user';
+import { AlertService } from '../_service/alert.service';
 import { DeckService } from '../_service/deck.service';
 
 
@@ -68,12 +69,13 @@ export class DeckDetailComponent implements OnInit {
 
   cardForm = this.formBuilder.group({
     name: ['', [Validators.required]],
-    version: ['', [Validators.required]],
     quantity: ['', [Validators.required]],
     purchasePrice: ['', [Validators.required]]
   });
 
-  constructor(private deckService: DeckService, private formBuilder: FormBuilder) { 
+  constructor(private alertService: AlertService, 
+              private deckService: DeckService, 
+              private formBuilder: FormBuilder) { 
     this.foilForm = this.formBuilder.group({
       foilOptions: ['']
     });
@@ -122,8 +124,7 @@ export class DeckDetailComponent implements OnInit {
       .subscribe(decks => { 
         this.decks = decks; 
         this.decksOptions = this.getDecksOptions(); 
-        this.setDeck(0); 
-        console.log(1);
+        this.setDeck(0, 0); 
         this.loading2 = false;
       });
   }
@@ -138,16 +139,25 @@ export class DeckDetailComponent implements OnInit {
       .subscribe(decks => { 
         this.decks = decks; 
         this.decksOptions = this.getDecksOptions(); 
-        this.setDeck(this.selectedDeck.id); 
+        this.refreshSelectedDeck();
       });
   }
 
-  setDeck(id: number): void {
+  getAndSetDecks(deckId: number, cardIndex: number) {
+    this.deckService.getDecks(this.currentUser.id)
+    .subscribe(decks => { 
+      this.decks = decks; 
+      this.decksOptions = this.getDecksOptions(); 
+      this.setDeck(deckId, cardIndex);
+    });
+  }
+
+  setDeck(deckId: number, cardIndex: number): void {
 
     // TODO use map
     var count = 0;
     this.decks.forEach(deck => {
-      if (deck.id === id) {
+      if (deck.id === deckId) {
         
         this.selectedDeck = this.decks[count]; 
         var format = 0;
@@ -172,24 +182,19 @@ export class DeckDetailComponent implements OnInit {
         }
         this.formatsForm.controls['formatsOptions'].patchValue(this.formatsOptions[format].id, {onlySelf: true});
 
-        this.setDeckHelper();
+        if (this.selectedDeck.cards.length != 0) {
+          this.dataSource.data = this.selectedDeck.cards;
+          this.setCard(cardIndex);
+        } 
+        else {
+          this.dataSource.data = []; 
+          this.resetSelectedCard();
+        }
 
         return;
       }
       count++;
     });
-  }
-
-  setDeckHelper(): void {
-
-    if (this.selectedDeck.cards.length != 0) {
-      this.dataSource.data = this.selectedDeck.cards;
-      this.setCard(0);
-    } 
-    else {
-      this.dataSource.data = []; 
-      this.resetSelectedCard();
-    }
   }
 
   setCard(index: number): void {
@@ -243,6 +248,16 @@ export class DeckDetailComponent implements OnInit {
     this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[deckIndex-1].id, {onlySelf: true});
   }
 
+  refreshSelectedDeck(): void {
+    var id = this.selectedDeck.id;
+    this.decks.forEach(deck => {
+      if (deck.id === id) {
+        this.selectedDeck = deck;
+        return;
+      }
+    });
+  }
+
   resetSelectedDeck(): void {
     this.selectedDeck = this.emptyDeck;
   }
@@ -253,7 +268,15 @@ export class DeckDetailComponent implements OnInit {
     this.conditionForm.controls['conditionOptions'].patchValue(this.conditionOptions[0].id, {onlySelf: true});
 
     if (this.decksOptions[0]) {
-      this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[0].id, {onlySelf: true});
+      var index = 0;
+      var id = this.selectedDeck.id;
+      this.decks.forEach(deck => {
+        if (deck.id === id) {
+          this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[index - 1].id, {onlySelf: true});
+        }
+        index++;
+      });
+
     }
     else {
       this.decksForm.controls['decksOptions'].patchValue(0, {onlySelf: true});
@@ -270,37 +293,50 @@ export class DeckDetailComponent implements OnInit {
     var newDeckId = this.convertDeckForm();
 
     this.deckService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
-      subscribe(card => { 
-        this.getDecks(); 
-        if (this.selectedDeck.id !== newDeckId) {
-          // Move card called
-          this.setCard(0);
-        }
-        else {
-          this.selectedCard = card; 
-        }
+      pipe(first()).subscribe(card => { 
+        // TODO add proper loading
+        this.alertService.success("Success");
+        this.deckService.getDecks(this.currentUser.id)
+        .subscribe(decks => { 
+          this.decks = decks; 
+          this.decksOptions = this.getDecksOptions(); 
+          this.refreshSelectedDeck();
+          if (this.selectedDeck.id !== newDeckId) {
+            // Move card called
+            // TODO set to new card
+            this.setDeck(newDeckId, 0);
+          }
+          else {
+            this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
+          }
+        },
+        error => {
+          this.alertService.error(error.error.message);
       });
-  }
-
-  deleteCard(): void {
-    this.deckService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id).
-      subscribe(deck => { this.getDecks(); this.setCard(0); });
+    });
   }
 
   saveDeck(): void {
     this.selectedDeck.format = this.convertFormatForm();
-    this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).subscribe(deck => { this.getDecks(); });
+    this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).subscribe(deck => { 
+      this.getAndSetDecks(deck.id, 0);
+    });
+  }
+
+  deleteCard(): void {
+    this.deckService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id).
+      subscribe(deck => { this.getAndSetDecks(this.selectedDeck.id, 0); });
   }
 
   deleteDeck(): void {
     this.deckService.deleteDeck(this.currentUser.id, this.selectedDeck.id).
-      subscribe(deck => { this.getDecks(); this.setDeck(0); this.setCard(0); });
+      subscribe(deck => { this.getAndSetDecks(0, 0); });
   }
 
   refreshDeck():void {
     this.loading = true;
     this.deckService.refreshDeck(this.currentUser.id, this.selectedDeck.id)
-      .subscribe(deck => { this.setDeck(this.selectedDeck.id); this.loading = false; this.getTotalCost(); });
+      .subscribe(deck => { this.setDeck(this.selectedDeck.id, 0); this.loading = false; this.getTotalCost(); });
   }
 
   getTotalQuantity() {
@@ -380,11 +416,10 @@ export class DeckDetailComponent implements OnInit {
   getVersions() {
     this.deckService.getVersions().
       subscribe(v => { 
+
         var data = [];
         var count = 0;
-        if (!v) {
-          return;
-        }
+
         v.forEach(version => {
           data.push({id: count++, name: version});
         });
@@ -395,13 +430,18 @@ export class DeckDetailComponent implements OnInit {
   }
 
   getVersionsForCard(cardName: string) {
-    this.deckService.getVersionsByCardName(cardName).
+    this.deckService.getVersionsByCardName(cardName).pipe(first()).
       subscribe(v => { 
-        var data = [];
-        var count = 0;
+
         if (!v) {
           return;
         }
+        
+        this.alertService.success("");
+
+        var data = [];
+        var count = 0;
+
         v.forEach(version => {
           data.push({id: count++, name: version});
         });
@@ -418,7 +458,10 @@ export class DeckDetailComponent implements OnInit {
           count2++;
         });
         this.versionsForm.controls['versionsOptions'].patchValue(this.versionsOptions[versionIndex].id, {onlySelf: true});
-      });
+      },
+      error => {
+        this.alertService.error(error.error.message);
+    });
   }
 
   convertFoilForm(): boolean {
