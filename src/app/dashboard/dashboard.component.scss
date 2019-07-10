@@ -12,17 +12,10 @@
   }
 }
 
-.deck {
-  width: 800px;
-  height: 150px;
-  @media only screen and (max-width: 600px) { 
-    width: 350px;
-  }
-}
-
 .graph {
   width: 800px;
   height: 1000px;
+  margin-top: 20px;
   @media only screen and (max-width: 850px) { 
     width: 400px;
     height: 500px;
