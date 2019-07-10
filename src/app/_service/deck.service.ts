@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Card } from '../_model/card';
 import { Deck } from '../_model/deck';
 import { MessageService } from './message.service';
@@ -23,115 +22,61 @@ export class DeckService {
   /** GET all versions */
   getVersions(): Observable<String[]> {
     const url = `${this.decksUrl}/sets`;
-    return this.httpClient.get<String[]>(url).pipe(
-      tap(_ => this.log(`fetched versions`)),
-        catchError(this.handleError<String[]>(`getVersions`))
-    );
+    return this.httpClient.get<String[]>(url);
   }
 
   /** GET versions by card name */
   getVersionsByCardName(cardName: string): Observable<String[]> {
     const url = `${this.decksUrl}/sets/${cardName}`;
-    return this.httpClient.get<String[]>(url).pipe(
-      tap(_ => this.log(`fetched versions`)),
-        catchError(this.handleError<String[]>(`getVersions`))
-    );
+    return this.httpClient.get<String[]>(url);
   }
 
   /** GET version by groupId */
   getVersion(groupId: number): Observable<String> {
     const url = `${this.decksUrl}/set/${groupId}`;
-    return this.httpClient.get<String>(url).pipe(
-      tap(_ => this.log(`fetched version`)),
-        catchError(this.handleError<String>(`getVersion`))
-    );
+    return this.httpClient.get<String>(url);
   }
 
   /** GET deck by id */
   getDeck(userId: number, deckId: number): Observable<Deck> {
     const url = `${this.decksUrl}/${userId}/decks/${deckId}`;
-    return this.httpClient.get<Deck>(url).pipe(
-      tap(_ => this.log(`fetched deck id=${deckId}`)),
-        catchError(this.handleError<Deck>(`getDeck id=${deckId}`))
-    );
+    return this.httpClient.get<Deck>(url);
   }
 
     /** GET decks */
   getDecks(userId: number): Observable<Deck[]> {
     const url = `${this.decksUrl}/${userId}/decks`;
-    return this.httpClient.get<Deck[]>(url).pipe(
-      tap(_ => this.log('fetched decks')),
-        catchError(this.handleError<Deck[]>('getDecks', [])));
+    return this.httpClient.get<Deck[]>(url);
   }
 
   /** PUT: update the deck on the server */
   saveCard(userId: number, deckId: number, card: Card): Observable<Card> {
     const url = `${this.decksUrl}/${userId}/decks/${deckId}/cards`;
-    return this.httpClient.put(url, card, this.httpOptions).pipe(
-      tap((newCard: Card) => this.log(`updated card id=${card.id}`)),
-        catchError(this.handleError<Card>('saveCard'))
-    );
+    return this.httpClient.put<Card>(url, card, this.httpOptions);
   }
 
   /** DELETE: delete the card from the server */
   deleteCard(userId: number, deckId: number, cardId: number): Observable<any> {
     const url = `${this.decksUrl}/${userId}/decks/${deckId}/cards/${cardId}`;
-    return this.httpClient.delete(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted card id=${cardId}`)),
-        catchError(this.handleError<number>('deleteCard'))
-    );
+    return this.httpClient.delete(url, this.httpOptions);
   }
 
   /** PUT: update the deck on the server */
   saveDeck(userId: number, deck: Deck): Observable<any> {
     const url = `${this.decksUrl}/${userId}/decks`;
-    return this.httpClient.put(url, deck, this.httpOptions).pipe(
-      tap(_ => this.log(`updated deck id=${deck.id}`)),
-        catchError(this.handleError<any>('saveDeck'))
-    );
+    return this.httpClient.put(url, deck, this.httpOptions);
   }
 
   /** DELETE: delete the deck from the server */
   deleteDeck(userId: number, deckId: number): Observable<any> {
     const url = `${this.decksUrl}/${userId}/decks/${deckId}`;
-    return this.httpClient.delete(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted deck id=${deckId}`)),
-        catchError(this.handleError<number>('deleteDeck'))
-    );
+    return this.httpClient.delete(url, this.httpOptions);
   }
 
   /** PUT: update the deck on the server */
   refreshDeck(userId: number, deckId: number): Observable<void> {
     const url = `${this.decksUrl}/${userId}/decks/${deckId}/refresh`;
-    return this.httpClient.put(url, this.httpOptions).pipe(
-      tap(_ => this.log(`updated deck id=${deckId}`)),
-        catchError(this.handleError<any>('refreshDeck'))
-    );
-  }
-
-  /** Log a DeckService message with the MessageService */
-  private log(message: string) {
-    this.messageService.add(`DeckService: ${message}`);
-  }
-
-  /**
-  * Handle Http operation that failed.
-  * Let the app continue.
-  * @param operation - name of the operation that failed
-  * @param result - optional value to return as the observable result
-  */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-  
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-  
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-  
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+    return this.httpClient.put<void>(url, this.httpOptions);
   }
 
 }

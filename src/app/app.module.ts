@@ -15,7 +15,6 @@ import { GoogleLineChartService } from './google-charts/google-line-chart-servic
 import { LineChartComponent } from './google-charts/line-chart.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { MessagesComponent } from './messages/messages.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { TokenInterceptor } from './_helper/token.interceptor';
  
@@ -24,7 +23,6 @@ import { TokenInterceptor } from './_helper/token.interceptor';
     AppComponent,
     DecksComponent,
     DeckDetailComponent,
-    MessagesComponent,
     DashboardComponent,
     LineChartComponent,
     LoginComponent,
