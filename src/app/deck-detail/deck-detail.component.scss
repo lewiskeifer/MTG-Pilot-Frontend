@@ -59,6 +59,7 @@ tr.mat-footer-row {
   height: 650px;
   margin-top: 50px;
   @media only screen and (max-width: 650px) { 
+    height: 700px;
     width: 318px;
   }
 }
@@ -67,6 +68,7 @@ tr.mat-footer-row {
   height: 175px;
   margin-top: 25px;
   @media only screen and (max-width: 650px) { 
+    height: 200px;
     width: 318px;
   }
 }
