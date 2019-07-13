@@ -3,6 +3,7 @@ import { LineChartConfig } from '../google-charts/line-chart-config';
 import { Deck } from '../_model/deck';
 import { User } from '../_model/user';
 import { DeckService } from '../_service/deck.service';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +14,7 @@ export class DashboardComponent implements OnInit {
 
   currentUser: User;
   showWelcomePage: boolean;
+  screenwidth: any;
 
   loading: boolean;
 
@@ -30,14 +32,33 @@ export class DashboardComponent implements OnInit {
  
   ngOnInit() {
     this.loading = true;
-    this.config = new LineChartConfig('Total Value', '', 1000, 800);
+    this.screenwidth = window.innerWidth;
     this.elementId = 'linechart_material';
-
-    this.config2 = new LineChartConfig('Value / Purchase Price', '', 1000, 800);
     this.elementId2 = 'linechart_material2';
+
+    if (this.screenwidth < 1000) {
+      this.config = new LineChartConfig('Total Value', '', 500, 400);
+      this.config2 = new LineChartConfig('Value / Purchase Price', '', 500, 400);
+    }
+    else {
+      this.config = new LineChartConfig('Total Value', '', 1000, 800);
+      this.config2 = new LineChartConfig('Value / Purchase Price', '', 1000, 800);
+    }
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.getDecks();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.screenwidth = event.target.innerWidth;
+    console.log(this.screenwidth);
+    if (this.screenwidth < 1000) {
+      console.log("Ffds");
+      this.config = new LineChartConfig('Total Value', '', 500, 400);
+      this.config2 = new LineChartConfig('Value / Purchase Price', '', 500, 400);
+      this.setChart();
+    }
   }
  
   getDecks(): void {

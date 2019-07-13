@@ -21,6 +21,9 @@
   @media only screen and (max-width: 850px) { 
     width: 400px;
     height: 980px;
+    @media only screen and (max-width: 400px) { 
+      width: 350px;
+    }
   }
 }
 
@@ -31,6 +34,9 @@
   margin-bottom: 20px;
   @media only screen and (max-width: 850px) { 
     width: 400px;
+    @media only screen and (max-width: 400px) { 
+      width: 350px;
+    }
   }
 }
 
@@ -42,5 +48,9 @@
   @media only screen and (max-width: 850px) { 
     width: 350px;
     height: 300px;
+    @media only screen and (max-width: 400px) { 
+      width: 300px;
+      height: 260px;
+    }
   }
 }
