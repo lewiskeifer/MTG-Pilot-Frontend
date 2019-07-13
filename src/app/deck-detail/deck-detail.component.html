@@ -330,7 +330,7 @@
       </div>
     </div>
 
-    <div style="width: 600px;">
+    <div class="decksPatch">
       <ul class="decks">
         <li *ngFor="let deck of decks; let i = index" (click)="setDeck(deck.id, 0)">
           <span class="badge">{{i}}</span> {{deck.name}}

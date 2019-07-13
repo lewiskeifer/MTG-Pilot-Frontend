@@ -37,8 +37,8 @@ export class DashboardComponent implements OnInit {
     this.elementId2 = 'linechart_material2';
 
     if (this.screenwidth < 1000) {
-      this.config = new LineChartConfig('Total Value', '', 500, 400);
-      this.config2 = new LineChartConfig('Value / Purchase Price', '', 500, 400);
+      this.config = new LineChartConfig('Total Value', '', 1000, 300);
+      this.config2 = new LineChartConfig('Value / Purchase Price', '', 1000, 300);
     }
     else {
       this.config = new LineChartConfig('Total Value', '', 1000, 800);

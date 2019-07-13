@@ -20,7 +20,7 @@ nav a {
   @media only screen and (max-width: 850px) { 
     font-size: 1.25em;
     @media only screen and (max-width: 650px) { 
-      font-size: 0.8em;
+      font-size: 1em;
     }
   }
 }
@@ -36,7 +36,19 @@ nav a.active {
 
 .parent {
   display: flex;
+  @media only screen and (max-width: 650px) { 
+    height: 42px;
+  }
 }
 .left, .right {
   flex: 1;
+  @media only screen and (max-width: 650px) { 
+    flex: 0;
+  }
+}
+
+.logo {
+  @media only screen and (max-width: 650px) { 
+    display: none;
+  }
 }
