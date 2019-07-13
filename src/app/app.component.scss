@@ -36,22 +36,7 @@ nav a.active {
 
 .parent {
   display: flex;
-  @media only screen and (max-width: 850px) { 
-    // flex-flow: row wrap;
-  }
 }
 .left, .right {
   flex: 1;
-}
-  
-.logo {
-  @media only screen and (max-width: 850px) { 
-    width: 90%;
-    height: 90%;
-    margin-top: 5px;
-    @media only screen and (max-width: 400px) { 
-      width: 0px;
-      height: 0px;
-    }
-  }
 }
