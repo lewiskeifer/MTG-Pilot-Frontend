@@ -134,7 +134,7 @@
                   </mat-error>
                 </mat-form-field>
                 <form [formGroup]="formatsForm">
-                  <label for="formatsOptions" style="width: 80px;">Deck</label>
+                  <label for="formatsOptions" style="width: 80px;">Format</label>
                   <select formControlName="formatsOptions" id="formatsOptions">
                     <option *ngFor="let formatsOption of formatsOptions; let i = index" [ngValue]="formatsOptions[i].id">
                       {{formatsOptions[i].name}}
@@ -163,7 +163,7 @@
                 </mat-form-field>
 
                 <form [formGroup]="formatsForm">
-                  <label for="formatsOptions" style="width: 80px;">Deck</label>
+                  <label for="formatsOptions" style="width: 80px;">Format</label>
                   <select formControlName="formatsOptions" id="formatsOptions">
                     <option *ngFor="let formatsOption of formatsOptions; let i = index" [ngValue]="formatsOptions[i].id">
                       {{formatsOptions[i].name}}
