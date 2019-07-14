@@ -46,8 +46,9 @@ button:disabled {
 table {
   width: 600px;
   margin-top: 20px;
-  @media only screen and (max-width: 600px) { 
-    width: 400px;
+  @media only screen and (max-width: 650px) {
+    // TODO stuck at 404 for mobile 
+    width: 300px !important;
   }
 }
 tr.mat-footer-row {
@@ -57,16 +58,18 @@ tr.mat-footer-row {
   width: 500px;
   height: 650px;
   margin-top: 50px;
-  @media only screen and (max-width: 600px) { 
-    width: 350px;
+  @media only screen and (max-width: 650px) { 
+    height: 700px;
+    width: 318px;
   }
 }
 .deck {
   width: 500px;
   height: 175px;
   margin-top: 25px;
-  @media only screen and (max-width: 600px) { 
-    width: 350px;
+  @media only screen and (max-width: 650px) { 
+    height: 200px;
+    width: 318px;
   }
 }
 .example-container {
@@ -104,7 +107,17 @@ tr.mat-footer-row {
   list-style-type: none;
   padding: 0;
   width: 20em;
-  margin-top: 25px;
+  margin-top: 25px;  @media only screen and (max-width: 650px) { 
+    width: 318px;
+  }
+
+}
+.decksPatch {
+  width: 600px;
+  @media only screen and (max-width: 650px) { 
+    width: 318px;
+  }
+
 }
 .decks li {
   cursor: pointer;
