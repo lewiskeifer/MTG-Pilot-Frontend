@@ -8,6 +8,7 @@ import { Deck } from '../_model/deck';
 import { User } from '../_model/user';
 import { AlertService } from '../_service/alert.service';
 import { DeckService } from '../_service/deck.service';
+import { NonZero } from '../_helper/non-zero.validator';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -72,7 +73,7 @@ export class DeckDetailComponent implements OnInit {
     name: ['', [Validators.required]],
     quantity: ['', [Validators.required]],
     purchasePrice: ['', [Validators.required]]
-  });
+  }, {validator: [NonZero('quantity'), NonZero('purchasePrice')]});
 
   constructor(private alertService: AlertService, 
               private deckService: DeckService, 
