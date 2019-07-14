@@ -33,6 +33,7 @@ export class DeckDetailComponent implements OnInit {
   dataSource: MatTableDataSource<Card>;
   displayedColumns: string[] = ['card', 'condition', 'set', 
     'quantity', 'totalPurchasePrice', 'totalValue'];
+  displayedColumnsDecks: string[] = ['card', 'format', 'totalPurchasePrice', 'totalValue'];
 
   decks: Deck[];
 
@@ -150,6 +151,43 @@ export class DeckDetailComponent implements OnInit {
       this.decksOptions = this.getDecksOptions(); 
       this.setDeck(deckId, cardIndex);
     });
+  }
+
+  setDeckByIndex(index: number): void {
+
+    this.selectedDeck = this.decks[index + 1]; 
+    var format = 0;
+    switch (this.selectedDeck.format) {
+      case "Standard":
+        break;
+      case "Modern":
+        format = 1;
+        break;
+      case "Legacy":
+        format = 2;
+        break;
+      case "Vintage":
+        format = 3;
+        break;
+      case "Commander":
+        format = 4;
+        break;
+      case "Casual":
+        format = 5;
+        break;
+    }
+    this.formatsForm.controls['formatsOptions'].patchValue(this.formatsOptions[format].id, {onlySelf: true});
+
+    if (this.selectedDeck.cards.length != 0) {
+      this.dataSource.data = this.selectedDeck.cards;
+      this.setCard(0);
+    } 
+    else {
+      this.dataSource.data = []; 
+      this.resetSelectedCard();
+    }
+
+    return;
   }
 
   setDeck(deckId: number, cardIndex: number): void {
