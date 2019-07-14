@@ -393,7 +393,7 @@ export class DeckDetailComponent implements OnInit {
     var total = 0;
     if (this.selectedDeck && this.selectedDeck.cards) {
       this.selectedDeck.cards.forEach(element => {
-        total += (element.purchasePrice) | 0;
+        total += element.purchasePrice;
       });
     }
 
@@ -404,7 +404,7 @@ export class DeckDetailComponent implements OnInit {
     var total = 0;
     if (this.selectedDeck && this.selectedDeck.cards) {
       this.selectedDeck.cards.forEach(element => {
-        total += (element.marketPrice * element.quantity) | 0;
+        total += (element.marketPrice * element.quantity);
       });
     }
 
