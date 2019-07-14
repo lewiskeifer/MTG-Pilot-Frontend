@@ -43,6 +43,15 @@ button:disabled {
   cursor: auto;
 }
 
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.form {
+  width: 179px !important; 
+}
+
 table {
   width: 600px;
   margin-top: 20px;
@@ -54,6 +63,7 @@ table {
 tr.mat-footer-row {
   font-weight: bold;
 }
+
 .card {
   width: 500px;
   height: 650px;
@@ -63,36 +73,17 @@ tr.mat-footer-row {
     width: 318px;
   }
 }
+
 .deck {
   width: 500px;
   height: 175px;
-  margin-top: 25px;
+  margin-top: 20px;
   @media only screen and (max-width: 650px) { 
     height: 200px;
     width: 318px;
   }
 }
-.example-container {
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
-}
-.example-header {
-  min-height: 64px;
-  padding: 8px 24px 0;
-}
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
 
-.example-full-width {
-  width: 45%;
-}
-
-.form {
-  width: 179px !important; 
-}
 .refresh-button {
   width: 125px; 
   height: 25px;

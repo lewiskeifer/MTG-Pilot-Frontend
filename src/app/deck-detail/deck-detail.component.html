@@ -127,7 +127,7 @@
           <div class="deck padded" style="text-align: center">
             <mat-card>
               <form [formGroup]="deckForm">
-                <mat-form-field class="example-full-width">
+                <mat-form-field style="width: 80%;">
                   <input matInput [(ngModel)]="selectedDeck.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="deckForm.controls.name.hasError('required')">
                     Name is <strong>required</strong>
@@ -155,7 +155,7 @@
           <div class="deck padded" style="text-align: center">
             <mat-card>
               <form [formGroup]="deckForm">
-                <mat-form-field class="example-full-width">
+                <mat-form-field style="width: 80%;">
                   <input matInput [(ngModel)]="selectedDeck.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="deckForm.controls.name.hasError('required')">
                     Name is <strong>required</strong>
@@ -215,8 +215,8 @@
                 <div class="card padded" style="text-align: center;">
                   <mat-card>
                     <mat-card-subtitle>	
-                      <form [formGroup]="cardForm" class="example-form">
-                        <mat-form-field class="example-full-width" style="margin-top: 20px;">
+                      <form [formGroup]="cardForm">
+                        <mat-form-field style="margin-top: 20px; width: 80%;">
                           <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" 
                             [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.name.hasError('required')">
@@ -224,14 +224,14 @@
                           </mat-error>
                         </mat-form-field>
 
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field style="width: 45%;">
                           <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" 
                             formControlName="quantity" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                             Quantity is <strong>required</strong>
                           </mat-error>
                         </mat-form-field>
-                          <mat-form-field class="example-full-width">
+                          <mat-form-field style="width: 45%;">
                           <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
                             formControlName="purchasePrice" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
@@ -275,7 +275,7 @@
                           </select>
                         </form>
                   
-                        <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
+                        <img mat-card-image src={{selectedCard.url}} style="margin-top: 10px; width: 200px; height: 285px; border: 2px solid black">
                         <mat-card-actions>
                           <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Update Card</button>
                           <button type="button" mat-raised-button (click)="deleteCard()" class="padded" style="line-height: 20px;">Delete Card</button>
@@ -295,21 +295,21 @@
               <div class="card padded" style="text-align: center">
                 <mat-card>
                   <mat-card-subtitle>
-                    <form [formGroup]="cardForm" class="example-form">
-                      <mat-form-field class="example-full-width" style="margin-top: 20px;">
+                    <form [formGroup]="cardForm">
+                      <mat-form-field style="margin-top: 20px; width: 80%;">
                         <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
                         <mat-error *ngIf="cardForm.controls.name.hasError('required')">
                           Name is <strong>required</strong>
                         </mat-error>
                       </mat-form-field>
-                      <mat-form-field class="example-full-width">
+                      <mat-form-field style="width: 45%;">
                         <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" 
                           [errorStateMatcher]="matcher">
                         <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                           Quantity is <strong>required</strong>
                         </mat-error>
                       </mat-form-field>
-                      <mat-form-field class="example-full-width">
+                      <mat-form-field style="width: 45%;">
                         <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
                           formControlName="purchasePrice" [errorStateMatcher]="matcher">
                         <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
