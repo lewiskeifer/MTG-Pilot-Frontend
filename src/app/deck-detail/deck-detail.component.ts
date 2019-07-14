@@ -31,7 +31,7 @@ export class DeckDetailComponent implements OnInit {
   versions: any[];
 
   dataSource: MatTableDataSource<Card>;
-  displayedColumns: string[] = ['card', 'condition', 'version', 
+  displayedColumns: string[] = ['card', 'condition', 'set', 
     'quantity', 'totalPurchasePrice', 'totalValue'];
 
   decks: Deck[];
@@ -289,7 +289,7 @@ export class DeckDetailComponent implements OnInit {
 
     this.selectedCard.isFoil = this.convertFoilForm();
     this.selectedCard.cardCondition = this.convertConditionForm();
-    this.selectedCard.version = this.convertVersionForm();
+    this.selectedCard.set = this.convertVersionForm();
     var newDeckId = this.convertDeckForm();
 
     this.deckService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
@@ -452,7 +452,7 @@ export class DeckDetailComponent implements OnInit {
         var versionIndex = 0;
 
         this.versions.forEach(v => {
-          if (v.name === this.selectedCard.version) {
+          if (v.name === this.selectedCard.set) {
             versionIndex = count2;
           }
           count2++;

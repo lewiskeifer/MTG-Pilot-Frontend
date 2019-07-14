@@ -1,25 +1,27 @@
-<div class="center" style="background-color: #125A85; border: 1px solid #0C3C59; height: 80px;">
-  <div *ngIf="currentUser">
-    <div class="parent">
-      <div class="left">
-        <img src="assets/img/mtgpilot_logo.png" class="left">
+
+
+  <div class="center" style="background-color: #125A85; border: 1px solid #0C3C59;">
+    <div *ngIf="currentUser">
+      <div class="parent">
+        <div class="left logo">
+          <img src="assets/img/mtgpilot_logo.png" class="left logo">
+        </div>
+        <div class="center">
+          <nav>
+            <a routerLink="/home" class="padded">Home</a>
+            <a routerLink="/dashboard" class="padded">Dashboard</a>
+            <a routerLink="/decks" class="padded">Decks</a>
+            <a class="padded" (click)="logout()">Logout</a>
+          </nav>
+        </div>
+        <div class="right"></div>
       </div>
-      <div class="center">
-        <nav>
-          <a routerLink="/home" class="padded">Home</a>
-          <a routerLink="/dashboard" class="padded">Dashboard</a>
-          <a routerLink="/decks" class="padded">Decks</a>
-          <a class="padded" (click)="logout()">Logout</a>
-        </nav>
-      </div>
-      <div class="right"></div>
     </div>
-  </div>
 
   <div *ngIf="!currentUser">
     <div class="parent">
-      <div class="left">
-        <img src="assets/img/mtgpilot_logo.png" class="left">
+      <div class="left logo">
+        <img src="assets/img/mtgpilot_logo.png" class="left logo">
       </div>
       <div class="center">
         <nav>
@@ -28,9 +30,10 @@
         </nav>
       </div>
       <div class="right"></div>
+      </div>
     </div>
   </div>
-</div>
+
 
 <router-outlet></router-outlet>
 
