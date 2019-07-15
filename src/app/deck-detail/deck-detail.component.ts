@@ -348,12 +348,14 @@ export class DeckDetailComponent implements OnInit {
           else {
             this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
           }
-        },
-        error => {
-          this.alertService.error(error.error.message);
-      });
+        });
+      },
+      error => {
+        console.log("errr");
+        this.alertService.error(error.error.message);
     });
   }
+
 
   saveDeck(): void {
     this.selectedDeck.format = this.convertFormatForm();
