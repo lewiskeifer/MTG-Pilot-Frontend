@@ -19,12 +19,14 @@
     </mat-card>
   </div>
 
-  <div>
-    <mat-card class="card1">
-      <img mat-card-image src="assets/img/logo.png" class="img">
-      <img mat-card-image src="assets/img/1.PNG" class="img">
-      <img mat-card-image src="assets/img/2.PNG" class="img">
-    </mat-card>
+  <div style="margin-top: 20px">
+    <carousel>
+      <ng-container *ngFor="let item of items;">
+        <ng-container *carouselItem>
+          <img mat-card-image class="item img" src={{item.title}}>
+        </ng-container>
+      </ng-container>
+    </carousel>
   </div>
 
 </div>
