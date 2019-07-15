@@ -1,7 +1,5 @@
 /* AppComponent's private CSS styles */
 
-body {  }
-
 h1 {
   font-size: 1.2em;
   color: #999;
@@ -19,6 +17,12 @@ nav a {
   border-radius: 4px;
   font-size: 1.75em;
   font-family: 'Exo 2', sans-serif;
+  @media only screen and (max-width: 850px) { 
+    font-size: 1.25em;
+    @media only screen and (max-width: 650px) { 
+      font-size: 1em;
+    }
+  }
 }
 nav a:visited, a:link {
   color: rgb(197, 197, 197);
@@ -28,13 +32,23 @@ nav a:hover {
 }
 nav a.active {
   color: #039be5;
-}
-
+} 
 
 .parent {
   display: flex;
+  @media only screen and (max-width: 650px) { 
+    height: 42px;
+  }
 }
 .left, .right {
   flex: 1;
+  @media only screen and (max-width: 650px) { 
+    flex: 0;
+  }
 }
-  
+
+.logo {
+  @media only screen and (max-width: 650px) { 
+    display: none;
+  }
+}

@@ -43,53 +43,47 @@ button:disabled {
   cursor: auto;
 }
 
-table {
-  width: 600px;
-  margin-top: 20px;
-  @media only screen and (max-width: 600px) { 
-    width: 400px;
-  }
-}
-tr.mat-footer-row {
-  font-weight: bold;
-}
-.card {
-  width: 500px;
-  height: 650px;
-  margin-top: 50px;
-  @media only screen and (max-width: 600px) { 
-    width: 350px;
-  }
-}
-.deck {
-  width: 500px;
-  height: 175px;
-  margin-top: 25px;
-  @media only screen and (max-width: 600px) { 
-    width: 350px;
-  }
-}
-.example-container {
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
-}
-.example-header {
-  min-height: 64px;
-  padding: 8px 24px 0;
-}
 .mat-form-field {
   font-size: 14px;
   width: 100%;
 }
 
-.example-full-width {
-  width: 45%;
-}
-
 .form {
   width: 179px !important; 
 }
+
+table {
+  width: 600px;
+  margin-top: 20px;
+  @media only screen and (max-width: 650px) {
+    // TODO stuck at 404 for mobile 
+    width: 300px !important;
+  }
+}
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
+.card {
+  width: 500px;
+  height: 650px;
+  margin-top: 50px;
+  @media only screen and (max-width: 650px) { 
+    height: 700px;
+    width: 318px;
+  }
+}
+
+.deck {
+  width: 500px;
+  height: 175px;
+  margin-top: 20px;
+  @media only screen and (max-width: 650px) { 
+    height: 200px;
+    width: 318px;
+  }
+}
+
 .refresh-button {
   width: 125px; 
   height: 25px;
@@ -104,7 +98,17 @@ tr.mat-footer-row {
   list-style-type: none;
   padding: 0;
   width: 20em;
-  margin-top: 25px;
+  margin-top: 25px;  @media only screen and (max-width: 650px) { 
+    width: 318px;
+  }
+
+}
+.decksPatch {
+  width: 600px;
+  @media only screen and (max-width: 650px) { 
+    width: 318px;
+  }
+
 }
 .decks li {
   cursor: pointer;

@@ -8,7 +8,8 @@ export class Card {
   id: number;
   groupId: number;
   name: string;
-  version: string;
+  set: string;
+  abbreviation: string;
   isFoil: boolean;
   cardCondition: string;
   purchasePrice: number;

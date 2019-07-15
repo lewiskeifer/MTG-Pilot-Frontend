@@ -1,11 +1,53 @@
 <div *ngIf="loading2">
-  <mat-progress-spinner class="center" mode="indeterminate" [diameter]="100"></mat-progress-spinner>
+  <mat-progress-spinner class="center" style="margin-top: 20px;" mode="indeterminate" [diameter]="100"></mat-progress-spinner>
 </div>
 
 <div *ngIf="!loading2">
   <div class="layout">
 
     <!-- Table -->
+    <div *ngIf="selectedDeck.id === 0">
+      <div class="table padded">
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+            
+            <!-- Card Column -->
+            <ng-container matColumnDef="card">
+              <th mat-header-cell *matHeaderCellDef> Deck </th>
+              <td mat-cell *matCellDef="let card"> {{card.name}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <!-- Card Column -->
+            <ng-container matColumnDef="format">
+              <th mat-header-cell *matHeaderCellDef> Format </th>
+              <td mat-cell *matCellDef="let card"> {{card.format}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+  
+            <!-- Purchase Price Column -->
+            <ng-container matColumnDef="totalPurchasePrice">
+              <th mat-header-cell *matHeaderCellDef> Purchase Price </th>
+              <td mat-cell *matCellDef="let card"> {{card.purchasePrice || '' | currency}} </td>
+              <td mat-footer-cell *matFooterCellDef> {{getTotalPurchasePrice() | currency}} </td>
+            </ng-container>
+  
+            <!-- Value Column -->
+            <ng-container matColumnDef="totalValue">
+              <th mat-header-cell *matHeaderCellDef> Market Value </th>
+              <td mat-cell *matCellDef="let card"> {{card.marketPrice * card.quantity | currency}} </td>
+              <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsDecks;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsDecks; let i = index" (click)="setDeckByIndex(i)" style="cursor: pointer"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumnsDecks"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedDeck.id != 0">
     <div class="table padded">
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>
@@ -24,10 +66,10 @@
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
-          <!-- Version Column -->
-          <ng-container matColumnDef="version">
-            <th mat-header-cell *matHeaderCellDef> Version </th>
-            <td mat-cell *matCellDef="let card"> {{card.version}} </td>
+          <!-- Set Column -->
+          <ng-container matColumnDef="set">
+            <th mat-header-cell *matHeaderCellDef> Set </th>
+            <td mat-cell *matCellDef="let card"> {{card.abbreviation}} </td>
             <td mat-footer-cell *matFooterCellDef> Totals: </td>
           </ng-container>
 
@@ -59,6 +101,7 @@
         </table>
       </div>
     </div>
+  </div>
 
     <!-- Deck -->
     <div>
@@ -84,14 +127,14 @@
           <div class="deck padded" style="text-align: center">
             <mat-card>
               <form [formGroup]="deckForm">
-                <mat-form-field class="example-full-width">
+                <mat-form-field style="width: 80%;">
                   <input matInput [(ngModel)]="selectedDeck.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="deckForm.controls.name.hasError('required')">
                     Name is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
                 <form [formGroup]="formatsForm">
-                  <label for="formatsOptions" style="width: 80px;">Deck</label>
+                  <label for="formatsOptions" style="width: 80px;">Format</label>
                   <select formControlName="formatsOptions" id="formatsOptions">
                     <option *ngFor="let formatsOption of formatsOptions; let i = index" [ngValue]="formatsOptions[i].id">
                       {{formatsOptions[i].name}}
@@ -112,7 +155,7 @@
           <div class="deck padded" style="text-align: center">
             <mat-card>
               <form [formGroup]="deckForm">
-                <mat-form-field class="example-full-width">
+                <mat-form-field style="width: 80%;">
                   <input matInput [(ngModel)]="selectedDeck.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
                   <mat-error *ngIf="deckForm.controls.name.hasError('required')">
                     Name is <strong>required</strong>
@@ -120,7 +163,7 @@
                 </mat-form-field>
 
                 <form [formGroup]="formatsForm">
-                  <label for="formatsOptions" style="width: 80px;">Deck</label>
+                  <label for="formatsOptions" style="width: 80px;">Format</label>
                   <select formControlName="formatsOptions" id="formatsOptions">
                     <option *ngFor="let formatsOption of formatsOptions; let i = index" [ngValue]="formatsOptions[i].id">
                       {{formatsOptions[i].name}}
@@ -172,8 +215,8 @@
                 <div class="card padded" style="text-align: center;">
                   <mat-card>
                     <mat-card-subtitle>	
-                      <form [formGroup]="cardForm" class="example-form">
-                        <mat-form-field class="example-full-width" style="margin-top: 20px;">
+                      <form [formGroup]="cardForm">
+                        <mat-form-field style="margin-top: 20px; width: 80%;">
                           <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" 
                             [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.name.hasError('required')">
@@ -181,23 +224,29 @@
                           </mat-error>
                         </mat-form-field>
 
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field style="width: 45%;">
                           <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" 
                             formControlName="quantity" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                             Quantity is <strong>required</strong>
                           </mat-error>
+                          <mat-error *ngIf="cardForm.controls.quantity.hasError('nonZero')">
+                            Enter a positive, non-zero number
+                          </mat-error>
                         </mat-form-field>
-                          <mat-form-field class="example-full-width">
+                          <mat-form-field style="width: 45%;">
                           <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
                             formControlName="purchasePrice" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                             Purchase Price is <strong>required</strong>
                           </mat-error>
+                          <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('nonZero')">
+                            Enter a positive, non-zero number
+                          </mat-error>
                         </mat-form-field>
 
                         <form [formGroup]="versionsForm">
-                          <label for="versionsOptions" style="width: 80px;">Version</label>
+                          <label for="versionsOptions" style="width: 80px;">Set</label>
                           <select formControlName="versionsOptions" id="versionsOptions">
                             <option *ngFor="let versionsOption of versionsOptions; let i = index" [ngValue]="versionsOptions[i].id">
                               {{versionsOptions[i].name}}
@@ -232,7 +281,7 @@
                           </select>
                         </form>
                   
-                        <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black">
+                        <img mat-card-image src={{selectedCard.url}} style="margin-top: 10px; width: 200px; height: 285px; border: 2px solid black">
                         <mat-card-actions>
                           <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Update Card</button>
                           <button type="button" mat-raised-button (click)="deleteCard()" class="padded" style="line-height: 20px;">Delete Card</button>
@@ -252,30 +301,36 @@
               <div class="card padded" style="text-align: center">
                 <mat-card>
                   <mat-card-subtitle>
-                    <form [formGroup]="cardForm" class="example-form">
-                      <mat-form-field class="example-full-width" style="margin-top: 20px;">
+                    <form [formGroup]="cardForm">
+                      <mat-form-field style="margin-top: 20px; width: 80%;">
                         <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
                         <mat-error *ngIf="cardForm.controls.name.hasError('required')">
                           Name is <strong>required</strong>
                         </mat-error>
                       </mat-form-field>
-                      <mat-form-field class="example-full-width">
+                      <mat-form-field style="width: 45%;">
                         <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" 
                           [errorStateMatcher]="matcher">
                         <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                           Quantity is <strong>required</strong>
                         </mat-error>
+                        <mat-error *ngIf="cardForm.controls.quantity.hasError('nonZero')">
+                          Enter a positive, non-zero number
+                        </mat-error>
                       </mat-form-field>
-                      <mat-form-field class="example-full-width">
+                      <mat-form-field style="width: 45%;">
                         <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
                           formControlName="purchasePrice" [errorStateMatcher]="matcher">
                         <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                           Purchase Price is <strong>required</strong>
                         </mat-error>
+                        <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('nonZero')">
+                          Enter a positive, non-zero number
+                        </mat-error>
                       </mat-form-field>
 
                       <form [formGroup]="versionsForm">
-                        <label for="versionsOptions" style="width: 80px;">Version</label>
+                        <label for="versionsOptions" style="width: 80px;">Set</label>
                         <select formControlName="versionsOptions" id="versionsOptions">
                           <option *ngFor="let versionsOption of versionsOptions; let i = index" [ngValue]="versionsOptions[i].id">
                             {{versionsOptions[i].name}}
@@ -330,7 +385,7 @@
       </div>
     </div>
 
-    <div style="width: 600px;">
+    <div class="decksPatch">
       <ul class="decks">
         <li *ngFor="let deck of decks; let i = index" (click)="setDeck(deck.id, 0)">
           <span class="badge">{{i}}</span> {{deck.name}}
