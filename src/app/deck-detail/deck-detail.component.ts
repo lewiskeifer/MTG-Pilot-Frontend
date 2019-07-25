@@ -8,6 +8,7 @@ import { Deck } from '../_model/deck';
 import { User } from '../_model/user';
 import { AlertService } from '../_service/alert.service';
 import { DeckService } from '../_service/deck.service';
+import { NonZero } from '../_helper/non-zero.validator';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -33,6 +34,7 @@ export class DeckDetailComponent implements OnInit {
   dataSource: MatTableDataSource<Card>;
   displayedColumns: string[] = ['card', 'condition', 'set', 
     'quantity', 'totalPurchasePrice', 'totalValue'];
+  displayedColumnsDecks: string[] = ['card', 'format', 'totalPurchasePrice', 'totalValue'];
 
   decks: Deck[];
 
@@ -71,7 +73,7 @@ export class DeckDetailComponent implements OnInit {
     name: ['', [Validators.required]],
     quantity: ['', [Validators.required]],
     purchasePrice: ['', [Validators.required]]
-  });
+  }, {validator: [NonZero('quantity'), NonZero('purchasePrice')]});
 
   constructor(private alertService: AlertService, 
               private deckService: DeckService, 
@@ -150,6 +152,43 @@ export class DeckDetailComponent implements OnInit {
       this.decksOptions = this.getDecksOptions(); 
       this.setDeck(deckId, cardIndex);
     });
+  }
+
+  setDeckByIndex(index: number): void {
+
+    this.selectedDeck = this.decks[index + 1]; 
+    var format = 0;
+    switch (this.selectedDeck.format) {
+      case "Standard":
+        break;
+      case "Modern":
+        format = 1;
+        break;
+      case "Legacy":
+        format = 2;
+        break;
+      case "Vintage":
+        format = 3;
+        break;
+      case "Commander":
+        format = 4;
+        break;
+      case "Casual":
+        format = 5;
+        break;
+    }
+    this.formatsForm.controls['formatsOptions'].patchValue(this.formatsOptions[format].id, {onlySelf: true});
+
+    if (this.selectedDeck.cards.length != 0) {
+      this.dataSource.data = this.selectedDeck.cards;
+      this.setCard(0);
+    } 
+    else {
+      this.dataSource.data = []; 
+      this.resetSelectedCard();
+    }
+
+    return;
   }
 
   setDeck(deckId: number, cardIndex: number): void {
@@ -309,12 +348,14 @@ export class DeckDetailComponent implements OnInit {
           else {
             this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
           }
-        },
-        error => {
-          this.alertService.error(error.error.message);
-      });
+        });
+      },
+      error => {
+        console.log("errr");
+        this.alertService.error(error.error.message);
     });
   }
+
 
   saveDeck(): void {
     this.selectedDeck.format = this.convertFormatForm();
@@ -354,7 +395,7 @@ export class DeckDetailComponent implements OnInit {
     var total = 0;
     if (this.selectedDeck && this.selectedDeck.cards) {
       this.selectedDeck.cards.forEach(element => {
-        total += (element.purchasePrice) | 0;
+        total += element.purchasePrice;
       });
     }
 
@@ -365,7 +406,7 @@ export class DeckDetailComponent implements OnInit {
     var total = 0;
     if (this.selectedDeck && this.selectedDeck.cards) {
       this.selectedDeck.cards.forEach(element => {
-        total += (element.marketPrice * element.quantity) | 0;
+        total += (element.marketPrice * element.quantity);
       });
     }
 

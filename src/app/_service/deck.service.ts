@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Card } from '../_model/card';
 import { Deck } from '../_model/deck';
-import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class DeckService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private httpClient: HttpClient, private messageService: MessageService) { }
+  constructor(private httpClient: HttpClient) { }
 
   /** GET all versions */
   getVersions(): Observable<String[]> {
