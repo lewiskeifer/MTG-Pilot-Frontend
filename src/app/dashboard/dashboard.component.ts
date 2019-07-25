@@ -52,9 +52,7 @@ export class DashboardComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.screenwidth = event.target.innerWidth;
-    console.log(this.screenwidth);
     if (this.screenwidth < 1000) {
-      console.log("Ffds");
       this.config = new LineChartConfig('Total Value', '', 500, 400);
       this.config2 = new LineChartConfig('Value / Purchase Price', '', 500, 400);
       this.setChart();
