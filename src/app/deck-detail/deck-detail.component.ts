@@ -369,7 +369,6 @@ export class DeckDetailComponent implements OnInit {
     });
   }
 
-
   saveDeck(): void {
     this.selectedDeck.format = this.convertFormatForm();
     this.selectedDeck.sortOrder = this.ordersForm.controls["ordersOptions"].value
