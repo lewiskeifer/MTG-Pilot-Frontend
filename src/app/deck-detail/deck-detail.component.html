@@ -171,6 +171,15 @@
                   </select>
                 </form>
 
+                <form [formGroup]="ordersForm">
+                  <label for="ordersOptions" style="width: 80px;">Order</label>
+                  <select formControlName="ordersOptions" id="ordersOptions">
+                    <option *ngFor="let ordersOption of ordersOptions; let i = index" [ngValue]="ordersOptions[i]">
+                      {{ordersOptions[i]}}
+                    </option>
+                  </select>
+                </form>
+
                 <mat-card-actions>
                   <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px; line-height: 20px;">Update Deck</button>
                   <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px 5px auto 5px; line-height: 20px;">Delete Deck</button>
