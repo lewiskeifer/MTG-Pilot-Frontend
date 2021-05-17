@@ -5,7 +5,7 @@ export class Deck {
     id: number;
     name: string;
     format: string;
-    value: number;
+    sortOrder: number;
     cards: Array<Card>;
     deckSnapshots: Array<DeckSnapshot>;
   }

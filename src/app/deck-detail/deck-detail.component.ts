@@ -9,6 +9,7 @@ import { User } from '../_model/user';
 import { AlertService } from '../_service/alert.service';
 import { DeckService } from '../_service/deck.service';
 import { NonZero } from '../_helper/non-zero.validator';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -59,6 +60,9 @@ export class DeckDetailComponent implements OnInit {
   formatsForm: FormGroup;
   formatsOptions = [];
 
+  ordersForm: FormGroup;
+  ordersOptions = [];
+
   versionsForm: FormGroup;
   versionsOptions = [];
 
@@ -66,7 +70,8 @@ export class DeckDetailComponent implements OnInit {
 
   deckForm = this.formBuilder.group({
     name: ['', [Validators.required]],
-    format: ['', [Validators.required]]
+    format: ['', [Validators.required]],
+    order: ['', [Validators.required]]
   });
 
   cardForm = this.formBuilder.group({
@@ -92,6 +97,10 @@ export class DeckDetailComponent implements OnInit {
 
     this.formatsForm = this.formBuilder.group({
       formatsOptions: ['']
+    });
+
+    this.ordersForm = this.formBuilder.group({
+      ordersOptions: ['']
     });
 
     this.versionsForm = this.formBuilder.group({
@@ -126,6 +135,7 @@ export class DeckDetailComponent implements OnInit {
       .subscribe(decks => { 
         this.decks = decks; 
         this.decksOptions = this.getDecksOptions(); 
+        this.ordersOptions = this.getOrdersOptions();
         this.setDeck(0, 0); 
         this.loading2 = false;
       });
@@ -179,6 +189,8 @@ export class DeckDetailComponent implements OnInit {
     }
     this.formatsForm.controls['formatsOptions'].patchValue(this.formatsOptions[format].id, {onlySelf: true});
 
+    this.ordersForm.controls['ordersOptions'].patchValue(this.ordersOptions[this.selectedDeck.sortOrder - 1], {onlySelf: true});
+
     if (this.selectedDeck.cards.length != 0) {
       this.dataSource.data = this.selectedDeck.cards;
       this.setCard(0);
@@ -220,6 +232,8 @@ export class DeckDetailComponent implements OnInit {
             break;
         }
         this.formatsForm.controls['formatsOptions'].patchValue(this.formatsOptions[format].id, {onlySelf: true});
+
+        this.ordersForm.controls['ordersOptions'].patchValue(this.ordersOptions[this.selectedDeck.sortOrder - 1], {onlySelf: true});
 
         if (this.selectedDeck.cards.length != 0) {
           this.dataSource.data = this.selectedDeck.cards;
@@ -359,6 +373,7 @@ export class DeckDetailComponent implements OnInit {
 
   saveDeck(): void {
     this.selectedDeck.format = this.convertFormatForm();
+    this.selectedDeck.sortOrder = this.ordersForm.controls["ordersOptions"].value
     this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).subscribe(deck => { 
       this.getAndSetDecks(deck.id, 0);
     });
@@ -452,6 +467,15 @@ export class DeckDetailComponent implements OnInit {
       { id: '5', name: 'Commander' },
       { id: '6', name: 'Casual' }
     ];
+  }
+
+  getOrdersOptions() {
+    if (this.decks == null) return [];
+    var data = [];
+    for (var i = 1; i < this.decks.length; ++i) {
+      data.push(i);
+    }
+    return data;
   }
 
   getVersions() {
@@ -555,6 +579,11 @@ export class DeckDetailComponent implements OnInit {
       case "6":
         return "Casual";
     }
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.decks, event.previousIndex, event.currentIndex);
+    console.log(this.decks);
   }
 
 }
