@@ -9,7 +9,6 @@ import { User } from '../_model/user';
 import { AlertService } from '../_service/alert.service';
 import { DeckService } from '../_service/deck.service';
 import { NonZero } from '../_helper/non-zero.validator';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -579,11 +578,6 @@ export class DeckDetailComponent implements OnInit {
       case "6":
         return "Casual";
     }
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.decks, event.previousIndex, event.currentIndex);
-    console.log(this.decks);
   }
 
 }
