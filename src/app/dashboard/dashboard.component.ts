@@ -155,7 +155,7 @@ export class DashboardComponent implements OnInit {
       row[1] = deckOverviewValue;
       rows[_j] = row;
 
-      if (purchasePrice !== 0) {
+      if (deckOverviewPurchasePrice !== 0) {
         row2[1] = deckOverviewValue / deckOverviewPurchasePrice;
       }
       else {
