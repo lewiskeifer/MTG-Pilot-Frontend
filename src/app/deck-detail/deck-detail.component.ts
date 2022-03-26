@@ -364,8 +364,9 @@ export class DeckDetailComponent implements OnInit {
             index++;
           });
 
+          // Case for save new card
           if (!cardFound) {
-            this.setDeck(this.selectedDeck.id, 0);
+            this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
           }
         });
       },
