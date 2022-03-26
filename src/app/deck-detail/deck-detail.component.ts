@@ -353,13 +353,19 @@ export class DeckDetailComponent implements OnInit {
           this.decks = decks; 
           this.decksOptions = this.getDecksOptions(); 
           this.refreshSelectedDeck();
-          if (this.selectedDeck.id !== newDeckId) {
-            // Move card called
-            // TODO set to new card
-            this.setDeck(newDeckId, 0);
-          }
-          else {
-            this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
+
+          var index = 0;
+          var cardFound = false;
+          this.selectedDeck.cards.forEach(card => {
+            if (card.id === this.selectedCard.id) {
+              cardFound = true;
+              this.setDeck(this.selectedDeck.id, index);
+            }
+            index++;
+          });
+
+          if (!cardFound) {
+            this.setDeck(this.selectedDeck.id, 0);
           }
         });
       },
