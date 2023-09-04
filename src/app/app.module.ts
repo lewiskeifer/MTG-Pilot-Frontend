@@ -13,6 +13,8 @@ import { CarouselComponent, CarouselItemDirective, CarouselItemElement } from '.
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeckDetailComponent } from './deck-detail/deck-detail.component';
 import { DecksComponent } from './decks/decks.component';
+import { SealedDetailComponent } from './sealed-detail/sealed-detail.component';
+import { SealedComponent } from './sealed/sealed.component';
 import { GoogleLineChartService } from './google-charts/google-line-chart-service';
 import { LineChartComponent } from './google-charts/line-chart.component';
 import { HomeComponent } from './home/home.component';
@@ -24,6 +26,8 @@ import { RegistrationComponent } from './registration/registration.component';
     AppComponent,
     DecksComponent,
     DeckDetailComponent,
+    SealedComponent,
+    SealedDetailComponent,
     DashboardComponent,
     LineChartComponent,
     LoginComponent,

@@ -4,6 +4,8 @@ import { Deck } from '../_model/deck';
 import { User } from '../_model/user';
 import { DeckService } from '../_service/deck.service';
 import { HostListener } from '@angular/core';
+import { SealedCollection } from '../_model/sealedCollection';
+import { SealedService } from '../_service/sealed.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +13,6 @@ import { HostListener } from '@angular/core';
   styleUrls: [ './dashboard.component.scss' ]
 })
 export class DashboardComponent implements OnInit {
-
   currentUser: User;
   showWelcomePage: boolean;
   screenwidth: any;
@@ -19,57 +20,95 @@ export class DashboardComponent implements OnInit {
   loading: boolean;
 
   decks: Deck[];
- 
-  data: any[];
-  config: LineChartConfig;
-  elementId: string;
+  sealedCollection: SealedCollection[];
 
-  data2: any[];
-  config2: LineChartConfig;
-  elementId2: string;
+  singlesTotalValueData: any[];
+  singlesTotalValueConfig: LineChartConfig;
+  singlesTotalValueElementId: string;
 
-  constructor(private deckService: DeckService) { }
+  singlesRatioData: any[];
+  singlesRatioConfig: LineChartConfig;
+  singlesRatioElementId: string;
+
+  sealedTotalValueData: any[];
+  sealedTotalValueConfig: LineChartConfig;
+  sealedTotalValueElementId: string;
+
+  sealedRatioData: any[];
+  sealedRatioConfig: LineChartConfig;
+  sealedRatioElementId: string;
+
+  constructor(private deckService: DeckService, private sealedService: SealedService) { }
  
   ngOnInit() {
     this.loading = true;
     this.screenwidth = window.innerWidth;
-    this.elementId = 'linechart_material';
-    this.elementId2 = 'linechart_material2';
+    this.singlesTotalValueElementId = 'linechart_material';
+    this.singlesRatioElementId = 'linechart_material2';
+    this.sealedTotalValueElementId = 'linechart_material3';
+    this.sealedRatioElementId = 'linechart_material4';
 
     if (this.screenwidth < 1000) {
-      this.config = new LineChartConfig('Total Value', '', 1000, 300);
-      this.config2 = new LineChartConfig('Value / Purchase Price', '', 1000, 300);
+      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 1000, 300);
+      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 1000, 300);
+      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 1000, 300);
+      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 1000, 300);
     }
     else {
-      this.config = new LineChartConfig('Total Value', '', 1000, 800);
-      this.config2 = new LineChartConfig('Value / Purchase Price', '', 1000, 800);
+      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 1000, 800);
+      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 1000, 800);
+      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 1000, 800);
+      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 1000, 800);
     }
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    this.getDecks();
+    this.loadGraphs();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.screenwidth = event.target.innerWidth;
     if (this.screenwidth < 1000) {
-      this.config = new LineChartConfig('Total Value', '', 500, 400);
-      this.config2 = new LineChartConfig('Value / Purchase Price', '', 500, 400);
+      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 500, 400);
+      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 500, 400);
+      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 500, 400);
+      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 500, 400);
       this.setChart();
+      this.setChart2();
     }
+  }
+
+  loadGraphs(): void {
+    this.getDecks();
+    this.getSealedCollections();
+    this.loading = false;
   }
  
   getDecks(): void {
     this.deckService.getDecks(this.currentUser.id)
       .subscribe(decks => { 
         this.decks = decks;
-        if (this.decks.length > 1 && this.decks[1].deckSnapshots.length > 0) { 
+        if (this.decks.length > 1 && this.decks[1].deckSnapshots.length > 1) { 
           this.showWelcomePage = false;
-          this.setChart(); }
+          this.setChart(); 
+        }
         else { 
           this.showWelcomePage = true; 
         } 
-        this.loading = false;
+      });
+  }
+
+  getSealedCollections(): void {
+    this.sealedService.getDecks(this.currentUser.id)
+      .subscribe(decks => { 
+        this.sealedCollection = decks;
+        if (this.sealedCollection.length > 1 && this.sealedCollection[1].sealedCollectionSnapshots.length > 1) { 
+          this.showWelcomePage = false;
+          this.setChart2(); 
+        }
+        else { 
+          this.showWelcomePage = true; 
+        } 
       });
   }
 
@@ -77,10 +116,10 @@ export class DashboardComponent implements OnInit {
   setChart(): void {
 
     // Total Price Chart
-    this.data = [[]];
+    this.singlesTotalValueData = [[]];
 
     // Ratio Chart
-    this.data2 = [[]];
+    this.singlesRatioData = [[]];
 
     var names = [];
 
@@ -89,8 +128,8 @@ export class DashboardComponent implements OnInit {
       names.push(this.decks[_i].name);
     }
 
-    this.data[0] = names;
-    this.data2[0] = names;
+    this.singlesTotalValueData[0] = names;
+    this.singlesRatioData[0] = names;
 
     var rows = [[]];
     var rows2 = [[]];
@@ -164,8 +203,104 @@ export class DashboardComponent implements OnInit {
       rows2[_j] = row2;
     }
 
-    this.data[1] = rows;
+    this.singlesTotalValueData[1] = rows;
 
-    this.data2[1] = rows2;
+    this.singlesRatioData[1] = rows2;
   }
+
+    // Format data sent to google chart service
+    setChart2(): void {
+
+      // Total Price Chart
+      this.sealedTotalValueData = [[]];
+  
+      // Ratio Chart
+      this.sealedRatioData = [[]];
+  
+      var names = [];
+  
+      names.push("Sealed Collection Overview");
+      for (var _i = 1; _i < this.sealedCollection.length; ++_i) {
+        names.push(this.sealedCollection[_i].name);
+      }
+  
+      this.sealedTotalValueData[0] = names;
+      this.sealedRatioData[0] = names;
+  
+      var rows = [[]];
+      var rows2 = [[]];
+  
+      var dates = [];
+  
+      // First deck must have most snapshots; create array of y axis points
+      for (var _j = 0; _j < this.sealedCollection[1].sealedCollectionSnapshots.length; ++_j) {
+        dates.push(this.sealedCollection[1].sealedCollectionSnapshots[_j].timestamp.substr(0,10));
+      }
+  
+      for (var _j = 0; _j < dates.length; ++_j) {
+  
+        var deckOverviewValue = 0;
+        var deckOverviewPurchasePrice = 0;
+  
+        var row = [];
+        var row2 = [];
+  
+        row.push(dates[_j]);
+        row2.push(dates[_j]);
+        
+        // K == 0, skip deck overview
+        row.push(0);
+        row2.push(0);
+  
+        // K == 1+
+        for (var _k = 1; _k < this.sealedCollection.length; ++_k) {
+  
+          var numSnapshots = this.sealedCollection[_k].sealedCollectionSnapshots.length;
+          var snapshotIndex = _j;
+  
+          // Set invalid dates to zero values
+          if (numSnapshots < dates.length && snapshotIndex < (dates.length - numSnapshots)) {
+            row.push(0);
+            row2.push(0);
+          }
+          else {
+  
+            // Adjust index on decks with fewer snapshots
+            if (numSnapshots < dates.length) {
+              snapshotIndex -= (dates.length - numSnapshots);
+            }
+  
+            var value = this.sealedCollection[_k].sealedCollectionSnapshots[snapshotIndex].value;
+            deckOverviewValue += value;
+            row.push(value);
+  
+            var purchasePrice = this.sealedCollection[_k].sealedCollectionSnapshots[snapshotIndex].purchasePrice;
+            deckOverviewPurchasePrice += purchasePrice;
+  
+            // Check for division by 0
+            if (purchasePrice !== 0) {
+              row2.push(value / purchasePrice);
+            }
+            else {
+              row2.push(0);
+            }
+          }
+        }
+  
+        row[1] = deckOverviewValue;
+        rows[_j] = row;
+  
+        if (deckOverviewPurchasePrice !== 0) {
+          row2[1] = deckOverviewValue / deckOverviewPurchasePrice;
+        }
+        else {
+          row2[1] = 0;
+        }
+        rows2[_j] = row2;
+      }
+  
+      this.sealedTotalValueData[1] = rows;
+  
+      this.sealedRatioData[1] = rows2;
+    }
 }
