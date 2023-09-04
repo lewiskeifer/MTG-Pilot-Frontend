@@ -11,10 +11,16 @@
           <div class="divTableBody">
             <div class="divTableRow layout">
               <div class="divTableCell left padded graph">
-                <line-chart [data]="data" [config]="config" [elementId]="elementId"></line-chart>
+                <line-chart [data]="singlesTotalValueData" [config]="singlesTotalValueConfig" [elementId]="singlesTotalValueElementId"></line-chart>
               </div>
               <div class="divTableCell right padded graph">
-                <line-chart [data]="data2" [config]="config2" [elementId]="elementId2"></line-chart>
+                <line-chart [data]="singlesRatioData" [config]="singlesRatioConfig" [elementId]="singlesRatioElementId"></line-chart>
+              </div>
+              <div class="divTableCell left padded graph">
+                <line-chart [data]="sealedTotalValueData" [config]="sealedTotalValueConfig" [elementId]="sealedTotalValueElementId"></line-chart>
+              </div>
+              <div class="divTableCell right padded graph">
+                <line-chart [data]="sealedRatioData" [config]="sealedRatioConfig" [elementId]="sealedRatioElementId"></line-chart>
               </div>
             </div>
           </div>
