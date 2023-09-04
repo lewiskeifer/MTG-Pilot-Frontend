@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   screenwidth: any;
 
   loading: boolean;
+  loading2: boolean;
 
   decks: Deck[];
   sealedCollection: SealedCollection[];
@@ -42,6 +43,7 @@ export class DashboardComponent implements OnInit {
  
   ngOnInit() {
     this.loading = true;
+    this.loading2 = true;
     this.screenwidth = window.innerWidth;
     this.singlesTotalValueElementId = 'linechart_material';
     this.singlesRatioElementId = 'linechart_material2';
@@ -62,7 +64,8 @@ export class DashboardComponent implements OnInit {
     }
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    this.loadGraphs();
+    this.getDecks();
+    this.getSealedCollections();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -77,12 +80,6 @@ export class DashboardComponent implements OnInit {
       this.setChart2();
     }
   }
-
-  loadGraphs(): void {
-    this.getDecks();
-    this.getSealedCollections();
-    this.loading = false;
-  }
  
   getDecks(): void {
     this.deckService.getDecks(this.currentUser.id)
@@ -95,6 +92,7 @@ export class DashboardComponent implements OnInit {
         else { 
           this.showWelcomePage = true; 
         } 
+        this.loading = false;
       });
   }
 
@@ -109,6 +107,7 @@ export class DashboardComponent implements OnInit {
         else { 
           this.showWelcomePage = true; 
         } 
+        this.loading2 = false;
       });
   }
 
