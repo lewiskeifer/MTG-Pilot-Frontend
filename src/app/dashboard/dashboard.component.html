@@ -1,6 +1,6 @@
 <div class ="padded">
 
-  <div *ngIf="loading">
+  <div *ngIf="loading || loading2">
     <mat-progress-spinner class="center" style="margin-top: 20px;" mode="indeterminate" [diameter]="100"></mat-progress-spinner>
   </div>
 
@@ -16,17 +16,29 @@
               <div class="divTableCell right padded graph">
                 <line-chart [data]="singlesRatioData" [config]="singlesRatioConfig" [elementId]="singlesRatioElementId"></line-chart>
               </div>
-              <div class="divTableCell left padded graph">
-                <line-chart [data]="sealedTotalValueData" [config]="sealedTotalValueConfig" [elementId]="sealedTotalValueElementId"></line-chart>
-              </div>
-              <div class="divTableCell right padded graph">
-                <line-chart [data]="sealedRatioData" [config]="sealedRatioConfig" [elementId]="sealedRatioElementId"></line-chart>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div *ngIf="!loading2">
+      <div *ngIf="decks">
+        <div *ngIf="!showWelcomePage">
+          <div class="divTable">
+            <div class="divTableBody">
+              <div class="divTableRow layout">
+                <div class="divTableCell left padded graph">
+                  <line-chart [data]="sealedTotalValueData" [config]="sealedTotalValueConfig" [elementId]="sealedTotalValueElementId"></line-chart>
+                </div>
+                <div class="divTableCell right padded graph">
+                  <line-chart [data]="sealedRatioData" [config]="sealedRatioConfig" [elementId]="sealedRatioElementId"></line-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <div *ngIf="showWelcomePage">
       <div class="center padded">
