@@ -38,7 +38,7 @@ export class SealedService {
 
   /** DELETE: delete the card from the server */
   deleteCard(userId: number, deckId: number, cardId: number): Observable<any> {
-    const url = `${this.decksUrl}/${userId}/collection/${deckId}/cards/${cardId}`;
+    const url = `${this.decksUrl}/${userId}/collection/${deckId}/sealed/${cardId}`;
     return this.httpClient.delete(url, this.httpOptions);
   }
 
