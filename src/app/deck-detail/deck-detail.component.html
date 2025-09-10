@@ -1,5 +1,8 @@
-<div *ngIf="loading2">
-  <mat-progress-spinner class="center" style="margin-top: 20px;" mode="indeterminate" [diameter]="100"></mat-progress-spinner>
+<div *ngIf="loading2" class="spinner-wrapper">
+  <mat-progress-spinner
+  mode="indeterminate"
+  [diameter]="100">
+</mat-progress-spinner>
 </div>
 
 <div *ngIf="!loading2">
@@ -202,7 +205,7 @@
               <div *ngIf="!loading">
                 <button mat-raised-button (click)="refreshDeck()" class="padded" style="line-height: 20px;">Refresh Values</button>
               </div>
-              <div *ngIf="loading">
+              <div *ngIf="loading" class="spinner-wrapper">
                 <button mat-raised-button class="refresh-button" style="line-height: 20px;">
                   <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
                 </button>
