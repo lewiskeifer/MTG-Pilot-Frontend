@@ -9,7 +9,7 @@ import { SealedCollection } from '../_model/sealedCollection';
 })
 export class SealedService {
 
-  private decksUrl = 'https://mtgpilot.com:8080/sealed';
+  private decksUrl = 'https://mtgpilot.com:8443/sealed';
   //private decksUrl = 'http://localhost:8080/sealed';
 
   private httpOptions = {
