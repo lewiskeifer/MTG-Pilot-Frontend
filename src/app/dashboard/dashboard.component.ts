@@ -51,16 +51,16 @@ export class DashboardComponent implements OnInit {
     this.sealedRatioElementId = 'linechart_material4';
 
     if (this.screenwidth < 1000) {
-      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 1000, 300);
-      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 1000, 300);
-      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 1000, 300);
-      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 1000, 300);
+      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 950, 300);
+      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 800, 300);
+      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 950, 300);
+      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 800, 300);
     }
     else {
-      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 1000, 800);
-      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 1000, 800);
-      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 1000, 800);
-      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 1000, 800);
+      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 950, 900);
+      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 950, 900);
+      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 950, 900);
+      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 950, 900);
     }
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));

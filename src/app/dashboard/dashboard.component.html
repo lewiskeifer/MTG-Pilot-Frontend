@@ -1,7 +1,10 @@
 <div class ="padded">
 
-  <div *ngIf="loading || loading2">
-    <mat-progress-spinner class="center" style="margin-top: 20px;" mode="indeterminate" [diameter]="100"></mat-progress-spinner>
+  <div *ngIf="loading || loading2" class="spinner-wrapper">
+    <mat-progress-spinner
+      mode="indeterminate"
+      [diameter]="100">
+    </mat-progress-spinner>
   </div>
 
   <div *ngIf="!loading">

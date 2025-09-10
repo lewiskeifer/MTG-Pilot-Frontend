@@ -9,7 +9,7 @@ import { SealedCollection } from '../_model/sealedCollection';
 })
 export class SealedService {
 
-  private decksUrl = 'https://mtgpilot.com:8080/sealed';
+  private decksUrl = 'https://mtgpilot.com:8443/sealed';
   //private decksUrl = 'http://localhost:8080/sealed';
 
   private httpOptions = {
@@ -38,7 +38,7 @@ export class SealedService {
 
   /** DELETE: delete the card from the server */
   deleteCard(userId: number, deckId: number, cardId: number): Observable<any> {
-    const url = `${this.decksUrl}/${userId}/collection/${deckId}/cards/${cardId}`;
+    const url = `${this.decksUrl}/${userId}/collection/${deckId}/sealed/${cardId}`;
     return this.httpClient.delete(url, this.httpOptions);
   }
 
