@@ -97,9 +97,7 @@
               <mat-card-content> 
                 <br> The sealed overview displays aggregate totals for all your sealed collections. <br>
               </mat-card-content>
-              <mat-card-actions>
-                <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="line-height: 20px;">Create New Sealed Collection</button>
-              </mat-card-actions>
+              <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="line-height: 20px;">Create New Sealed Collection</button>
             </mat-card>
           </div>
         </div>
@@ -165,7 +163,7 @@
               <div *ngIf="!loading">
                 <button mat-raised-button (click)="refreshDeck()" class="padded" style="line-height: 20px;">Refresh Values</button>
               </div>
-              <div *ngIf="loading" class="spinner-wrapper">
+              <div *ngIf="loading">
                 <button mat-raised-button class="refresh-button" style="line-height: 20px;">
                   <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
                 </button>
