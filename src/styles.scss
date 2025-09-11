@@ -66,3 +66,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   align-items: center;
   height: 100vh; /* Full viewport height */
 }
+
+.deck {
+  width: 500px;
+  height: 200px;
+  margin-top: 20px;
+  @media only screen and (max-width: 650px) { 
+    height: 200px;
+    width: 318px;
+  }
+}
+
+.deck-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
