@@ -69,12 +69,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .deck {
   width: 500px;
-  height: 200px;
+  height: auto;
   margin-top: 20px;
+  background: linear-gradient(135deg, #125A85, #0C3C59);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  padding: 16px;
+  transition: transform 0.3s ease;
   @media only screen and (max-width: 650px) { 
     height: 200px;
     width: 318px;
   }
+}
+
+.deck:hover {
+  transform: scale(1.02);
 }
 
 .deck-wrapper {
