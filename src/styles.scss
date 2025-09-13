@@ -93,3 +93,85 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   align-items: center;
   padding: 20px;
 }
+
+.card {
+  width: 500px;
+  height: auto;
+  margin-top: 20px;
+  background: linear-gradient(135deg, #125A85, #0C3C59);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  padding: 16px;
+  transition: transform 0.3s ease;
+  @media only screen and (max-width: 650px) { 
+    height: 700px;
+    width: 318px;
+  }
+}
+
+table {
+  width: 600px;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  padding: 16px;
+  transition: transform 0.3s ease;
+  @media only screen and (max-width: 650px) {
+    // TODO stuck at 404 for mobile 
+    width: 300px !important;
+  }
+}
+
+.decksPatch {
+  width: 600px;
+  @media only screen and (max-width: 650px) { 
+    width: 318px;
+  }
+}
+
+.decks {
+  margin: 0 auto;
+  padding: 0;
+  list-style-type: none;
+  width: 20em;
+  margin-top: 25px;
+  border-radius: 8px;
+  background-color: #0C3C59; /* Deep blue background */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin-top: 25px;  @media only screen and (max-width: 650px) { 
+    width: 318px;
+  }
+}
+.decks li {
+  padding: 12px 16px;
+  color: #fff;
+  font-weight: 500;
+  border-bottom: 1px solid #125A85;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.decks li.selected:hover {
+  background-color: #BBD8DC !important;
+  color: white;
+}
+.decks li:hover {
+  background-color: #125A85;
+}
+.decks .text {
+  position: relative;
+  top: -3px;
+}
+.decks .badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: white;
+  padding: 0.4em 0.6em;
+  background-color: #219EBC; /* Accent blue */
+  line-height: 1em;
+  margin-right: 0.8em;
+  border-radius: 4px;
+  font-weight: bold;
+}
