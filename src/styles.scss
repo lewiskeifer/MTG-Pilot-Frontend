@@ -109,3 +109,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width: 318px;
   }
 }
+
+table {
+  width: 600px;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  padding: 16px;
+  transition: transform 0.3s ease;
+  @media only screen and (max-width: 650px) {
+    // TODO stuck at 404 for mobile 
+    width: 300px !important;
+  }
+}
