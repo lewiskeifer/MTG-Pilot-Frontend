@@ -63,16 +63,6 @@ table {
 tr.mat-footer-row {
   font-weight: bold;
 }
-
-.card {
-  width: 500px;
-  height: 650px;
-  margin-top: 50px;
-  @media only screen and (max-width: 650px) { 
-    height: 700px;
-    width: 318px;
-  }
-}
   
 .selected {
   background-color: #CFD8DC !important;
