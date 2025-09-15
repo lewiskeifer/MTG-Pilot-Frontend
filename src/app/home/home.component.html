@@ -2,28 +2,32 @@
 
   <div>
     <mat-card class="card2">
-      <mat-card-title style="text-align: center"> Welcome to MTG Pilot! </mat-card-title>
-      <mat-card-subtitle style="text-align: center"> Track the financial value of your collection! <br> <br> </mat-card-subtitle>
-      <mat-card-title style="text-align: center"> To Get Started </mat-card-title>
-      <mat-card-content> <font size="4">
-        1) Login <br> <br>
-        2) Click "Decks" on the top <br> <br>
-        3) Create a new deck <br> <br>
-        4) Add some cards <br> <br>
-        5) Click "Deck Overview" at the top of your deck list <br> <br>
-        6) Hit the "Refresh" button in the center <br> <br>
-        7) Click "Dashboard" on the top <br> <br>
-        8) You should see a graph with one data point on it, come back tomorrow and watch your graphs grow! <br>
-      </font>
+      <mat-card-title class="card-title">Welcome to MTG Pilot!</mat-card-title>
+      <mat-card-subtitle class="card-subtitle">
+        Track the financial value of your collection!
+      </mat-card-subtitle>
+  
+      <mat-card-title class="card-section-title">To Get Started</mat-card-title>
+      <mat-card-content>
+        <ol class="card-steps">
+          <li>Login</li>
+          <li>Click <strong>"Singles"</strong> or <strong>"Sealed"</strong> along the top banner</li>
+          <li>Create a new Deck or Sealed Collection</li>
+          <li>Add some cards or sealed products</li>
+          <li>Click <strong>"Deck Overview"</strong> or <strong>"Sealed Overview"</strong> at the top of your deck list</li>
+          <li>Hit the <strong>"Refresh"</strong> button in the center</li>
+          <li>Click <strong>"Dashboard"</strong> along the top banner</li>
+          <li>You should see a graph with one data point—come back tomorrow and watch your graphs grow!</li>
+        </ol>
       </mat-card-content>
     </mat-card>
   </div>
 
-  <div style="margin-top: 20px">
+  <div class="carousel-wrapper">
     <carousel>
-      <ng-container *ngFor="let item of items;">
+      <ng-container *ngFor="let item of items">
         <ng-container *carouselItem>
-          <img mat-card-image class="item img" src={{item.title}}>
+          <img mat-card-image class="carousel-img" [src]="item.title" alt="Carousel Image">
         </ng-container>
       </ng-container>
     </carousel>

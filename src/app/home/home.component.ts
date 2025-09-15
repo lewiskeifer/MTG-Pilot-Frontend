@@ -8,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   
   items = [
-    { title: 'assets/img/logo.png' },
-    { title: 'assets/img/1.PNG' },
-    { title: 'assets/img/2.PNG' },
+    { title: 'assets/img/mtgp1.PNG' },
+    { title: 'assets/img/mtgp2.PNG' },
+    { title: 'assets/img/mtgp3.PNG' },
   ]
 
   constructor() { }
