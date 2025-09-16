@@ -115,11 +115,37 @@ table {
   margin-top: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  color: #fff;
+  background-color: #0C3C59; /* Deep blue base */
+  color: #E0F7FA; /* Light cyan text for contrast */
   padding: 16px;
   transition: transform 0.3s ease;
-  @media only screen and (max-width: 650px) {
-    // TODO stuck at 404 for mobile 
+}
+
+table th {
+  background-color: #125A85;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+table td {
+  border-bottom: 1px solid #125A85;
+  color: #E0F7FA;
+}
+
+table tr:hover {
+  background-color: #219EBC; /* Light blue highlight */
+  color: #fff;
+}
+
+.first-row {
+  font-size: 1.0rem;
+  font-weight: 600;
+  background-color: #125A85;
+  color: #E0F7FA;
+}
+
+@media only screen and (max-width: 650px) {
+  table {
     width: 300px !important;
   }
 }
