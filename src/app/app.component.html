@@ -1,41 +1,22 @@
-
-
-  <div class="center" style="background-color: #125A85; border: 2px solid #0C3C59; box-shadow: 0 2px 6px rgba(0,0,0,0.3); background: linear-gradient(90deg, #125A85 0%, #0C3C59 100%);">
-    <div *ngIf="currentUser">
-      <div class="parent">
-        <div class="left logo">
-          <img src="assets/img/mtgpilot_logo.png" class="left logo">
-        </div>
-        <div class="center">
-          <nav>
-            <a routerLink="/home" class="padded">Home</a>
-            <a routerLink="/dashboard" class="padded">Dashboard</a>
-            <a routerLink="/decks" class="padded">Singles</a>
-            <a routerLink="/sealed" class="padded">Sealed</a>
-            <a class="padded" (click)="logout()">Logout</a>
-          </nav>
-        </div>
-        <div class="right"></div>
-      </div>
+<header class="top-banner">
+  <div class="banner-content">
+    <div class="logo">
+      <img src="assets/img/mtgpilot_logo.png" alt="MTG Pilot Logo" />
     </div>
-
-  <div *ngIf="!currentUser">
-    <div class="parent">
-      <div class="left logo">
-        <img src="assets/img/mtgpilot_logo.png" class="left logo">
-      </div>
-      <div class="center">
-        <nav>
-          <a routerLink="/home" class="padded">Home</a>
-          <a routerLink="/login" class="padded">Login</a>
-        </nav>
-      </div>
-      <div class="right"></div>
-      </div>
-    </div>
+    <nav class="nav-links">
+      <ng-container *ngIf="currentUser; else guestNav">
+        <a routerLink="/home" class="padded">Home</a>
+        <a routerLink="/dashboard" class="padded">Dashboard</a>
+        <a routerLink="/decks" class="padded">Singles</a>
+        <a routerLink="/sealed" class="padded">Sealed</a>
+        <a class="padded" (click)="logout()">Logout</a>
+      </ng-container>
+      <ng-template #guestNav>
+        <a routerLink="/home" class="padded">Home</a>
+        <a routerLink="/login" class="padded">Login</a>
+      </ng-template>
+    </nav>
   </div>
-
+</header>
 
 <router-outlet></router-outlet>
-
-
