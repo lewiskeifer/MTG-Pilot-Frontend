@@ -25,7 +25,7 @@ body, input[type="text"], button {
   font-family: Arial, Helvetica, sans-serif;
 }
 .root {
-  display: block; width: 100%;
+  width: 100%;
 }
 .center {
   margin: auto;
@@ -78,7 +78,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 16px;
   transition: transform 0.3s ease;
   @media only screen and (max-width: 650px) { 
-    height: 200px;
     width: 318px;
   }
 }
@@ -110,6 +109,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 }
 
+.table-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
 table {
   width: 600px;
   margin-top: 20px;
@@ -119,6 +127,8 @@ table {
   color: #E0F7FA; /* Light cyan text for contrast */
   padding: 16px;
   transition: transform 0.3s ease;
+  justify-content: center;
+  align-items: center;
 }
 
 table th {
@@ -146,7 +156,7 @@ table tr:hover {
 
 @media only screen and (max-width: 650px) {
   table {
-    width: 300px !important;
+    width: 318px;
   }
 }
 
