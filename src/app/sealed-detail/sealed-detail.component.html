@@ -1,8 +1,8 @@
 <div *ngIf="loading2" class="spinner-wrapper">
   <mat-progress-spinner
-  mode="indeterminate"
-  [diameter]="100">
-</mat-progress-spinner>
+    mode="indeterminate"
+    [diameter]="100">
+  </mat-progress-spinner>
 </div>
 
 <div *ngIf="!loading2">
@@ -10,7 +10,6 @@
 
     <!-- Table -->
     <div *ngIf="selectedDeck.id === 0">
-      <div class="table-wrapper">
       <div class="table padded">
         <div class="mat-elevation-z8">
           <table mat-table [dataSource]="dataSource" matSort>
@@ -41,7 +40,6 @@
             <tr mat-footer-row *matFooterRowDef="displayedColumnsDecks"></tr>
           </table>
         </div>
-      </div>
       </div>
     </div>
 
