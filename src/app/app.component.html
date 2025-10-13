@@ -1,22 +1,17 @@
 <header class="top-banner">
-  <div class="banner-content">
-    <div class="logo">
-      <img src="assets/img/mtgpilot_logo.png" alt="MTG Pilot Logo" />
-    </div>
-    <nav class="nav-links">
-      <ng-container *ngIf="currentUser; else guestNav">
-        <a routerLink="/home" class="padded">Home</a>
-        <a routerLink="/dashboard" class="padded">Dashboard</a>
-        <a routerLink="/decks" class="padded">Singles</a>
-        <a routerLink="/sealed" class="padded">Sealed</a>
-        <a class="padded" (click)="logout()">Logout</a>
-      </ng-container>
-      <ng-template #guestNav>
-        <a routerLink="/home" class="padded">Home</a>
-        <a routerLink="/login" class="padded">Login</a>
-      </ng-template>
-    </nav>
-  </div>
+  <nav class="nav-links">
+    <ng-container *ngIf="currentUser; else guestNav">
+      <a routerLink="/home" class="padded">Home</a>
+      <a routerLink="/dashboard" class="padded">Dashboard</a>
+      <a routerLink="/decks" class="padded">Singles</a>
+      <a routerLink="/sealed" class="padded">Sealed</a>
+      <a class="padded" (click)="logout()">Logout</a>
+    </ng-container>
+    <ng-template #guestNav>
+      <a routerLink="/home" class="padded">Home</a>
+      <a routerLink="/login" class="padded">Login</a>
+    </ng-template>
+  </nav>
 </header>
 
 <router-outlet></router-outlet>
