@@ -9,7 +9,9 @@ import { User } from '../_model/user';
 import { AlertService } from '../_service/alert.service';
 import { DeckService } from '../_service/deck.service';
 import { NonZero } from '../_helper/non-zero.validator';
-
+import { finalize } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -155,12 +157,13 @@ export class DeckDetailComponent implements OnInit {
   }
 
   getAndSetDecks(deckId: number, cardIndex: number) {
-    this.deckService.getDecks(this.currentUser.id)
-    .subscribe(decks => { 
-      this.decks = decks; 
-      this.decksOptions = this.getDecksOptions(); 
-      this.setDeck(deckId, cardIndex);
-    });
+    return this.deckService.getDecks(this.currentUser.id).pipe(
+      tap(decks => {
+        this.decks = decks;
+        this.decksOptions = this.getDecksOptions();
+        this.setDeck(deckId, cardIndex);
+      })
+    );
   }
 
   setDeckByIndex(index: number): void {
@@ -338,7 +341,7 @@ export class DeckDetailComponent implements OnInit {
   }
 
   saveCard(): void {
-
+    this.loading = true;
     this.selectedCard.isFoil = this.convertFoilForm();
     this.selectedCard.cardCondition = this.convertConditionForm();
     this.selectedCard.set = this.convertVersionForm();
@@ -346,7 +349,6 @@ export class DeckDetailComponent implements OnInit {
 
     this.deckService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
       pipe(first()).subscribe(card => { 
-        // TODO add proper loading
         this.alertService.success("Success");
         this.deckService.getDecks(this.currentUser.id)
         .subscribe(decks => { 
@@ -368,11 +370,13 @@ export class DeckDetailComponent implements OnInit {
           if (!cardFound) {
             this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
           }
+          this.loading = false;
         });
       },
       error => {
         console.log("errr");
         this.alertService.error(error.error.message);
+        this.loading = false;
     });
   }
 
@@ -384,9 +388,10 @@ export class DeckDetailComponent implements OnInit {
     });
   }
 
-  deleteCard(): void {
-    this.deckService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id).
-      subscribe(deck => { this.getAndSetDecks(this.selectedDeck.id, 0); });
+  deleteCard(): void { 
+    this.loading = true; 
+    this.deckService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id)
+    .pipe( switchMap(() => this.getAndSetDecks(this.selectedDeck.id, 0)), finalize(() => this.loading = false) ) .subscribe(); 
   }
 
   deleteDeck(): void {

@@ -211,7 +211,6 @@
             </mat-card>
           </div>
         </div>
-
       </div>
 
       <!-- Card -->
@@ -219,7 +218,15 @@
         <div *ngIf="selectedDeck.id > 0">
           <div *ngIf="selectedCard">
 
+            <div *ngIf="loading" class="spinner-wrapper">
+              <mat-progress-spinner
+                mode="indeterminate"
+                [diameter]="100">
+              </mat-progress-spinner>
+            </div>
+
             <!-- Selected Card -->
+            <div *ngIf="!loading">
             <div *ngIf="selectedCard.id > 0">
               <div *ngIf="versionsOptions">
                 <div class="card padded" style="text-align: center;">
@@ -305,8 +312,10 @@
                 </div>
               </div>
             </div>
+            </div>
 
             <!-- New Card -->
+            <div *ngIf="!loading">
             <div *ngIf="!selectedCard.id">
               <div class="card padded" style="text-align: center">
                 <mat-card>
@@ -387,6 +396,7 @@
                   <alert></alert> 
                 </mat-card>
               </div>
+            </div>
             </div>
 
           </div>
