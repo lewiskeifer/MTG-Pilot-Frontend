@@ -1,11 +1,11 @@
-<div *ngIf="loading2" class="spinner-wrapper">
+<div *ngIf="loading" class="spinner-wrapper">
   <mat-progress-spinner
     mode="indeterminate"
     [diameter]="100">
   </mat-progress-spinner>
 </div>
 
-<div *ngIf="!loading2">
+<div *ngIf="!loading">
   <div class="layout">
 
     <!-- Table -->
@@ -51,60 +51,60 @@
     </div>
 
     <div *ngIf="selectedDeck.id != 0">
-    <div class="table padded">
-      <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort>
-          
-          <!-- Card Column -->
-          <ng-container matColumnDef="card">
-            <th mat-header-cell *matHeaderCellDef class="first-row"> Card </th>
-            <td mat-cell *matCellDef="let card"> {{card.name}} </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
-          
-          <!-- Condition Column -->
-          <ng-container matColumnDef="condition">
-            <th mat-header-cell *matHeaderCellDef class="first-row"> Condition </th>
-            <td mat-cell *matCellDef="let card"> {{(card.cardCondition || '') + (card.isFoil ? ' Foil' : '')}} </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-          </ng-container>
+      <div class="table padded">
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+            
+            <!-- Card Column -->
+            <ng-container matColumnDef="card">
+              <th mat-header-cell *matHeaderCellDef class="first-row"> Card </th>
+              <td mat-cell *matCellDef="let card"> {{card.name}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+            
+            <!-- Condition Column -->
+            <ng-container matColumnDef="condition">
+              <th mat-header-cell *matHeaderCellDef class="first-row"> Condition </th>
+              <td mat-cell *matCellDef="let card"> {{(card.cardCondition || '') + (card.isFoil ? ' Foil' : '')}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
 
-          <!-- Set Column -->
-          <ng-container matColumnDef="set">
-            <th mat-header-cell *matHeaderCellDef class="first-row"> Set </th>
-            <td mat-cell *matCellDef="let card"> {{card.abbreviation}} </td>
-            <td mat-footer-cell *matFooterCellDef> Totals: </td>
-          </ng-container>
+            <!-- Set Column -->
+            <ng-container matColumnDef="set">
+              <th mat-header-cell *matHeaderCellDef class="first-row"> Set </th>
+              <td mat-cell *matCellDef="let card"> {{card.abbreviation}} </td>
+              <td mat-footer-cell *matFooterCellDef> Totals: </td>
+            </ng-container>
 
-          <!-- Quantity Column -->
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef class="first-row"> Quantity </th>
-            <td mat-cell *matCellDef="let card"> {{card.quantity}} </td>
-            <td mat-footer-cell *matFooterCellDef> {{getTotalQuantity()}} </td>
-          </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef class="first-row"> Quantity </th>
+              <td mat-cell *matCellDef="let card"> {{card.quantity}} </td>
+              <td mat-footer-cell *matFooterCellDef> {{getTotalQuantity()}} </td>
+            </ng-container>
 
-          <!-- Purchase Price Column -->
-          <ng-container matColumnDef="totalPurchasePrice">
-            <th mat-header-cell *matHeaderCellDef class="first-row"> Purchase Price </th>
-            <td mat-cell *matCellDef="let card"> {{card.purchasePrice || '' | currency}} </td>
-            <td mat-footer-cell *matFooterCellDef> {{getTotalPurchasePrice() | currency}} </td>
-          </ng-container>
+            <!-- Purchase Price Column -->
+            <ng-container matColumnDef="totalPurchasePrice">
+              <th mat-header-cell *matHeaderCellDef class="first-row"> Purchase Price </th>
+              <td mat-cell *matCellDef="let card"> {{card.purchasePrice || '' | currency}} </td>
+              <td mat-footer-cell *matFooterCellDef> {{getTotalPurchasePrice() | currency}} </td>
+            </ng-container>
 
-          <!-- Value Column -->
-          <ng-container matColumnDef="totalValue">
-            <th mat-header-cell *matHeaderCellDef class="first-row"> Market Value </th>
-            <td mat-cell *matCellDef="let card"> {{card.marketPrice * card.quantity | currency}} </td>
-            <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
-          </ng-container>
+            <!-- Value Column -->
+            <ng-container matColumnDef="totalValue">
+              <th mat-header-cell *matHeaderCellDef class="first-row"> Market Value </th>
+              <td mat-cell *matCellDef="let card"> {{card.marketPrice * card.quantity | currency}} </td>
+              <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
+            </ng-container>
 
-          <!-- TODO click -> setDeck when deck overview -->
-          <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="setCard(i)" style="cursor: pointer"></tr>
-          <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-        </table>
+            <!-- TODO click -> setDeck when deck overview -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="setCard(i)" style="cursor: pointer"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
 
     <!-- Deck -->
     <div>
@@ -123,7 +123,15 @@
           </div>
         </div>
 
+        <div *ngIf="loadingDeck" class="spinner-wrapper">
+          <mat-progress-spinner
+            mode="indeterminate"
+            [diameter]="100">
+          </mat-progress-spinner>
+        </div>
+
         <!-- New Deck -->
+        <div *ngIf="!loadingDeck">
         <div *ngIf="selectedDeck.id === -1">
           <div class="deck padded" style="text-align: center">
             <mat-card>
@@ -150,8 +158,10 @@
             </mat-card>
           </div>
         </div>
+        </div>
 
         <!-- Selected Deck -->
+        <div *ngIf="!loadingDeck">
         <div *ngIf="selectedDeck.id > 0">
           <div class="deck padded" style="text-align: center">
             <mat-card>
@@ -190,6 +200,7 @@
             </mat-card>
           </div>
         </div>
+        </div>
             
         <!-- Recalculate -->
         <div *ngIf="selectedDeck.id === 0">
@@ -200,10 +211,10 @@
                 <br> The refresh values button updates the current value for all your cards and 
                   creates a new data point on the graphs in your dashboard.
               </mat-card-content>
-              <div *ngIf="!loading">
+              <div *ngIf="!loadingCard">
                 <button mat-raised-button (click)="refreshDeck()" class="padded" style="line-height: 20px;">Refresh Values</button>
               </div>
-              <div *ngIf="loading">
+              <div *ngIf="loadingCard">
                 <button mat-raised-button class="refresh-button" style="line-height: 20px;">
                   <mat-progress-spinner style="margin: 0 auto;" mode="indeterminate" [diameter]="15"></mat-progress-spinner>
                 </button>
@@ -218,7 +229,7 @@
         <div *ngIf="selectedDeck.id > 0">
           <div *ngIf="selectedCard">
 
-            <div *ngIf="loading" class="spinner-wrapper">
+            <div *ngIf="loadingCard" class="spinner-wrapper">
               <mat-progress-spinner
                 mode="indeterminate"
                 [diameter]="100">
@@ -226,24 +237,110 @@
             </div>
 
             <!-- Selected Card -->
-            <div *ngIf="!loading">
-            <div *ngIf="selectedCard.id > 0">
-              <div *ngIf="versionsOptions">
-                <div class="card padded" style="text-align: center;">
+            <div *ngIf="!loadingCard">
+              <div *ngIf="selectedCard.id > 0">
+                <div *ngIf="versionsOptions">
+                  <div class="card padded" style="text-align: center;">
+                    <mat-card>
+                      <mat-card-subtitle>	
+                        <form [formGroup]="cardForm">
+                          <mat-form-field style="margin-top: 20px; width: 80%;">
+                            <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" 
+                              [errorStateMatcher]="matcher">
+                            <mat-error *ngIf="cardForm.controls.name.hasError('required')">
+                              Name is <strong>required</strong>
+                            </mat-error>
+                          </mat-form-field>
+
+                          <mat-form-field style="width: 45%;">
+                            <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" 
+                              formControlName="quantity" [errorStateMatcher]="matcher">
+                            <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
+                              Quantity is <strong>required</strong>
+                            </mat-error>
+                            <mat-error *ngIf="cardForm.controls.quantity.hasError('nonZero')">
+                              Enter a positive, non-zero number
+                            </mat-error>
+                          </mat-form-field>
+                            <mat-form-field style="width: 45%;">
+                            <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
+                              formControlName="purchasePrice" [errorStateMatcher]="matcher">
+                            <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
+                              Purchase Price is <strong>required</strong>
+                            </mat-error>
+                            <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('nonZero')">
+                              Enter a positive, non-zero number
+                            </mat-error>
+                          </mat-form-field>
+
+                          <form [formGroup]="versionsForm">
+                            <label for="versionsOptions" style="width: 80px;">Set</label>
+                            <select formControlName="versionsOptions" id="versionsOptions">
+                              <option *ngFor="let versionsOption of versionsOptions; let i = index" [ngValue]="versionsOptions[i].id">
+                                {{versionsOptions[i].name}}
+                              </option>
+                            </select>
+                          </form>
+
+                          <form [formGroup]="foilForm">
+                            <label for="foilOptions" style="width: 80px;">Foil</label>
+                            <select formControlName="foilOptions" id="foilOptions">
+                              <option *ngFor="let foilOption of foilOptions; let i = index" [ngValue]="foilOptions[i].id">
+                                {{foilOptions[i].name}}
+                              </option>
+                            </select>
+                          </form>
+            
+                          <form [formGroup]="conditionForm">
+                            <label for="conditionOptions" style="width: 80px;">Condition</label>
+                            <select formControlName="conditionOptions" id="conditionOptions">
+                              <option *ngFor="let conditionOption of conditionOptions; let i = index" [ngValue]="conditionOptions[i].id">
+                                {{conditionOptions[i].name}}
+                              </option>
+                            </select>
+                          </form>
+            
+                          <form [formGroup]="decksForm">
+                            <label for="decksOptions" style="width: 80px;">Deck</label>
+                            <select formControlName="decksOptions" id="decksOptions">
+                              <option *ngFor="let decksOption of decksOptions; let i = index" [ngValue]="decksOptions[i].id">
+                                {{decksOptions[i].name}}
+                              </option>
+                            </select>
+                          </form>
+                    
+                          <img mat-card-image src={{selectedCard.url}} style="margin-top: 10px; width: 200px; height: 285px;">
+                          <mat-card-actions>
+                            <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Update Card</button>
+                            <button type="button" mat-raised-button (click)="deleteCard()" class="padded" style="line-height: 20px;">Delete Card</button>
+                            <button type="button" mat-raised-button (click)="resetSelectedCard()" class="padded" style="line-height: 20px;">Create New Card</button>
+                          </mat-card-actions>
+
+                        </form>
+                        <alert></alert> 
+                      </mat-card-subtitle>
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- New Card -->
+            <div *ngIf="!loadingCard">
+              <div *ngIf="!selectedCard.id">
+                <div class="card padded" style="text-align: center">
                   <mat-card>
-                    <mat-card-subtitle>	
+                    <mat-card-subtitle>
                       <form [formGroup]="cardForm">
                         <mat-form-field style="margin-top: 20px; width: 80%;">
-                          <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" 
-                            [errorStateMatcher]="matcher">
+                          <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.name.hasError('required')">
                             Name is <strong>required</strong>
                           </mat-error>
                         </mat-form-field>
-
                         <mat-form-field style="width: 45%;">
-                          <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" 
-                            formControlName="quantity" [errorStateMatcher]="matcher">
+                          <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" 
+                            [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                             Quantity is <strong>required</strong>
                           </mat-error>
@@ -251,7 +348,7 @@
                             Enter a positive, non-zero number
                           </mat-error>
                         </mat-form-field>
-                          <mat-form-field style="width: 45%;">
+                        <mat-form-field style="width: 45%;">
                           <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
                             formControlName="purchasePrice" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
@@ -279,7 +376,7 @@
                             </option>
                           </select>
                         </form>
-          
+
                         <form [formGroup]="conditionForm">
                           <label for="conditionOptions" style="width: 80px;">Condition</label>
                           <select formControlName="conditionOptions" id="conditionOptions">
@@ -288,7 +385,7 @@
                             </option>
                           </select>
                         </form>
-          
+
                         <form [formGroup]="decksForm">
                           <label for="decksOptions" style="width: 80px;">Deck</label>
                           <select formControlName="decksOptions" id="decksOptions">
@@ -297,106 +394,20 @@
                             </option>
                           </select>
                         </form>
-                  
-                        <img mat-card-image src={{selectedCard.url}} style="margin-top: 10px; width: 200px; height: 285px;">
-                        <mat-card-actions>
-                          <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Update Card</button>
-                          <button type="button" mat-raised-button (click)="deleteCard()" class="padded" style="line-height: 20px;">Delete Card</button>
-                          <button type="button" mat-raised-button (click)="resetSelectedCard()" class="padded" style="line-height: 20px;">Create New Card</button>
-                        </mat-card-actions>
 
+                        <div *ngIf="selectedCard.url">
+                          <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black;">
+                        </div>
+                        <mat-card-actions>
+                          <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Save New Card</button>
+                          <button type="button" mat-raised-button (click)="setCard(0)" class="padded" style="line-height: 20px;">Cancel</button>
+                        </mat-card-actions>
                       </form>
-                      <alert></alert> 
                     </mat-card-subtitle>
+                    <alert></alert> 
                   </mat-card>
                 </div>
               </div>
-            </div>
-            </div>
-
-            <!-- New Card -->
-            <div *ngIf="!loading">
-            <div *ngIf="!selectedCard.id">
-              <div class="card padded" style="text-align: center">
-                <mat-card>
-                  <mat-card-subtitle>
-                    <form [formGroup]="cardForm">
-                      <mat-form-field style="margin-top: 20px; width: 80%;">
-                        <input matInput [(ngModel)]="selectedCard.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
-                        <mat-error *ngIf="cardForm.controls.name.hasError('required')">
-                          Name is <strong>required</strong>
-                        </mat-error>
-                      </mat-form-field>
-                      <mat-form-field style="width: 45%;">
-                        <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" 
-                          [errorStateMatcher]="matcher">
-                        <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
-                          Quantity is <strong>required</strong>
-                        </mat-error>
-                        <mat-error *ngIf="cardForm.controls.quantity.hasError('nonZero')">
-                          Enter a positive, non-zero number
-                        </mat-error>
-                      </mat-form-field>
-                      <mat-form-field style="width: 45%;">
-                        <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
-                          formControlName="purchasePrice" [errorStateMatcher]="matcher">
-                        <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
-                          Purchase Price is <strong>required</strong>
-                        </mat-error>
-                        <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('nonZero')">
-                          Enter a positive, non-zero number
-                        </mat-error>
-                      </mat-form-field>
-
-                      <form [formGroup]="versionsForm">
-                        <label for="versionsOptions" style="width: 80px;">Set</label>
-                        <select formControlName="versionsOptions" id="versionsOptions">
-                          <option *ngFor="let versionsOption of versionsOptions; let i = index" [ngValue]="versionsOptions[i].id">
-                            {{versionsOptions[i].name}}
-                          </option>
-                        </select>
-                      </form>
-
-                      <form [formGroup]="foilForm">
-                        <label for="foilOptions" style="width: 80px;">Foil</label>
-                        <select formControlName="foilOptions" id="foilOptions">
-                          <option *ngFor="let foilOption of foilOptions; let i = index" [ngValue]="foilOptions[i].id">
-                            {{foilOptions[i].name}}
-                          </option>
-                        </select>
-                      </form>
-
-                      <form [formGroup]="conditionForm">
-                        <label for="conditionOptions" style="width: 80px;">Condition</label>
-                        <select formControlName="conditionOptions" id="conditionOptions">
-                          <option *ngFor="let conditionOption of conditionOptions; let i = index" [ngValue]="conditionOptions[i].id">
-                            {{conditionOptions[i].name}}
-                          </option>
-                        </select>
-                      </form>
-
-                      <form [formGroup]="decksForm">
-                        <label for="decksOptions" style="width: 80px;">Deck</label>
-                        <select formControlName="decksOptions" id="decksOptions">
-                          <option *ngFor="let decksOption of decksOptions; let i = index" [ngValue]="decksOptions[i].id">
-                            {{decksOptions[i].name}}
-                          </option>
-                        </select>
-                      </form>
-
-                      <div *ngIf="selectedCard.url">
-                        <img mat-card-image src={{selectedCard.url}} style="width: 200px; height: 285px; border: 2px solid black;">
-                      </div>
-                      <mat-card-actions>
-                        <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Save New Card</button>
-                        <button type="button" mat-raised-button (click)="setCard(0)" class="padded" style="line-height: 20px;">Cancel</button>
-                      </mat-card-actions>
-                    </form>
-                  </mat-card-subtitle>
-                  <alert></alert> 
-                </mat-card>
-              </div>
-            </div>
             </div>
 
           </div>

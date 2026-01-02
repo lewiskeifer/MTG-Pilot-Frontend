@@ -47,7 +47,8 @@ export class DeckDetailComponent implements OnInit {
   selectedCard: Card;
 
   loading: boolean;
-  loading2: boolean;
+  loadingCard: boolean;
+  loadingDeck: boolean;
 
   foilForm: FormGroup;
   foilOptions = [];
@@ -110,13 +111,14 @@ export class DeckDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loading2 = true;
+    this.loading = true;
 
     this.dataSource = new MatTableDataSource();
     this.emptyDeck = new Deck();
     this.emptyDeck.id = -1;
     this.emptyCard = new Card();
-    this.loading = false;
+    this.loadingCard = false;
+    this.loadingDeck = false;
 
     this.foilOptions = this.getFoilOptions();
     this.conditionOptions = this.getConditionOptions();
@@ -138,7 +140,7 @@ export class DeckDetailComponent implements OnInit {
         this.decksOptions = this.getDecksOptions(); 
         this.ordersOptions = this.getOrdersOptions();
         this.setDeck(0, 0); 
-        this.loading2 = false;
+        this.loading = false;
       });
   }
 
@@ -341,7 +343,7 @@ export class DeckDetailComponent implements OnInit {
   }
 
   saveCard(): void {
-    this.loading = true;
+    this.loadingCard = true;
     this.selectedCard.isFoil = this.convertFoilForm();
     this.selectedCard.cardCondition = this.convertConditionForm();
     this.selectedCard.set = this.convertVersionForm();
@@ -370,33 +372,34 @@ export class DeckDetailComponent implements OnInit {
           if (!cardFound) {
             this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
           }
-          this.loading = false;
+          this.loadingCard = false;
         });
       },
       error => {
         console.log("errr");
         this.alertService.error(error.error.message);
-        this.loading = false;
+        this.loadingCard = false;
     });
   }
 
   saveDeck(): void {
+    this.loadingDeck = true;
     this.selectedDeck.format = this.convertFormatForm();
     this.selectedDeck.sortOrder = this.ordersForm.controls["ordersOptions"].value
-    this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).subscribe(deck => { 
-      this.getAndSetDecks(deck.id, 0);
-    });
+    this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).pipe(switchMap(deck => this.getAndSetDecks(deck.id, 0)), 
+      finalize(() => this.loadingDeck = false)).subscribe();
   }
 
   deleteCard(): void { 
-    this.loading = true; 
+    this.loadingCard = true; 
     this.deckService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id)
-    .pipe( switchMap(() => this.getAndSetDecks(this.selectedDeck.id, 0)), finalize(() => this.loading = false) ) .subscribe(); 
+    .pipe(switchMap(() => this.getAndSetDecks(this.selectedDeck.id, 0)), finalize(() => this.loadingCard = false)).subscribe(); 
   }
 
   deleteDeck(): void {
-    this.deckService.deleteDeck(this.currentUser.id, this.selectedDeck.id).
-      subscribe(deck => { this.getAndSetDecks(0, 0); });
+    this.loadingDeck = true;
+    this.deckService.deleteDeck(this.currentUser.id, this.selectedDeck.id).pipe(switchMap(deck => this.getAndSetDecks(0, 0)),
+       finalize(() => this.loadingDeck = false)).subscribe();
   }
 
   refreshDeck():void {
