@@ -9,7 +9,9 @@ import { User } from '../_model/user';
 import { AlertService } from '../_service/alert.service';
 import { NonZero } from '../_helper/non-zero.validator';
 import { SealedService } from '../_service/sealed.service';
-
+import { finalize } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -43,7 +45,8 @@ export class SealedDetailComponent implements OnInit {
   selectedCard: Sealed;
 
   loading: boolean;
-  loading2: boolean;
+  loadingCard: boolean;
+  loadingDeck: boolean;
 
   decksForm: FormGroup;
   decksOptions = [];
@@ -84,12 +87,14 @@ export class SealedDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loading2 = true;
+    this.loading = true;
     this.dataSource = new MatTableDataSource();
     this.emptyDeck = new SealedCollection();
     this.emptyDeck.id = -1;
     this.emptyCard = new Sealed();
-    this.loading = false;
+    this.loadingCard = false;
+    this.loadingDeck = false;
+
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.initDecks();
   }
@@ -101,7 +106,7 @@ export class SealedDetailComponent implements OnInit {
         this.decksOptions = this.getDecksOptions(); 
         this.ordersOptions = this.getOrdersOptions();
         this.setDeck(0, 0); 
-        this.loading2 = false;
+        this.loading = false;
       });
   }
 
@@ -120,12 +125,13 @@ export class SealedDetailComponent implements OnInit {
   }
 
   getAndSetDecks(deckId: number, cardIndex: number) {
-    this.sealedService.getDecks(this.currentUser.id)
-    .subscribe(decks => { 
-      this.decks = decks; 
-      this.decksOptions = this.getDecksOptions(); 
-      this.setDeck(deckId, cardIndex);
-    });
+    return this.sealedService.getDecks(this.currentUser.id).pipe(
+      tap(decks => {
+        this.decks = decks;
+        this.decksOptions = this.getDecksOptions();
+        this.setDeck(deckId, cardIndex);
+      })
+    );
   }
 
   setDeckByIndex(index: number): void {
@@ -223,11 +229,11 @@ export class SealedDetailComponent implements OnInit {
   }
 
   saveCard(): void {
+    this.loadingCard = true;
     var newDeckId = this.convertDeckForm();
 
     this.sealedService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
       pipe(first()).subscribe(card => { 
-        // TODO add proper loading
         this.alertService.success("Success");
         this.sealedService.getDecks(this.currentUser.id)
         .subscribe(decks => { 
@@ -249,29 +255,33 @@ export class SealedDetailComponent implements OnInit {
           if (!cardFound) {
             this.setDeck(this.selectedDeck.id, this.selectedDeck.sealed.length - 1);
           }
+          this.loadingCard = false;
         });
       },
       error => {
         console.log("errr");
         this.alertService.error(error.error.message);
+        this.loadingCard = false;
     });
   }
 
   saveDeck(): void {
+    this.loadingDeck = true;
     this.selectedDeck.sortOrder = this.ordersForm.controls["ordersOptions"].value
-    this.sealedService.saveDeck(this.currentUser.id, this.selectedDeck).subscribe(deck => { 
-      this.getAndSetDecks(deck.id, 0);
-    });
+    this.sealedService.saveDeck(this.currentUser.id, this.selectedDeck).pipe(switchMap(deck => this.getAndSetDecks(deck.id, 0)), 
+      finalize(() => this.loadingDeck = false)).subscribe();
   }
 
   deleteCard(): void {
-    this.sealedService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id).
-      subscribe(deck => { this.getAndSetDecks(this.selectedDeck.id, 0); });
+    this.loadingCard = true; 
+    this.sealedService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id)
+      .pipe(switchMap(() => this.getAndSetDecks(this.selectedDeck.id, 0)), finalize(() => this.loadingCard = false)).subscribe(); 
   }
 
   deleteDeck(): void {
-    this.sealedService.deleteDeck(this.currentUser.id, this.selectedDeck.id).
-      subscribe(deck => { this.getAndSetDecks(0, 0); });
+    this.loadingDeck = true;
+    this.sealedService.deleteDeck(this.currentUser.id, this.selectedDeck.id).pipe(switchMap(deck => this.getAndSetDecks(0, 0)),
+       finalize(() => this.loadingDeck = false)).subscribe();
   }
 
   refreshDeck():void {

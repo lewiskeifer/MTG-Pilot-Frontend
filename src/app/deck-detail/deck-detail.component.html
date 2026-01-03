@@ -132,74 +132,74 @@
 
         <!-- New Deck -->
         <div *ngIf="!loadingDeck">
-        <div *ngIf="selectedDeck.id === -1">
-          <div class="deck padded" style="text-align: center">
-            <mat-card>
-              <form [formGroup]="deckForm">
-                <mat-form-field style="width: 80%;">
-                  <input matInput [(ngModel)]="selectedDeck.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
-                  <mat-error *ngIf="deckForm.controls.name.hasError('required')">
-                    Name is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
-                <form [formGroup]="formatsForm">
-                  <label for="formatsOptions" style="width: 80px;">Format</label>
-                  <select formControlName="formatsOptions" id="formatsOptions">
-                    <option *ngFor="let formatsOption of formatsOptions; let i = index" [ngValue]="formatsOptions[i].id">
-                      {{formatsOptions[i].name}}
-                    </option>
-                  </select>
+          <div *ngIf="selectedDeck.id === -1">
+            <div class="deck padded" style="text-align: center">
+              <mat-card>
+                <form [formGroup]="deckForm">
+                  <mat-form-field style="width: 80%;">
+                    <input matInput [(ngModel)]="selectedDeck.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
+                    <mat-error *ngIf="deckForm.controls.name.hasError('required')">
+                      Name is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                  <form [formGroup]="formatsForm">
+                    <label for="formatsOptions" style="width: 80px;">Format</label>
+                    <select formControlName="formatsOptions" id="formatsOptions">
+                      <option *ngFor="let formatsOption of formatsOptions; let i = index" [ngValue]="formatsOptions[i].id">
+                        {{formatsOptions[i].name}}
+                      </option>
+                    </select>
+                  </form>
+                  <mat-card-actions>
+                    <button type="button" mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px; line-height: 20px;">Save New Deck</button>
+                    <button type="button" mat-raised-button (click)="setDeck(0, 0)" class="padded" style="margin: 1px 5px; line-height: 20px;">Cancel</button>
+                  </mat-card-actions>
                 </form>
-                <mat-card-actions>
-                  <button type="button" mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px; line-height: 20px;">Save New Deck</button>
-                  <button type="button" mat-raised-button (click)="setDeck(0, 0)" class="padded" style="margin: 1px 5px; line-height: 20px;">Cancel</button>
-                </mat-card-actions>
-              </form>
-            </mat-card>
+              </mat-card>
+            </div>
           </div>
-        </div>
         </div>
 
         <!-- Selected Deck -->
         <div *ngIf="!loadingDeck">
-        <div *ngIf="selectedDeck.id > 0">
-          <div class="deck padded" style="text-align: center">
-            <mat-card>
-              <form [formGroup]="deckForm">
-                <mat-form-field style="width: 80%;">
-                  <input matInput [(ngModel)]="selectedDeck.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
-                  <mat-error *ngIf="deckForm.controls.name.hasError('required')">
-                    Name is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
+          <div *ngIf="selectedDeck.id > 0">
+            <div class="deck padded" style="text-align: center">
+              <mat-card>
+                <form [formGroup]="deckForm">
+                  <mat-form-field style="width: 80%;">
+                    <input matInput [(ngModel)]="selectedDeck.name" placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
+                    <mat-error *ngIf="deckForm.controls.name.hasError('required')">
+                      Name is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
 
-                <form [formGroup]="formatsForm">
-                  <label for="formatsOptions" style="width: 80px;">Format</label>
-                  <select formControlName="formatsOptions" id="formatsOptions">
-                    <option *ngFor="let formatsOption of formatsOptions; let i = index" [ngValue]="formatsOptions[i].id">
-                      {{formatsOptions[i].name}}
-                    </option>
-                  </select>
+                  <form [formGroup]="formatsForm">
+                    <label for="formatsOptions" style="width: 80px;">Format</label>
+                    <select formControlName="formatsOptions" id="formatsOptions">
+                      <option *ngFor="let formatsOption of formatsOptions; let i = index" [ngValue]="formatsOptions[i].id">
+                        {{formatsOptions[i].name}}
+                      </option>
+                    </select>
+                  </form>
+
+                  <form [formGroup]="ordersForm">
+                    <label for="ordersOptions" style="width: 80px;">Order</label>
+                    <select formControlName="ordersOptions" id="ordersOptions">
+                      <option *ngFor="let ordersOption of ordersOptions; let i = index" [ngValue]="ordersOptions[i]">
+                        {{ordersOptions[i]}}
+                      </option>
+                    </select>
+                  </form>
+
+                  <mat-card-actions>
+                    <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px; line-height: 20px;">Update Deck</button>
+                    <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px 5px auto 5px; line-height: 20px;">Delete Deck</button>
+                    <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px; line-height: 20px;">Create New Deck</button>
+                  </mat-card-actions>
                 </form>
-
-                <form [formGroup]="ordersForm">
-                  <label for="ordersOptions" style="width: 80px;">Order</label>
-                  <select formControlName="ordersOptions" id="ordersOptions">
-                    <option *ngFor="let ordersOption of ordersOptions; let i = index" [ngValue]="ordersOptions[i]">
-                      {{ordersOptions[i]}}
-                    </option>
-                  </select>
-                </form>
-
-                <mat-card-actions>
-                  <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px; line-height: 20px;">Update Deck</button>
-                  <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px 5px auto 5px; line-height: 20px;">Delete Deck</button>
-                  <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px; line-height: 20px;">Create New Deck</button>
-                </mat-card-actions>
-              </form>
-            </mat-card>
+              </mat-card>
+            </div>
           </div>
-        </div>
         </div>
             
         <!-- Recalculate -->
