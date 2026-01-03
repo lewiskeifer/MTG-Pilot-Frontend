@@ -393,7 +393,7 @@ export class DeckDetailComponent implements OnInit {
   deleteCard(): void { 
     this.loadingCard = true; 
     this.deckService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id)
-    .pipe(switchMap(() => this.getAndSetDecks(this.selectedDeck.id, 0)), finalize(() => this.loadingCard = false)).subscribe(); 
+      .pipe(switchMap(() => this.getAndSetDecks(this.selectedDeck.id, 0)), finalize(() => this.loadingCard = false)).subscribe(); 
   }
 
   deleteDeck(): void {
