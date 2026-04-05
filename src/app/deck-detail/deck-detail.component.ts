@@ -123,7 +123,6 @@ export class DeckDetailComponent implements OnInit {
     this.foilOptions = this.getFoilOptions();
     this.conditionOptions = this.getConditionOptions();
     this.formatsOptions = this.getFormatsOptions();
-    this.getVersions();
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     this.initDecks();
