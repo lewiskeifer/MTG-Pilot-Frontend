@@ -6,7 +6,8 @@ declare var google: any;
 
 @Component({
   selector: 'line-chart',
-  templateUrl: './line-chart.component.html'
+  templateUrl: './line-chart.component.html',
+  standalone: false
 })
 export class LineChartComponent implements OnInit {
 

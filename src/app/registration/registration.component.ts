@@ -20,7 +20,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+  styleUrls: ['./registration.component.scss'],
+  standalone: false
 })
 export class RegistrationComponent implements OnInit {
 
@@ -34,7 +35,7 @@ export class RegistrationComponent implements OnInit {
     passwordForm: ['', [Validators.required, Validators.minLength(6)]],
     passwordConfirmForm: ['', [Validators.required, Validators.minLength(6)]],
     emailForm: ['', [Validators.required, Validators.email]]
-  }, {validator: MustMatch('passwordForm', 'passwordConfirmForm')});
+  }, {validators: MustMatch('passwordForm', 'passwordConfirmForm')});
 
   constructor(private authenticationService: AuthenticationService, 
               private route: ActivatedRoute, 
@@ -69,18 +70,17 @@ export class RegistrationComponent implements OnInit {
     this.loading = true;
     this.authenticationService.register(user)
       .pipe(first())
-      .subscribe(
-        data => {
+      .subscribe({
+        next: () => {
           this.alertService.success('Registration successful', true);
-          setTimeout(() => 
-          {
+          setTimeout(() => {
             this.router.navigate(['/login']);
-          },
-          1200);
+          }, 1200);
         },
-        error => {
+        error: error => {
           this.alertService.error(error.error.message);
           this.loading = false;
-        });
+        }
+      });
   }
 }

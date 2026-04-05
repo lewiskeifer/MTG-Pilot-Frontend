@@ -152,9 +152,9 @@
                     </select>
                   </form>
                   <mat-card-actions>
-                    <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px; line-height: 20px;">Update Sealed Collection</button>
-                    <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px 5px auto 5px; line-height: 20px;">Delete Sealed Collection</button>
-                    <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px; line-height: 20px;">Create New Sealed Collection</button>
+                    <button mat-raised-button (click)="saveDeck()" class="padded" style="margin: 1px 5px; line-height: 20px;">Update Collection</button>
+                    <button mat-raised-button (click)="deleteDeck()" class="padded" style="margin: 1px 5px auto 5px; line-height: 20px;">Delete Collection</button>
+                    <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="margin: 1px auto auto 5px; line-height: 20px;">Create New Collection</button>
                   </mat-card-actions>
                 </form>
               </mat-card>
@@ -241,9 +241,9 @@
                           </form>
                           <img mat-card-image src={{selectedCard.url}} style="margin-top: 10px; width: 200px; height: 200px;">
                           <mat-card-actions>
-                            <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Update Sealed</button>
-                            <button type="button" mat-raised-button (click)="deleteCard()" class="padded" style="line-height: 20px;">Delete Sealed</button>
-                            <button type="button" mat-raised-button (click)="resetSelectedCard()" class="padded" style="line-height: 20px;">Create New Sealed</button>
+                            <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Update Collection</button>
+                            <button type="button" mat-raised-button (click)="deleteCard()" class="padded" style="line-height: 20px;">Delete Collection</button>
+                            <button type="button" mat-raised-button (click)="resetSelectedCard()" class="padded" style="line-height: 20px;">Create New Collection</button>
                           </mat-card-actions>
                         </form>
                         <alert></alert> 

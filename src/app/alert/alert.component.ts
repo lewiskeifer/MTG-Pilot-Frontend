@@ -4,7 +4,8 @@ import { AlertService } from '../_service/alert.service'
 
 @Component({
     selector: 'alert',
-    templateUrl: 'alert.component.html'
+    templateUrl: 'alert.component.html',
+    standalone: false
 })
 
 export class AlertComponent implements OnInit, OnDestroy {
