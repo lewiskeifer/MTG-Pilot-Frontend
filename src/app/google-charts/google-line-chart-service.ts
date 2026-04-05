@@ -13,19 +13,15 @@ export class GoogleLineChartService extends GoogleChartsBaseService {
 
     var chartFunc = () => { return new google.visualization.LineChart(document.getElementById(elementId)); };
     const options = {
-      title: config.title,
-      titleTextStyle: {
-        alignment: 'center',
-        fontSize: 18,
-        bold: true
-      },
       chartArea: {
-        left: 70,      // Reduce from default (~80)
-        top: 70,
+        left: 70,
+        top: 20,
         bottom: 70,
+        width: '65%'
       },
       width: config.width,
-      height: window.innerHeight * 0.8
+      height: window.innerHeight * 0.8,
+      vAxis: config.vAxisFormat ? { format: config.vAxisFormat } : {}
     };
 
     this.buildChart(data, chartFunc, options);

@@ -82,10 +82,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 }
 
-.deck:hover {
-  transform: scale(1.02);
-}
-
 .deck-wrapper {
   display: flex;
   justify-content: center;
@@ -196,7 +192,7 @@ table tr:hover {
 .mat-mdc-header-cell {
   background-color: #125A85;
   color: #000000;
-  font-weight: 600;
+  font-weight: 700 !important;
   border-bottom: 2px solid #125A85 !important;
 }
 
@@ -220,6 +216,19 @@ table tr:hover {
 .mat-mdc-footer-row .mat-mdc-footer-cell {
   border-top: 2px solid #125A85 !important;
   color: #000000 !important;
+}
+
+/* Button hover highlight */
+.mat-mdc-raised-button:hover {
+  background-color: #219EBC !important;
+}
+
+.chart-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+  color: #222;
 }
 
 .first-row {

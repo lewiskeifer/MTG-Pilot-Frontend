@@ -52,15 +52,15 @@ export class DashboardComponent implements OnInit {
     this.sealedRatioElementId = 'linechart_material4';
 
     if (this.screenwidth < 1000) {
-      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 950, 300);
+      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 950, 300, '$#,##0');
       this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 800, 300);
-      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 950, 300);
+      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 950, 300, '$#,##0');
       this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 800, 300);
     }
     else {
-      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 950, 900);
+      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 950, 900, '$#,##0');
       this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 950, 900);
-      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 950, 900);
+      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 950, 900, '$#,##0');
       this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 950, 900);
     }
 
@@ -73,9 +73,9 @@ export class DashboardComponent implements OnInit {
   onResize(event) {
     this.screenwidth = event.target.innerWidth;
     if (this.screenwidth < 1000) {
-      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 500, 400);
+      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 500, 400, '$#,##0');
       this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 500, 400);
-      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 500, 400);
+      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 500, 400, '$#,##0');
       this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 500, 400);
       this.setChart();
       this.setChart2();
@@ -219,7 +219,7 @@ export class DashboardComponent implements OnInit {
   
       var names = [];
   
-      names.push("Sealed Collection Overview");
+      names.push("Collection Overview");
       for (var _i = 1; _i < this.sealedCollection.length; ++_i) {
         names.push(this.sealedCollection[_i].name);
       }
