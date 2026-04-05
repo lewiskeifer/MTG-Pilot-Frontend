@@ -72,7 +72,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: auto;
   margin-top: 20px;
   background: linear-gradient(135deg, #125A85, #0C3C59);
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   color: #fff;
   padding: 16px;
@@ -115,11 +115,14 @@ table {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   background-color: #0C3C59; /* Deep blue base */
-  color: #E0F7FA; /* Light cyan text for contrast */
+  color: #0C3C59; /* Light cyan text for contrast */
   padding: 16px;
   transition: transform 0.3s ease;
   justify-content: center;
   align-items: center;
+  border: 2px solid #125A85;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 table th {
@@ -130,12 +133,27 @@ table th {
 
 table td {
   border-bottom: 1px solid #125A85;
-  color: #E0F7FA;
+  color: #0C3C59;
 }
 
 table tr:hover {
   background-color: #219EBC; /* Light blue highlight */
   color: #fff;
+}
+
+/* Strip outer deck/card wrapper styling when it contains a mat-card */
+.deck:has(mat-card),
+.card:has(mat-card) {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Form field spacing inside cards */
+.deck mat-card mat-form-field,
+.card mat-card mat-form-field {
+  display: block;
+  margin: 8px auto;
 }
 
 /* Angular Material 19 MDC card overrides */
@@ -145,7 +163,7 @@ table tr:hover {
   --mdc-elevated-card-container-color: #ffffff;
   background: #ffffff;
   box-shadow: none;
-  border: 2px solid #125A85;
+  border: 10px solid #125A85;
   color: #222;
   align-items: center;
 }
@@ -161,27 +179,29 @@ table tr:hover {
 
 /* Angular Material 19 MDC table overrides */
 .mat-mdc-table {
-  --mat-table-background-color: #0C3C59;
-  --mat-table-row-item-label-text-color: #E0F7FA;
-  --mat-table-header-headline-color: #FFFFFF;
+  --mat-table-background-color: #FFFFFF;
+  --mat-table-row-item-label-text-color: #000000;
+  --mat-table-header-headline-color: #000000;
   --mat-table-row-item-outline-color: #125A85;
   background-color: #0C3C59;
+  border: 8px solid #125A85 !important;
+  border-radius: 12px;
 }
 
 .mat-mdc-header-row {
   background-color: #125A85;
-  --mat-table-background-color: #125A85;
+  --mat-table-background-color: #FFFFFF;
 }
 
 .mat-mdc-header-cell {
   background-color: #125A85;
-  color: #FFFFFF;
+  color: #000000;
   font-weight: 600;
-  border-bottom-color: #125A85;
+  border-bottom: 2px solid #125A85 !important;
 }
 
 .mat-mdc-cell {
-  color: #E0F7FA;
+  color: #000000;
   border-bottom-color: #125A85;
 }
 
@@ -194,14 +214,19 @@ table tr:hover {
   --mat-table-background-color: #0C3C59;
   background-color: #0C3C59;
   font-weight: bold;
-  color: #E0F7FA;
+  color: #000000;
+}
+
+.mat-mdc-footer-row .mat-mdc-footer-cell {
+  border-top: 2px solid #125A85 !important;
+  color: #000000 !important;
 }
 
 .first-row {
   font-size: 1.0rem;
   font-weight: 600;
   background-color: #125A85;
-  color: #E0F7FA;
+  color: #000000;
 }
 
 @media only screen and (max-width: 650px) {
