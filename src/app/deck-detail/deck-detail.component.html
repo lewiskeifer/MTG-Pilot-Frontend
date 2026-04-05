@@ -200,8 +200,8 @@
           <div class="deck padded" style="text-align: center">
             <mat-card>
               <mat-card-title> Recalculate Values </mat-card-title>
-              <mat-card-content> 
-                <br> The refresh values button updates the current value for all your cards and 
+              <mat-card-content>
+                <br> The refresh values button updates the current value for all your cards and
                   creates a new data point on the graphs in your dashboard.
               </mat-card-content>
               <div *ngIf="!loadingCard">
@@ -246,8 +246,8 @@
                           </mat-form-field>
 
                           <mat-form-field style="width: 45%;">
-                            <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" 
-                              formControlName="quantity" [errorStateMatcher]="matcher">
+                            <mat-label>Quantity</mat-label>
+                            <input matInput type="number" [(ngModel)]="selectedCard.quantity" formControlName="quantity" [errorStateMatcher]="matcher">
                             <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                               Quantity is <strong>required</strong>
                             </mat-error>
@@ -256,8 +256,8 @@
                             </mat-error>
                           </mat-form-field>
                             <mat-form-field style="width: 45%;">
-                            <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
-                              formControlName="purchasePrice" [errorStateMatcher]="matcher">
+                            <mat-label>Purchase Price</mat-label>
+                            <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" formControlName="purchasePrice" [errorStateMatcher]="matcher">
                             <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                               Purchase Price is <strong>required</strong>
                             </mat-error>
@@ -332,8 +332,8 @@
                           </mat-error>
                         </mat-form-field>
                         <mat-form-field style="width: 45%;">
-                          <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" 
-                            [errorStateMatcher]="matcher">
+                          <mat-label>Quantity</mat-label>
+                          <input matInput type="number" [(ngModel)]="selectedCard.quantity" formControlName="quantity" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                             Quantity is <strong>required</strong>
                           </mat-error>
@@ -342,8 +342,8 @@
                           </mat-error>
                         </mat-form-field>
                         <mat-form-field style="width: 45%;">
-                          <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
-                            formControlName="purchasePrice" [errorStateMatcher]="matcher">
+                          <mat-label>Purchase Price</mat-label>
+                          <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" formControlName="purchasePrice" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                             Purchase Price is <strong>required</strong>
                           </mat-error>

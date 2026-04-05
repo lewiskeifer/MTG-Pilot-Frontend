@@ -94,7 +94,7 @@
           <div class="deck padded" style="text-align: center">
             <mat-card>
               <mat-card-title> Sealed Overview </mat-card-title>
-              <mat-card-content> 
+              <mat-card-content>
                 <br> The sealed overview displays aggregate totals for all your sealed collections. <br>
               </mat-card-content>
               <button mat-raised-button (click)="resetSelectedDeck()" class="padded" style="line-height: 20px;">Create New Sealed Collection</button>
@@ -167,8 +167,8 @@
           <div class="deck padded" style="text-align: center">
             <mat-card>
               <mat-card-title> Recalculate Values </mat-card-title>
-              <mat-card-content> 
-                <br> The refresh values button updates the current value for all your boxes and 
+              <mat-card-content>
+                <br> The refresh values button updates the current value for all your boxes and
                   creates a new data point on the graphs in your dashboard.
               </mat-card-content>
               <div *ngIf="!loading">
@@ -212,8 +212,8 @@
                             </mat-error>
                           </mat-form-field>
                           <mat-form-field style="width: 45%;">
-                            <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" 
-                              formControlName="quantity" [errorStateMatcher]="matcher">
+                            <mat-label>Quantity</mat-label>
+                            <input matInput type="number" [(ngModel)]="selectedCard.quantity" formControlName="quantity" [errorStateMatcher]="matcher">
                             <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                               Quantity is <strong>required</strong>
                             </mat-error>
@@ -222,8 +222,8 @@
                             </mat-error>
                           </mat-form-field>
                             <mat-form-field style="width: 45%;">
-                            <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
-                              formControlName="purchasePrice" [errorStateMatcher]="matcher">
+                            <mat-label>Purchase Price</mat-label>
+                            <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" formControlName="purchasePrice" [errorStateMatcher]="matcher">
                             <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                               Purchase Price is <strong>required</strong>
                             </mat-error>
@@ -232,7 +232,7 @@
                             </mat-error>
                           </mat-form-field>
                           <form [formGroup]="decksForm">
-                            <label for="decksOptions" style="width: 80px;">Sealed Collection</label>
+                            <label for="decksOptions" style="width: 80px;">Collection</label>
                             <select formControlName="decksOptions" id="decksOptions">
                               <option *ngFor="let decksOption of decksOptions; let i = index" [ngValue]="decksOptions[i].id">
                                 {{decksOptions[i].name}}
@@ -268,8 +268,8 @@
                           </mat-error>
                         </mat-form-field>
                         <mat-form-field style="width: 45%;">
-                          <input matInput type="number" [(ngModel)]="selectedCard.quantity" placeholder="Quantity" formControlName="quantity" 
-                            [errorStateMatcher]="matcher">
+                          <mat-label>Quantity</mat-label>
+                          <input matInput type="number" [(ngModel)]="selectedCard.quantity" formControlName="quantity" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.quantity.hasError('required')">
                             Quantity is <strong>required</strong>
                           </mat-error>
@@ -278,8 +278,8 @@
                           </mat-error>
                         </mat-form-field>
                         <mat-form-field style="width: 45%;">
-                          <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" placeholder="Total Purchase Price" 
-                            formControlName="purchasePrice" [errorStateMatcher]="matcher">
+                          <mat-label>Purchase Price</mat-label>
+                          <input matInput type="number" [(ngModel)]="selectedCard.purchasePrice" formControlName="purchasePrice" [errorStateMatcher]="matcher">
                           <mat-error *ngIf="cardForm.controls.purchasePrice.hasError('required')">
                             Purchase Price is <strong>required</strong>
                           </mat-error>
@@ -288,7 +288,7 @@
                           </mat-error>
                         </mat-form-field>
                         <form [formGroup]="decksForm">
-                          <label for="decksOptions" style="width: 80px;">Sealed Collection</label>
+                          <label for="decksOptions" style="width: 80px;">Collection</label>
                           <select formControlName="decksOptions" id="decksOptions">
                             <option *ngFor="let decksOption of decksOptions; let i = index" [ngValue]="decksOptions[i].id">
                               {{decksOptions[i].name}}
