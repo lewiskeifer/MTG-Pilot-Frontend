@@ -37,7 +37,7 @@ export class DeckDetailComponent implements OnInit {
   dataSource: MatTableDataSource<Card>;
   displayedColumns: string[] = ['card', 'condition', 'set', 
     'quantity', 'totalPurchasePrice', 'totalValue'];
-  displayedColumnsDecks: string[] = ['card', 'format', 'totalPurchasePrice', 'totalValue'];
+  displayedColumnsDecks: string[] = ['card', 'totalPurchasePrice', 'totalValue'];
 
   decks: Deck[];
 

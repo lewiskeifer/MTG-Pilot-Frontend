@@ -53,8 +53,22 @@ button:disabled {
   width: 179px !important; 
 }
 
-tr.mat-footer-row {
+tr.mat-mdc-footer-row {
   font-weight: bold;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 4px;
+
+  button {
+    font-size: 12px;
+    padding: 0 8px;
+    min-width: unset;
+    white-space: nowrap;
+  }
 }
   
 .selected {

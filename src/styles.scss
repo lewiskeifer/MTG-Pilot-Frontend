@@ -138,6 +138,65 @@ table tr:hover {
   color: #fff;
 }
 
+/* Angular Material 19 MDC card overrides */
+.deck .mat-mdc-card,
+.card .mat-mdc-card {
+  --mat-card-elevated-container-color: #ffffff;
+  --mdc-elevated-card-container-color: #ffffff;
+  background: #ffffff;
+  box-shadow: none;
+  border: 2px solid #125A85;
+  color: #222;
+  align-items: center;
+}
+
+.deck .mat-mdc-card-title,
+.deck .mat-mdc-card-subtitle,
+.deck .mat-mdc-card-content,
+.card .mat-mdc-card-title,
+.card .mat-mdc-card-subtitle,
+.card .mat-mdc-card-content {
+  color: #222;
+}
+
+/* Angular Material 19 MDC table overrides */
+.mat-mdc-table {
+  --mat-table-background-color: #0C3C59;
+  --mat-table-row-item-label-text-color: #E0F7FA;
+  --mat-table-header-headline-color: #FFFFFF;
+  --mat-table-row-item-outline-color: #125A85;
+  background-color: #0C3C59;
+}
+
+.mat-mdc-header-row {
+  background-color: #125A85;
+  --mat-table-background-color: #125A85;
+}
+
+.mat-mdc-header-cell {
+  background-color: #125A85;
+  color: #FFFFFF;
+  font-weight: 600;
+  border-bottom-color: #125A85;
+}
+
+.mat-mdc-cell {
+  color: #E0F7FA;
+  border-bottom-color: #125A85;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: #219EBC;
+  color: #fff;
+}
+
+.mat-mdc-footer-row {
+  --mat-table-background-color: #0C3C59;
+  background-color: #0C3C59;
+  font-weight: bold;
+  color: #E0F7FA;
+}
+
 .first-row {
   font-size: 1.0rem;
   font-weight: 600;
