@@ -4,7 +4,8 @@ import { AnimationPlayer, AnimationBuilder, style, AnimationFactory, animate } f
 // https://stackblitz.com/edit/angular-carousel-component
 
 @Directive({
-  selector: '[carouselItem]'
+  selector: '[carouselItem]',
+  standalone: false
 })
 export class CarouselItemDirective {
   constructor( public tpl : TemplateRef<any> ) {
@@ -12,7 +13,8 @@ export class CarouselItemDirective {
 }
 
 @Directive({
-  selector: '.carousel-item'
+  selector: '.carousel-item',
+  standalone: false
 })
 export class CarouselItemElement {
 }
@@ -20,6 +22,7 @@ export class CarouselItemElement {
 @Component({
   selector: 'carousel',
   exportAs: 'carousel',
+  standalone: false,
   template: `
     <section class="carousel-wrapper" [ngStyle]="carouselWrapperStyle">
       <ul class="carousel-inner" #carousel>

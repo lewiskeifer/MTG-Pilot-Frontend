@@ -10,7 +10,8 @@ import { SealedService } from '../_service/sealed.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: [ './dashboard.component.scss' ]
+  styleUrls: [ './dashboard.component.scss' ],
+  standalone: false
 })
 export class DashboardComponent implements OnInit {
   currentUser: User;

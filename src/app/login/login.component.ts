@@ -18,7 +18,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  standalone: false
 })
 export class LoginComponent implements OnInit {
 
@@ -56,13 +57,14 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authenticationService.login(login)
         .pipe(first())
-        .subscribe(
-            data => {
+        .subscribe({
+            next: () => {
                 this.router.navigate(['/dashboard']);
             },
-            error => {
+            error: error => {
                 this.alertService.error(error.error.message);
                 this.loading = false;
-            });
+            }
+        });
   }
 }

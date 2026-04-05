@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { debounceTime, first } from 'rxjs/operators';
 import { Card } from '../_model/card';
@@ -25,6 +25,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-deck-detail',
   templateUrl: './deck-detail.component.html',
   styleUrls: ['./deck-detail.component.scss'],
+  standalone: false
 })
 export class DeckDetailComponent implements OnInit {
 
@@ -80,7 +81,7 @@ export class DeckDetailComponent implements OnInit {
     name: ['', [Validators.required]],
     quantity: ['', [Validators.required]],
     purchasePrice: ['', [Validators.required]]
-  }, {validator: [NonZero('quantity'), NonZero('purchasePrice')]});
+  }, {validators: [NonZero('quantity'), NonZero('purchasePrice')]});
 
   constructor(private alertService: AlertService, 
               private deckService: DeckService, 
@@ -349,36 +350,38 @@ export class DeckDetailComponent implements OnInit {
     var newDeckId = this.convertDeckForm();
 
     this.deckService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
-      pipe(first()).subscribe(card => { 
-        this.alertService.success("Success");
-        this.deckService.getDecks(this.currentUser.id)
-        .subscribe(decks => { 
-          this.decks = decks; 
-          this.decksOptions = this.getDecksOptions(); 
-          this.refreshSelectedDeck();
+      pipe(first()).subscribe({
+        next: card => {
+          this.alertService.success("Success");
+          this.deckService.getDecks(this.currentUser.id)
+          .subscribe(decks => {
+            this.decks = decks;
+            this.decksOptions = this.getDecksOptions();
+            this.refreshSelectedDeck();
 
-          var index = 0;
-          var cardFound = false;
-          this.selectedDeck.cards.forEach(card => {
-            if (card.id === this.selectedCard.id) {
-              cardFound = true;
-              this.setDeck(this.selectedDeck.id, index);
+            var index = 0;
+            var cardFound = false;
+            this.selectedDeck.cards.forEach(card => {
+              if (card.id === this.selectedCard.id) {
+                cardFound = true;
+                this.setDeck(this.selectedDeck.id, index);
+              }
+              index++;
+            });
+
+            // Case for save new card
+            if (!cardFound) {
+              this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
             }
-            index++;
+            this.loadingCard = false;
           });
-
-          // Case for save new card
-          if (!cardFound) {
-            this.setDeck(this.selectedDeck.id, this.selectedDeck.cards.length - 1);
-          }
+        },
+        error: error => {
+          console.log("errr");
+          this.alertService.error(error.error.message);
           this.loadingCard = false;
-        });
-      },
-      error => {
-        console.log("errr");
-        this.alertService.error(error.error.message);
-        this.loadingCard = false;
-    });
+        }
+      });
   }
 
   saveDeck(): void {
