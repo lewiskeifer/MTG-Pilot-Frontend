@@ -1,1 +1,0 @@
-{"ast":null,"code":"export class LineChartConfig {\n  constructor(title, subtitle, height, width) {\n    this.title = title;\n    this.subtitle = subtitle;\n    this.height = height;\n    this.width = width;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

@@ -1,1 +1,0 @@
-{"ast":null,"code":"export class Sealed {\n  constructor(name, value) {\n    this.name = name || \"\";\n    this.marketPrice = value || 0;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
