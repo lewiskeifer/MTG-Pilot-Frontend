@@ -1,35 +1,23 @@
-<div class ="padded layout">
+<div class ="padded">
 
-  <div>
-    <mat-card class="intro-card">
-      <mat-card-title class="card-title">Welcome to MTG Pilot!</mat-card-title>
-      <mat-card-subtitle class="card-subtitle">
-        Track the financial value of your collection!
-      </mat-card-subtitle>
-      <mat-card-title class="card-section-title">To Get Started</mat-card-title>
-      <mat-card-content>
-        <ol class="card-steps">
-          <li>Login</li>
-          <li>Click <strong>"Singles"</strong> or <strong>"Sealed"</strong> along the top banner</li>
-          <li>Create a new Deck or Sealed Collection</li>
-          <li>Add some cards or sealed products</li>
-          <li>Click <strong>"Deck Overview"</strong> or <strong>"Sealed Overview"</strong> at the top of your deck list</li>
-          <li>Hit the <strong>"Refresh"</strong> button in the center</li>
-          <li>Click <strong>"Dashboard"</strong> along the top banner</li>
-          <li>You should see a graph with one data point—come back tomorrow and watch your graphs grow!</li>
-        </ol>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <div class="carousel-wrapper">
-    <carousel>
-      <ng-container *ngFor="let item of items">
-        <ng-container *carouselItem>
-          <img mat-card-image class="carousel-img" [src]="item.title" alt="Carousel Image">
-        </ng-container>
-      </ng-container>
-    </carousel>
-  </div>
+  <mat-card class="intro-card">
+    <mat-card-title class="card-title">Welcome to MTG Pilot!</mat-card-title>
+    <mat-card-subtitle class="card-subtitle">
+      Track the financial value of your collection!
+    </mat-card-subtitle>
+    <mat-card-title class="card-section-title">To Get Started</mat-card-title>
+    <mat-card-content>
+      <ol class="card-steps">
+        <li>Login</li>
+        <li>Click <strong>"Singles"</strong> or <strong>"Sealed"</strong> along the top banner</li>
+        <li>Create a new Deck or Sealed Collection</li>
+        <li>Add some cards or sealed products</li>
+        <li>Click <strong>"Deck Overview"</strong> or <strong>"Sealed Overview"</strong> at the top of your deck list</li>
+        <li>Hit the <strong>"Refresh"</strong> button in the center</li>
+        <li>Click <strong>"Dashboard"</strong> along the top banner</li>
+        <li>You should see a graph with one data point—come back tomorrow and watch your graphs grow!</li>
+      </ol>
+    </mat-card-content>
+  </mat-card>
 
 </div>

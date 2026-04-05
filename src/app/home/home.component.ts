@@ -7,12 +7,6 @@ import { Component, OnInit } from '@angular/core';
   standalone: false
 })
 export class HomeComponent implements OnInit {
-  
-  items = [
-    { title: 'assets/img/mtgp1.PNG' },
-    { title: 'assets/img/mtgp2.PNG' },
-    { title: 'assets/img/mtgp3.PNG' },
-  ]
 
   constructor() { }
 
