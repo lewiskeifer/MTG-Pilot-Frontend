@@ -88,8 +88,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: #fff;
   padding: 16px;
   transition: transform 0.3s ease;
-  @media only screen and (max-width: 650px) { 
+  @media only screen and (max-width: 650px) {
     width: 318px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -110,14 +112,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: #fff;
   padding: 16px;
   transition: transform 0.3s ease;
-  @media only screen and (max-width: 650px) { 
-    height: 700px;
-    width: 318px;
+  @media only screen and (max-width: 650px) {
+    height: auto;
+    width: calc(100vw - 32px);
   }
 }
 
 table {
-  width: 600px;
+  width: 700px;
   margin-top: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -182,6 +184,8 @@ table tr:hover {
 .card .mat-mdc-card-subtitle,
 .card .mat-mdc-card-content {
   color: #222;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* When mat-card itself carries the deck/card class (dark bg), text must be light */
@@ -261,12 +265,22 @@ table tr:hover {
 
 @media only screen and (max-width: 650px) {
   table {
-    width: 318px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mat-mdc-table {
+    border-width: 4px !important;
+  }
+
+  .deck .mat-mdc-card,
+  .card .mat-mdc-card {
+    border-width: 4px;
   }
 }
 
 .decksPatch {
-  width: 600px;
+  width: 700px;
   @media only screen and (max-width: 650px) { 
     width: 318px;
   }
@@ -285,6 +299,7 @@ table tr:hover {
   overflow: hidden;
   @media only screen and (max-width: 650px) {
     width: 318px;
+    border-width: 4px;
   }
 }
 .decks li {
