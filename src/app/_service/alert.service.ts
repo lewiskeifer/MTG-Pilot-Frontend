@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AlertService {
-  
-    private subject = new Subject<any>();
+
+    private subject = new ReplaySubject<any>(1);
     private keepAfterNavigationChange = false;
 
     constructor(private router: Router) {

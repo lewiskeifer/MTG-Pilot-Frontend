@@ -16,7 +16,7 @@
         <mat-error *ngIf="registerForm.controls.passwordForm.hasError('required')">
           Password is <strong>required</strong>
         </mat-error>
-        <mat-error *ngIf="registerForm.controls.passwordForm.hasError('minLength')">
+        <mat-error *ngIf="registerForm.controls.passwordForm.hasError('minlength')">
           Password must be at least six characters
         </mat-error>
       </mat-form-field>
@@ -27,7 +27,7 @@
         <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('required')">
           Confirm Password is <strong>required</strong>
         </mat-error>
-        <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('minLength')">
+        <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('minlength')">
           Confirm Password must be at least six characters
         </mat-error>
         <mat-error *ngIf="registerForm.controls.passwordConfirmForm.hasError('mustMatch')">

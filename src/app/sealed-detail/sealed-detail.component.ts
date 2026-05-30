@@ -236,6 +236,11 @@ export class SealedDetailComponent implements OnInit {
     this.sealedService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
       pipe(first()).subscribe({
         next: card => {
+          if (!card) {
+            this.alertService.error('No sealed product found with that name. Please check the name and try again.');
+            this.loadingCard = false;
+            return;
+          }
           this.alertService.success("Success");
           this.sealedService.getDecks(this.currentUser.id)
           .subscribe(decks => {
@@ -261,8 +266,7 @@ export class SealedDetailComponent implements OnInit {
           });
         },
         error: error => {
-          console.log("errr");
-          this.alertService.error(error.error.message);
+          this.alertService.error(error.error?.message || 'No sealed product found with that name. Please check the name and try again.');
           this.loadingCard = false;
         }
       });
@@ -288,9 +292,9 @@ export class SealedDetailComponent implements OnInit {
   }
 
   refreshDeck():void {
-    this.loading = true;
+    this.loadingCard = true;
     this.sealedService.refreshDeck(this.currentUser.id, this.selectedDeck.id)
-      .subscribe(deck => { this.setDeck(this.selectedDeck.id, 0); this.loading = false; this.getTotalCost(); });
+      .subscribe(deck => { this.setDeck(this.selectedDeck.id, 0); this.loadingCard = false; this.getTotalCost(); });
   }
 
   getTotalQuantity() {

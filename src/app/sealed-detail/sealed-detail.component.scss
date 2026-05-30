@@ -26,7 +26,7 @@ input {
   padding-left: .4em;
 }
 button {
-  margin-top: 20px;
+  margin: 16px 0;
   font-family: Arial;
   background-color: #eee;
   border: none;
@@ -61,7 +61,7 @@ mat-card-actions {
   display: flex;
   justify-content: center;
   flex-wrap: nowrap;
-  gap: 4px;
+  gap: 8px;
 
   button {
     font-size: 12px;

@@ -26,7 +26,7 @@ input {
   padding-left: .4em;
 }
 button {
-  margin-top: 20px;
+  margin: 16px 0;
   font-family: Arial;
   background-color: #eee;
   border: none;
@@ -61,6 +61,17 @@ mat-card-actions {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  gap: 8px;
+}
+
+.narrow-fields {
+  display: flex;
+  gap: 8px;
+
+  mat-form-field {
+    flex: 1;
+    min-width: 80px;
+  }
 }
   
 .selected {

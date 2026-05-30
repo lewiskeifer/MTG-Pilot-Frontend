@@ -52,16 +52,16 @@ export class DashboardComponent implements OnInit {
     this.sealedRatioElementId = 'linechart_material4';
 
     if (this.screenwidth < 1000) {
-      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 950, 300, '$#,##0');
-      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 800, 300);
-      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 950, 300, '$#,##0');
-      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 800, 300);
+      this.singlesTotalValueConfig = new LineChartConfig('Singles Total Value', '', 950, 300, '$#,##0');
+      this.singlesRatioConfig = new LineChartConfig('Singles Value / Purchase Price', '', 800, 300);
+      this.sealedTotalValueConfig = new LineChartConfig('Sealed Total Value', '', 950, 300, '$#,##0');
+      this.sealedRatioConfig = new LineChartConfig('Sealed Value / Purchase Price', '', 800, 300);
     }
     else {
-      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 950, 900, '$#,##0');
-      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 950, 900);
-      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 950, 900, '$#,##0');
-      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 950, 900);
+      this.singlesTotalValueConfig = new LineChartConfig('Singles Total Value', '', 950, 900, '$#,##0');
+      this.singlesRatioConfig = new LineChartConfig('Singles Value / Purchase Price', '', 950, 900);
+      this.sealedTotalValueConfig = new LineChartConfig('Sealed Total Value', '', 950, 900, '$#,##0');
+      this.sealedRatioConfig = new LineChartConfig('Sealed Value / Purchase Price', '', 950, 900);
     }
 
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -73,10 +73,10 @@ export class DashboardComponent implements OnInit {
   onResize(event) {
     this.screenwidth = event.target.innerWidth;
     if (this.screenwidth < 1000) {
-      this.singlesTotalValueConfig = new LineChartConfig('Total Value', '', 500, 400, '$#,##0');
-      this.singlesRatioConfig = new LineChartConfig('Value / Purchase Price', '', 500, 400);
-      this.sealedTotalValueConfig = new LineChartConfig('Total Value', '', 500, 400, '$#,##0');
-      this.sealedRatioConfig = new LineChartConfig('Value / Purchase Price', '', 500, 400);
+      this.singlesTotalValueConfig = new LineChartConfig('Singles Total Value', '', 500, 400, '$#,##0');
+      this.singlesRatioConfig = new LineChartConfig('Singles Value / Purchase Price', '', 500, 400);
+      this.sealedTotalValueConfig = new LineChartConfig('Sealed Total Value', '', 500, 400, '$#,##0');
+      this.sealedRatioConfig = new LineChartConfig('Sealed Value / Purchase Price', '', 500, 400);
       this.setChart();
       this.setChart2();
     }
@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
     this.deckService.getDecks(this.currentUser.id)
       .subscribe(decks => { 
         this.decks = decks;
-        if (this.decks.length > 1 && this.decks[1].deckSnapshots.length > 1) { 
+        if (this.decks.length > 1 && this.decks[1].deckSnapshots.length > 0) {
           this.showWelcomePage = false;
           this.setChart(); 
         }
@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit {
     this.sealedService.getDecks(this.currentUser.id)
       .subscribe(decks => { 
         this.sealedCollection = decks;
-        if (this.sealedCollection.length > 1 && this.sealedCollection[1].sealedCollectionSnapshots.length > 1) { 
+        if (this.sealedCollection.length > 1 && this.sealedCollection[1].sealedCollectionSnapshots.length > 0) {
           this.showWelcomePage = false;
           this.setChart2(); 
         }
