@@ -7,9 +7,10 @@
   width: 100%;
   @media only screen and (max-width: 1500px) { 
     flex-flow: row wrap;
-    @media only screen and (max-width: 1200px) { 
+    @media only screen and (max-width: 1200px) {
       flex-flow: column wrap;
       align-items: center;
+      gap: 0;
     }
   }
 }
@@ -99,6 +100,7 @@ mat-card-actions {
   .table {
     width: 100%;
     margin: 0;
+    margin-top: 8px;
   }
 
   .mat-column-condition,
