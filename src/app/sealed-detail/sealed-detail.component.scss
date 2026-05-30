@@ -2,7 +2,8 @@
 
 .layout {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 24px;
   width: 100%;
   @media only screen and (max-width: 1500px) { 
     flex-flow: row wrap;
@@ -26,7 +27,7 @@ input {
   padding-left: .4em;
 }
 button {
-  margin-top: 20px;
+  margin: 16px 0;
   font-family: Arial;
   background-color: #eee;
   border: none;
@@ -57,11 +58,24 @@ tr.mat-mdc-footer-row {
   font-weight: bold;
 }
 
+.mat-column-quantity {
+  width: 90px;
+  max-width: 90px;
+  font-size: 0.8rem;
+}
+
+.mat-column-totalPurchasePrice,
+.mat-column-totalValue {
+  width: 120px;
+  max-width: 120px;
+  font-size: 0.8rem;
+}
+
 mat-card-actions {
   display: flex;
   justify-content: center;
-  flex-wrap: nowrap;
-  gap: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
 
   button {
     font-size: 12px;
@@ -71,7 +85,43 @@ mat-card-actions {
   }
 }
   
+.narrow-fields {
+  display: flex;
+  gap: 8px;
+  width: 80%;
+  margin: 0 auto;
+
+  mat-form-field {
+    flex: 1;
+    min-width: 80px;
+  }
+}
+
 .selected {
   background-color: #CFD8DC !important;
   color: white;
+}
+
+@media only screen and (max-width: 650px) {
+  .table {
+    width: 100%;
+    margin: 0;
+  }
+
+  .mat-column-totalPurchasePrice {
+    display: none;
+  }
+
+  mat-card-actions {
+    gap: 4px;
+
+    button {
+      flex: 1;
+      font-size: 0.72rem;
+      padding: 4px;
+      min-width: 0;
+      white-space: normal;
+      line-height: 1.2;
+    }
+  }
 }

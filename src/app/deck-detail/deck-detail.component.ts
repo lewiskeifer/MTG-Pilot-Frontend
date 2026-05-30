@@ -377,8 +377,7 @@ export class DeckDetailComponent implements OnInit {
           });
         },
         error: error => {
-          console.log("errr");
-          this.alertService.error(error.error.message);
+          this.alertService.error(error.error?.message || 'Card could not be saved. Please try again.');
           this.loadingCard = false;
         }
       });
@@ -387,9 +386,12 @@ export class DeckDetailComponent implements OnInit {
   saveDeck(): void {
     this.loadingDeck = true;
     this.selectedDeck.format = this.convertFormatForm();
-    this.selectedDeck.sortOrder = this.ordersForm.controls["ordersOptions"].value
-    this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).pipe(switchMap(deck => this.getAndSetDecks(deck.id, 0)), 
-      finalize(() => this.loadingDeck = false)).subscribe();
+    this.selectedDeck.sortOrder = this.ordersForm.controls["ordersOptions"].value;
+    const isNew = this.selectedDeck.id === 0;
+    this.deckService.saveDeck(this.currentUser.id, this.selectedDeck).pipe(switchMap(deck => this.getAndSetDecks(deck.id, 0)),
+      finalize(() => this.loadingDeck = false)).subscribe({
+        next: () => this.alertService.success(isNew ? 'Deck successfully created' : 'Deck updated')
+      });
   }
 
   deleteCard(): void { 
@@ -405,9 +407,9 @@ export class DeckDetailComponent implements OnInit {
   }
 
   refreshDeck():void {
-    this.loading = true;
+    this.loadingCard = true;
     this.deckService.refreshDeck(this.currentUser.id, this.selectedDeck.id)
-      .subscribe(deck => { this.setDeck(this.selectedDeck.id, 0); this.loading = false; this.getTotalCost(); });
+      .subscribe(deck => { this.setDeck(this.selectedDeck.id, 0); this.loadingCard = false; this.getTotalCost(); });
   }
 
   getTotalQuantity() {
@@ -516,8 +518,6 @@ export class DeckDetailComponent implements OnInit {
         if (!v) {
           return;
         }
-        
-        this.alertService.success("");
 
         var data = [];
         var count = 0;
