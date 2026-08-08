@@ -7,6 +7,7 @@ export class AlertService {
 
     private subject = new ReplaySubject<any>(1);
     private keepAfterNavigationChange = false;
+    private dismissTimer: any;
 
     constructor(private router: Router) {
         // clear alert message on route change
@@ -26,10 +27,15 @@ export class AlertService {
     success(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.subject.next({ type: 'success', text: message });
+
+        // auto-dismiss the success banner after 3 seconds
+        clearTimeout(this.dismissTimer);
+        this.dismissTimer = setTimeout(() => this.subject.next(undefined), 3000);
     }
 
     error(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
+        clearTimeout(this.dismissTimer);
         this.subject.next({ type: 'error', text: message });
     }
 

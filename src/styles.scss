@@ -45,12 +45,14 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .alert {
-  padding: 12px 16px;
-  margin: 12px 0 4px;
+  padding: 16px 24px;
+  margin: 12px auto 4px;
   border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 500;
   border: 1px solid transparent;
+  max-width: 400px;
+  text-align: center;
 }
 
 .alert-success {
@@ -167,6 +169,13 @@ table tr:hover {
 .card mat-card mat-form-field {
   display: block;
   margin: 8px auto;
+}
+
+/* Forms placed directly in a mat-card get no mat-card-content padding,
+   so inset the first field to match the card-edit forms */
+.deck .mat-mdc-card > form:first-child > mat-form-field:first-child,
+.card .mat-mdc-card > form:first-child > mat-form-field:first-child {
+  margin-top: 20px;
 }
 
 /* Angular Material 19 MDC card overrides */
