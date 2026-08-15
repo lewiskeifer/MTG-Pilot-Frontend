@@ -1,25 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { debounceTime, first } from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Sealed } from '../_model/sealed';
 import { SealedCollection } from '../_model/sealedCollection';
-import { User } from '../_model/user';
 import { AlertService } from '../_service/alert.service';
-import { NonZero } from '../_helper/non-zero.validator';
 import { SealedService } from '../_service/sealed.service';
-import { finalize } from 'rxjs/operators';
-import { tap } from 'rxjs/operators';
-import { switchMap } from 'rxjs/operators';
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import { DetailBaseComponent } from '../_shared/detail-base.component';
 
 @Component({
   selector: 'app-sealed-detail',
@@ -27,335 +12,33 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./sealed-detail.component.scss'],
   standalone: false
 })
-export class SealedDetailComponent implements OnInit {
-  currentUser: User;
+export class SealedDetailComponent extends DetailBaseComponent<SealedCollection, Sealed> {
 
-  searchText: string = "";
-  versions: any[];
-
-  dataSource: MatTableDataSource<Sealed>;
   displayedColumns: string[] = ['card', 'quantity', 'totalPurchasePrice', 'totalValue'];
-  displayedColumnsDecks: string[] = ['card', 'totalPurchasePrice', 'totalValue'];
-
-  decks: SealedCollection[];
-
-  emptyDeck: SealedCollection;
-  selectedDeck: SealedCollection;
-
-  emptyCard: Sealed;
-  selectedCard: Sealed;
-
-  loading: boolean;
-  loadingCard: boolean;
-  loadingDeck: boolean;
-
-  decksForm: FormGroup;
-  decksOptions = [];
-
-  ordersForm: FormGroup;
-  ordersOptions = [];
-
-  versionsForm: FormGroup;
-  versionsOptions = [];
-
-  matcher = new MyErrorStateMatcher();
 
   deckForm = this.formBuilder.group({
     name: ['', [Validators.required]],
     order: ['', [Validators.required]]
   });
 
-  cardForm = this.formBuilder.group({
-    name: ['', [Validators.required]],
-    quantity: ['', [Validators.required]],
-    purchasePrice: ['', [Validators.required]]
-  }, {validators: [NonZero('quantity'), NonZero('purchasePrice')]});
+  protected saveCardErrorMessage = 'No sealed product found with that name. Please check the name and try again.';
+  protected override missingCardMessage = 'No sealed product found with that name. Please check the name and try again.';
 
-  constructor(private alertService: AlertService, 
-              private sealedService: SealedService, 
-              private formBuilder: FormBuilder) { 
-    this.decksForm = this.formBuilder.group({
-      decksOptions: ['']
-    });
-
-    this.ordersForm = this.formBuilder.group({
-      ordersOptions: ['']
-    });
-
-    this.versionsForm = this.formBuilder.group({
-      versionsOptions: ['']
-    });
+  constructor(alertService: AlertService,
+              sealedService: SealedService,
+              formBuilder: FormBuilder) {
+    super(alertService, sealedService, formBuilder);
   }
 
-  ngOnInit(): void {
-    this.loading = true;
-    this.dataSource = new MatTableDataSource();
-    this.emptyDeck = new SealedCollection();
-    this.emptyDeck.id = -1;
-    this.emptyCard = new Sealed();
-    this.loadingCard = false;
-    this.loadingDeck = false;
-
-    this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    this.initDecks();
+  protected createEmptyDeck(): SealedCollection {
+    return new SealedCollection();
   }
 
-  initDecks(): void {
-    this.sealedService.getDecks(this.currentUser.id)
-      .subscribe(decks => { 
-        this.decks = decks; 
-        this.decksOptions = this.getDecksOptions(); 
-        this.ordersOptions = this.getOrdersOptions();
-        this.setDeck(0, 0); 
-        this.loading = false;
-      });
+  protected createEmptyCard(): Sealed {
+    return new Sealed();
   }
 
-  getDeck(deckId: number): void {
-    this.sealedService.getDeck(this.currentUser.id, deckId)
-      .subscribe(deck => { this.selectedDeck = deck; });
-  }
-
-  getDecks(): void {
-    this.sealedService.getDecks(this.currentUser.id)
-      .subscribe(decks => { 
-        this.decks = decks; 
-        this.decksOptions = this.getDecksOptions(); 
-        this.refreshSelectedDeck();
-      });
-  }
-
-  getAndSetDecks(deckId: number, cardIndex: number) {
-    return this.sealedService.getDecks(this.currentUser.id).pipe(
-      tap(decks => {
-        this.decks = decks;
-        this.decksOptions = this.getDecksOptions();
-        this.setDeck(deckId, cardIndex);
-      })
-    );
-  }
-
-  setDeckByIndex(index: number): void {
-    this.selectedDeck = this.decks[index + 1]; 
-
-    this.ordersForm.controls['ordersOptions'].patchValue(this.ordersOptions[this.selectedDeck.sortOrder - 1], {onlySelf: true});
-
-    if (this.selectedDeck.sealed.length != 0) {
-      this.dataSource.data = this.selectedDeck.sealed;
-      this.setCard(0);
-    } 
-    else {
-      this.dataSource.data = []; 
-      this.resetSelectedCard();
-    }
-
-    return;
-  }
-
-  setDeck(deckId: number, cardIndex: number): void {
-    // TODO use map
-    var count = 0;
-    this.decks.forEach(deck => {
-      if (deck.id === deckId) {
-        
-        this.selectedDeck = this.decks[count]; 
-
-        this.ordersForm.controls['ordersOptions'].patchValue(this.ordersOptions[this.selectedDeck.sortOrder - 1], {onlySelf: true});
-
-        if (this.selectedDeck.sealed.length != 0) {
-          this.dataSource.data = this.selectedDeck.sealed;
-          this.setCard(cardIndex);
-        } 
-        else {
-          this.dataSource.data = []; 
-          this.resetSelectedCard();
-        }
-
-        return;
-      }
-      count++;
-    });
-  }
-
-  setCard(index: number): void {
-    // Deck Overview cannot set card
-    if (this.selectedDeck.id === 0) {
-      return;
-    }
-
-    this.selectedCard = this.selectedDeck.sealed[index];
-
-    var count = 0;
-    var deckIndex = 0;
-    this.decks.forEach(deck => {
-      if (deck.id == this.selectedDeck.id) {
-        deckIndex = count;
-      }
-      count++;
-    });
-    this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[deckIndex-1].id, {onlySelf: true});
-  }
-
-  refreshSelectedDeck(): void {
-    var id = this.selectedDeck.id;
-    this.decks.forEach(deck => {
-      if (deck.id === id) {
-        this.selectedDeck = deck;
-        return;
-      }
-    });
-  }
-
-  resetSelectedDeck(): void {
-    this.selectedDeck = this.emptyDeck;
-  }
-
-  resetSelectedCard(): void {
-    this.selectedCard = this.emptyCard;
-
-    if (this.decksOptions[0]) {
-      var index = 0;
-      var id = this.selectedDeck.id;
-      this.decks.forEach(deck => {
-        if (deck.id === id) {
-          this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[index - 1].id, {onlySelf: true});
-        }
-        index++;
-      });
-
-    }
-    else {
-      this.decksForm.controls['decksOptions'].patchValue(0, {onlySelf: true});
-    }
-  }
-
-  saveCard(): void {
-    this.loadingCard = true;
-    var newDeckId = this.convertDeckForm();
-
-    this.sealedService.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
-      pipe(first()).subscribe({
-        next: card => {
-          if (!card) {
-            this.alertService.error('No sealed product found with that name. Please check the name and try again.');
-            this.loadingCard = false;
-            return;
-          }
-          this.alertService.success("Success");
-          this.sealedService.getDecks(this.currentUser.id)
-          .subscribe(decks => {
-            this.decks = decks;
-            this.decksOptions = this.getDecksOptions();
-            this.refreshSelectedDeck();
-
-            var index = 0;
-            var cardFound = false;
-            this.selectedDeck.sealed.forEach(card => {
-              if (card.id === this.selectedCard.id) {
-                cardFound = true;
-                this.setDeck(this.selectedDeck.id, index);
-              }
-              index++;
-            });
-
-            // Case for save new card
-            if (!cardFound) {
-              this.setDeck(this.selectedDeck.id, this.selectedDeck.sealed.length - 1);
-            }
-            this.loadingCard = false;
-          });
-        },
-        error: error => {
-          this.alertService.error(error.error?.message || 'No sealed product found with that name. Please check the name and try again.');
-          this.loadingCard = false;
-        }
-      });
-  }
-
-  saveDeck(): void {
-    this.loadingDeck = true;
-    this.selectedDeck.sortOrder = this.ordersForm.controls["ordersOptions"].value
-    this.sealedService.saveDeck(this.currentUser.id, this.selectedDeck).pipe(switchMap(deck => this.getAndSetDecks(deck.id, 0)), 
-      finalize(() => this.loadingDeck = false)).subscribe();
-  }
-
-  deleteCard(): void {
-    this.loadingCard = true; 
-    this.sealedService.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id)
-      .pipe(switchMap(() => this.getAndSetDecks(this.selectedDeck.id, 0)), finalize(() => this.loadingCard = false)).subscribe(); 
-  }
-
-  deleteDeck(): void {
-    this.loadingDeck = true;
-    this.sealedService.deleteDeck(this.currentUser.id, this.selectedDeck.id).pipe(switchMap(deck => this.getAndSetDecks(0, 0)),
-       finalize(() => this.loadingDeck = false)).subscribe();
-  }
-
-  refreshDeck():void {
-    this.loadingCard = true;
-    this.sealedService.refreshDeck(this.currentUser.id, this.selectedDeck.id)
-      .subscribe(deck => { this.setDeck(this.selectedDeck.id, 0); this.loadingCard = false; this.getTotalCost(); });
-  }
-
-  getTotalQuantity() {
-    var total = 0;
-    if (this.selectedDeck && this.selectedDeck.sealed) {
-      this.selectedDeck.sealed.forEach(element => {
-        total += element.quantity;
-      });
-    }
-
-    return total;
-  }
-
-  getTotalPurchasePrice() {
-    var total = 0;
-    if (this.selectedDeck && this.selectedDeck.sealed) {
-      this.selectedDeck.sealed.forEach(element => {
-        total += element.purchasePrice;
-      });
-    }
-
-    return total;
-  }
-
-  getTotalCost() {
-    var total = 0;
-    if (this.selectedDeck && this.selectedDeck.sealed) {
-      this.selectedDeck.sealed.forEach(element => {
-        total += (element.marketPrice * element.quantity);
-      });
-    }
-
-    return total;
-  }
-
-  getDecksOptions() {
-    if (this.decks == null) return [];
-
-    var data = [];
-    var count = 0;
-    this.decks.forEach(deck => {
-      data.push({id: count++, name: deck.name});
-    });
-
-    return data.slice(1);
-  }
-
-  getOrdersOptions() {
-    if (this.decks == null) return [];
-    var data = [];
-    for (var i = 1; i < this.decks.length; ++i) {
-      data.push(i);
-    }
-    return data;
-  }
-
-  convertDeckForm(): number {
-    return this.decks[this.decksForm.controls["decksOptions"].value].id;
-  }
-
-  convertVersionForm(): string {
-    return this.versionsOptions[this.versionsForm.controls["versionsOptions"].value].name;
+  protected itemsOf(deck: SealedCollection): Sealed[] {
+    return deck.sealed;
   }
 }
