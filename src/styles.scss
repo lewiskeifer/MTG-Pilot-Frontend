@@ -46,7 +46,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .alert {
   padding: 16px 24px;
-  margin: 12px auto 4px;
+  margin: 8px auto;
   border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 500;
@@ -201,6 +201,21 @@ table tr:hover {
   box-sizing: border-box;
 }
 
+/* mat-card-title without a mat-card-header wrapper gets no top padding from
+   MDC, so it sits flush against the card border. The rule below also gives the
+   title weight and an underline to separate it from the body text. */
+.deck .mat-mdc-card-title,
+.card .mat-mdc-card-title {
+  padding-top: 16px;
+  padding-bottom: 10px;
+  margin-bottom: 8px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #125A85;
+  border-bottom: 2px solid #125A85;
+}
+
 /* When mat-card itself carries the deck/card class (dark bg), text must be light */
 .mat-mdc-card.deck .mat-mdc-card-title,
 .mat-mdc-card.deck .mat-mdc-card-subtitle,
@@ -209,6 +224,12 @@ table tr:hover {
 .mat-mdc-card.card .mat-mdc-card-subtitle,
 .mat-mdc-card.card .mat-mdc-card-content {
   color: #fff;
+}
+
+/* ...and the title underline needs the light accent to stay visible */
+.mat-mdc-card.deck .mat-mdc-card-title,
+.mat-mdc-card.card .mat-mdc-card-title {
+  border-bottom-color: #219EBC;
 }
 
 /* Angular Material 19 MDC table overrides */
