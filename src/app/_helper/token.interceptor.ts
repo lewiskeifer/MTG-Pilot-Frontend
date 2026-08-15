@@ -18,8 +18,15 @@ export class TokenInterceptor implements HttpInterceptor {
         return next.handle(request);
     }
 
+    // No user logged in, so send the request unauthenticated and let the
+    // server reject it rather than throwing here:
+    const token = this.auth.currentUserValue?.token;
+    if (!token) {
+      return next.handle(request);
+    }
+
     request = request.clone({
-      setHeaders: {Authorization: `Bearer ${this.auth.currentUserValue.token}`}
+      setHeaders: {Authorization: `Bearer ${token}`}
     });
     return next.handle(request);
   }

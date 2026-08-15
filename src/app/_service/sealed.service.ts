@@ -57,7 +57,7 @@ export class SealedService {
   /** PUT: update the deck on the server */
   refreshDeck(userId: number, deckId: number): Observable<void> {
     const url = `${this.decksUrl}/${userId}/collection/${deckId}/refresh`;
-    return this.httpClient.put<void>(url, this.httpOptions);
+    return this.httpClient.put<void>(url, null, this.httpOptions);
   }
 
 }
