@@ -34,6 +34,7 @@ export class DeckDetailComponent extends DetailBaseComponent<Deck, Card> {
   });
 
   protected saveCardErrorMessage = 'Card could not be saved. Please try again.';
+  protected missingCardMessage = 'No card found with that name. Please check the name and try again.';
 
   constructor(alertService: AlertService,
               private deckService: DeckService,
@@ -153,8 +154,8 @@ export class DeckDetailComponent extends DetailBaseComponent<Deck, Card> {
     this.selectedDeck.format = this.convertFormatForm();
   }
 
-  protected override onDeckSaved(isNew: boolean): void {
-    this.alertService.success(isNew ? 'Deck successfully created' : 'Deck updated');
+  protected deckSavedMessage(isNew: boolean): string {
+    return isNew ? 'Deck successfully created' : 'Deck updated';
   }
 
   getFoilOptions() {

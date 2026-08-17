@@ -78,11 +78,11 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
   /** Fallback shown when saving an item fails. */
   protected abstract saveCardErrorMessage: string;
 
-  /**
-   * Shown when a save succeeds but returns no item. Null for decks, which do
-   * not perform that check.
-   */
-  protected missingCardMessage: string = null;
+  /** Shown when a save succeeds but comes back with no item. */
+  protected abstract missingCardMessage: string;
+
+  /** Alert shown after a deck save succeeds. */
+  protected abstract deckSavedMessage(isNew: boolean): string;
 
   constructor(protected alertService: AlertService,
               protected service: DetailService<TDeck, TCard>,
@@ -125,9 +125,6 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
 
   /** Sets derived fields on selectedDeck just before it is sent. */
   protected prepareDeckForSave(): void {}
-
-  /** Runs after a deck save succeeds. */
-  protected onDeckSaved(_isNew: boolean): void {}
 
   ngOnInit(): void {
     this.loading = true;
@@ -176,6 +173,34 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
         this.setDeck(deckId, cardIndex);
       })
     );
+  }
+
+  /*
+   * User-initiated selection. Moving to a different deck or item, or starting a
+   * new one, drops any alert left over from the previous one, since it no
+   * longer refers to what is on screen. These stay separate from the methods
+   * they wrap because the load, save and delete flows call those internally to
+   * refresh the table, and must not clear the alert they have just raised.
+   */
+
+  selectDeckByIndex(index: number): void {
+    this.alertService.clear();
+    this.setDeckByIndex(index);
+  }
+
+  selectDeck(deckId: number, cardIndex: number): void {
+    this.alertService.clear();
+    this.setDeck(deckId, cardIndex);
+  }
+
+  selectCard(index: number): void {
+    this.alertService.clear();
+    this.setCard(index);
+  }
+
+  createNewCard(): void {
+    this.alertService.clear();
+    this.resetSelectedCard();
   }
 
   setDeckByIndex(index: number): void {
@@ -275,7 +300,7 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     this.service.saveCard(this.currentUser.id, newDeckId, this.selectedCard).
       pipe(first()).subscribe({
         next: card => {
-          if (!card && this.missingCardMessage) {
+          if (!card) {
             this.alertService.error(this.missingCardMessage);
             this.loadingCard = false;
             return;
@@ -318,7 +343,7 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     const isNew = this.selectedDeck.id === 0;
     this.service.saveDeck(this.currentUser.id, this.selectedDeck).pipe(switchMap(deck => this.getAndSetDecks(deck.id, 0)),
       finalize(() => this.loadingDeck = false)).subscribe({
-        next: () => this.onDeckSaved(isNew)
+        next: () => this.alertService.success(this.deckSavedMessage(isNew))
       });
   }
 

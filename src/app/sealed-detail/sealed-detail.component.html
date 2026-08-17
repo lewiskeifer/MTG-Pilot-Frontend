@@ -36,7 +36,7 @@
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumnsDecks;"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsDecks; let i = index" (click)="setDeckByIndex(i)" style="cursor: pointer"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsDecks; let i = index" (click)="selectDeckByIndex(i)" style="cursor: pointer"></tr>
             <tr mat-footer-row *matFooterRowDef="displayedColumnsDecks"></tr>
           </table>
         </div>
@@ -78,7 +78,7 @@
 
             <!-- TODO click -> setDeck when deck overview -->
             <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="setCard(i)" style="cursor: pointer"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="selectCard(i)" style="cursor: pointer"></tr>
             <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
           </table>
         </div>
@@ -124,7 +124,7 @@
                   </mat-form-field>
                   <mat-card-actions>
                     <button type="button" mat-raised-button (click)="saveDeck()" class="padded" style="line-height: 20px;">Save New Sealed Collection</button>
-                    <button type="button" mat-raised-button (click)="setDeck(0, 0)" class="padded" style="line-height: 20px;">Cancel</button>
+                    <button type="button" mat-raised-button (click)="selectDeck(0, 0)" class="padded" style="line-height: 20px;">Cancel</button>
                   </mat-card-actions>
                 </form>
               </mat-card>
@@ -247,7 +247,7 @@
                           <mat-card-actions>
                             <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Update Sealed</button>
                             <button type="button" mat-raised-button (click)="deleteCard()" class="padded" style="line-height: 20px;">Delete Sealed</button>
-                            <button type="button" mat-raised-button (click)="resetSelectedCard()" class="padded" style="line-height: 20px;">Create New Sealed</button>
+                            <button type="button" mat-raised-button (click)="createNewCard()" class="padded" style="line-height: 20px;">Create New Sealed</button>
                           </mat-card-actions>
                         </form>
                         <alert></alert> 
@@ -307,7 +307,7 @@
                         </div>
                         <mat-card-actions>
                           <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Save New Sealed</button>
-                          <button type="button" mat-raised-button (click)="setCard(0)" class="padded" style="line-height: 20px;">Cancel</button>
+                          <button type="button" mat-raised-button (click)="selectCard(0)" class="padded" style="line-height: 20px;">Cancel</button>
                         </mat-card-actions>
                       </form>
                     </mat-card-subtitle>
@@ -323,7 +323,7 @@
     </div>
     <div class="decksPatch">
       <ul class="decks">
-        <li *ngFor="let deck of decks; let i = index" (click)="setDeck(deck.id, 0)">
+        <li *ngFor="let deck of decks; let i = index" (click)="selectDeck(deck.id, 0)">
           <span class="badge">{{i}}</span> {{deck.name}}
         </li>
       </ul>
