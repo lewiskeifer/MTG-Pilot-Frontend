@@ -151,7 +151,9 @@ table td {
   color: #0C3C59;
 }
 
-table tr:hover {
+/* Data rows only -- bare `tr` also matched the header and totals rows, which
+   are not clickable and so should not react to hover. */
+table tr.mat-mdc-row:hover {
   background-color: #219EBC; /* Light blue highlight */
   color: #fff;
 }
