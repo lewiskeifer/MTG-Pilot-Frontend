@@ -39,6 +39,12 @@ export class AlertService {
         this.subject.next({ type: 'error', text: message });
     }
 
+    /** Dismiss the current alert, if any. */
+    clear() {
+        clearTimeout(this.dismissTimer);
+        this.subject.next(undefined);
+    }
+
     getMessage(): Observable<any> {
         return this.subject.asObservable();
     }

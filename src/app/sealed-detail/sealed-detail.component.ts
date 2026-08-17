@@ -22,12 +22,16 @@ export class SealedDetailComponent extends DetailBaseComponent<SealedCollection,
   });
 
   protected saveCardErrorMessage = 'No sealed product found with that name. Please check the name and try again.';
-  protected override missingCardMessage = 'No sealed product found with that name. Please check the name and try again.';
+  protected missingCardMessage = 'No sealed product found with that name. Please check the name and try again.';
 
   constructor(alertService: AlertService,
               sealedService: SealedService,
               formBuilder: FormBuilder) {
     super(alertService, sealedService, formBuilder);
+  }
+
+  protected deckSavedMessage(isNew: boolean): string {
+    return isNew ? 'Sealed collection successfully created' : 'Sealed collection updated';
   }
 
   protected createEmptyDeck(): SealedCollection {
