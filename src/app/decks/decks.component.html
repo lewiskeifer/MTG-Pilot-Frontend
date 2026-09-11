@@ -1,1 +1,13 @@
-<app-deck-detail></app-deck-detail>
+<div class="padded">
+  <chart-section
+    *ngIf="series.length > 0"
+    [series]="series"
+    overviewName="Deck Overview"
+    valueTitle="Singles Total Value"
+    ratioTitle="Singles Value / Purchase Price"
+    pickerLabel="Decks"
+    idPrefix="singles">
+  </chart-section>
+</div>
+
+<app-deck-detail (decksLoaded)="onDecksLoaded($event)"></app-deck-detail>

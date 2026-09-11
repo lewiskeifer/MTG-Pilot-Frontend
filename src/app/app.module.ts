@@ -25,6 +25,7 @@ import { SealedDetailComponent } from './sealed-detail/sealed-detail.component';
 import { SealedComponent } from './sealed/sealed.component';
 import { GoogleLineChartService } from './google-charts/google-line-chart-service';
 import { LineChartComponent } from './google-charts/line-chart.component';
+import { ChartSectionComponent } from './charts/chart-section.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -38,6 +39,7 @@ import { RegistrationComponent } from './registration/registration.component';
     SealedDetailComponent,
     DashboardComponent,
     LineChartComponent,
+    ChartSectionComponent,
     LoginComponent,
     RegistrationComponent,
     AlertComponent,

@@ -1,59 +1,54 @@
-<div class ="padded">
+<div class="padded">
 
-  <div *ngIf="loading || loading2" class="spinner-wrapper">
-    <mat-progress-spinner
-      mode="indeterminate"
-      [diameter]="100">
-    </mat-progress-spinner>
+  <div *ngIf="loading" class="spinner-wrapper">
+    <mat-progress-spinner mode="indeterminate" [diameter]="100"></mat-progress-spinner>
   </div>
 
-  <div *ngIf="!loading">
-    <div *ngIf="decks">
-      <div *ngIf="!showWelcomePage">
-        <div class="divTable">
-          <div class="divTableBody">
-            <div class="divTableRow layout">
-              <div class="divTableCell left graph">
-                <line-chart [data]="singlesTotalValueData" [config]="singlesTotalValueConfig" [elementId]="singlesTotalValueElementId"></line-chart>
-              </div>
-              <div class="divTableCell right graph">
-                <line-chart [data]="singlesRatioData" [config]="singlesRatioConfig" [elementId]="singlesRatioElementId"></line-chart>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div *ngIf="!loading && !showWelcomePage">
 
-    <div *ngIf="!loading2">
-      <div *ngIf="decks">
-        <div *ngIf="!showWelcomePage">
-          <div class="divTable">
-            <div class="divTableBody">
-              <div class="divTableRow layout">
-                <div class="divTableCell left padded graph">
-                  <line-chart [data]="sealedTotalValueData" [config]="sealedTotalValueConfig" [elementId]="sealedTotalValueElementId"></line-chart>
-                </div>
-                <div class="divTableCell right padded graph">
-                  <line-chart [data]="sealedRatioData" [config]="sealedRatioConfig" [elementId]="sealedRatioElementId"></line-chart>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="summary">
+      <div class="hero">
+        <span class="hero-label">Collection value</span>
+        <span class="hero-value">{{ heroValue }}</span>
+        <span class="hero-delta" [class.up]="heroDeltaUp" [class.down]="!heroDeltaUp">
+          {{ heroDeltaUp ? '&#9650;' : '&#9660;' }} {{ heroDelta }}
+        </span>
+      </div>
+
+      <div class="tiles">
+        <div class="tile" *ngFor="let tile of tiles">
+          <span class="tile-label">{{ tile.label }}</span>
+          <span class="tile-value">{{ tile.value }}</span>
         </div>
       </div>
 
-    <div *ngIf="showWelcomePage">
-      <div class="padded">
-        <mat-card class="center deck">
-          <mat-card-title> You Have No Cards Yet! </mat-card-title>
-          <mat-card-content> 
-            <br> Click the "Decks" button above and then click the "Create New Deck" button. <br> <br>  
-            You will need to add at least one card to a deck and hit the "Refresh Values" button before viewing your graphs.
-          </mat-card-content>
-        </mat-card>
+      <div class="jump">
+        <a routerLink="/singles" mat-stroked-button>Singles detail</a>
+        <a routerLink="/sealed" mat-stroked-button>Sealed detail</a>
       </div>
     </div>
 
+    <chart-section
+      [series]="portfolioSeries"
+      overviewName="Portfolio Total"
+      valueTitle="Portfolio Total Value"
+      ratioTitle="Portfolio Value / Purchase Price"
+      tableCaption="Portfolio values by date"
+      pickerLabel="Series"
+      idPrefix="portfolio"
+      [showAllByDefault]="true"
+      [showValuesTable]="true">
+    </chart-section>
   </div>
+
+  <div *ngIf="!loading && showWelcomePage" class="padded">
+    <mat-card class="center deck">
+      <mat-card-title> You Have No Cards Yet! </mat-card-title>
+      <mat-card-content>
+        <br> Click the "Singles" button above and then click the "Create New Deck" button. <br> <br>
+        You will need to add at least one card to a deck and hit the "Refresh Values" button before viewing your graphs.
+      </mat-card-content>
+    </mat-card>
+  </div>
+
 </div>

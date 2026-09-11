@@ -1,0 +1,162 @@
+/* ChartSectionComponent's private CSS styles */
+
+.layout {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  @media only screen and (max-width: 1500px) { 
+    @media only screen and (max-width: 1200px) {
+      flex-flow: column wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+
+      .divTableCell {
+        margin: 0;
+      }
+    }
+  }
+}
+
+/*
+ * The page plane behind these charts is dark (#444 from styles.scss), so the controls sit on
+ * the same white bordered card the charts use rather than directly on it. That keeps the ink
+ * dark-on-light everywhere, matches the chart cards, and lets Material's light theme render the
+ * selects as intended.
+ */
+.filter-row {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 20px;
+  padding: 14px 16px 4px 16px;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 6px solid #125A85;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-label {
+  font-size: 13px;
+  color: #52514e;
+}
+
+.picker {
+  min-width: 240px;
+}
+
+.range-presets {
+  display: flex;
+  gap: 4px;
+
+  button {
+    min-width: 54px;
+    line-height: 32px;
+    color: #52514e;
+    border-color: rgba(11, 11, 11, 0.24);
+  }
+
+  // Selection is a solid state, hover stays a ghost wash so the two never compete
+  button.selected {
+    background-color: #125A85;
+    border-color: #125A85;
+    color: #ffffff;
+  }
+}
+
+.filter-hint {
+  font-size: 12px;
+  color: #52514e;
+}
+
+.values-table {
+  max-height: 320px;
+  overflow: auto;
+  margin: 12px 0 4px 0;
+  background-color: #ffffff;
+  // Same card treatment as the charts, so it reads as part of the same surface on the dark page
+  border: 6px solid #125A85;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  caption {
+    text-align: center;
+    padding: 10px 12px 6px 12px;
+    font-size: 12px;
+    color: #52514e;
+  }
+
+  /*
+   * styles.scss carries a global bare `table` skin for the app's Material tables that paints a
+   * deep blue background and sets `color` to the same blue. Every one of those properties has to
+   * be answered here or this table inherits unreadable dark-on-dark text.
+   */
+  table {
+    // Columns hug their content: stretching two columns across the page strands the figures
+    // at opposite edges of the card
+    width: auto;
+    min-width: 420px;
+    // Shrink-to-fit table centred in a full-width card. When the table is wider than the card
+    // the auto margins collapse to 0, so nothing is pushed out of reach of the scroll.
+    margin: 0 auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: #ffffff;
+    color: #0b0b0b;
+    border-collapse: collapse;
+    // Columns of figures have to line up to be scannable
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 5px 16px;
+    text-align: right;
+    white-space: nowrap;
+    border-bottom: 1px solid #e1e0d9;
+    background-color: #ffffff;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #ffffff;
+    color: #52514e;
+    font-weight: 600;
+  }
+
+  tbody th[scope="row"] {
+    text-align: left;
+    font-weight: 400;
+    color: #52514e;
+  }
+
+  tbody td {
+    color: #0b0b0b;
+  }
+
+  tbody tr:hover th,
+  tbody tr:hover td {
+    background-color: #f0efec;
+  }
+}
+
+.graph {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 6px solid #125A85;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
