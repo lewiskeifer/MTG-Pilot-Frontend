@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { LineChartConfig } from '../google-charts/line-chart-config';
 import { MAX_SERIES, SeriesSlots } from '../google-charts/chart-palette';
@@ -100,7 +100,20 @@ export class ChartSectionComponent implements OnChanges {
   private screenWidth = window.innerWidth;
   private defaultsApplied = false;
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+
+    /*
+     * The page can swap this section between datasets - portfolio, singles, sealed - and the
+     * picker's selection and colour slots belong to whichever one is showing. Carrying them
+     * across would leave the chart holding names the new dataset has never heard of.
+     */
+    if (changes['overviewName'] && !changes['overviewName'].firstChange) {
+      this.slots = new SeriesSlots();
+      this.selection = [];
+      this.defaultsApplied = false;
+      this.moverSort = 'value';
+    }
+
     this.applyDefaultSelection();
     this.build();
   }

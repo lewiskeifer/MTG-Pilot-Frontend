@@ -75,12 +75,29 @@
   color: #0b0b0b;
 }
 
-.jump {
+// Switches which dataset the charts below show; every graph in the app lives on this page
+.view-toggle {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 4px;
 
-  a {
+  button {
+    min-width: 82px;
+    line-height: 32px;
     color: #52514e;
     border-color: rgba(11, 11, 11, 0.24);
   }
+
+  // Selection is a solid state, hover stays a ghost wash so the two never compete
+  button.selected {
+    background-color: #125A85;
+    border-color: #125A85;
+    color: #ffffff;
+  }
+}
+
+.view-label {
+  font-size: 12px;
+  color: #52514e;
+  margin-right: 4px;
 }

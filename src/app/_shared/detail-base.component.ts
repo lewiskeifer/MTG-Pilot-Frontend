@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, OnInit, Output } from '@angular/core';
+import { Directive, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
@@ -45,10 +45,6 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
   displayedColumnsDecks: string[] = ['card', 'totalPurchasePrice', 'totalValue'];
 
   decks: TDeck[];
-
-  /** Lets the page around this screen react to a reload - the charts above redraw when the
-      Refresh Values button, or any save or delete, brings back new figures. */
-  @Output() decksLoaded = new EventEmitter<TDeck[]>();
 
   emptyDeck: TDeck;
   selectedDeck: TDeck;
@@ -148,7 +144,6 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     this.service.getDecks(this.currentUser.id)
       .subscribe(decks => {
         this.decks = decks;
-        this.decksLoaded.emit(decks);
         this.decksOptions = this.getDecksOptions();
         this.ordersOptions = this.getOrdersOptions();
         this.setDeck(0, 0);
@@ -165,7 +160,6 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     this.service.getDecks(this.currentUser.id)
       .subscribe(decks => {
         this.decks = decks;
-        this.decksLoaded.emit(decks);
         this.decksOptions = this.getDecksOptions();
         this.refreshSelectedDeck();
       });
@@ -175,7 +169,6 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     return this.service.getDecks(this.currentUser.id).pipe(
       tap(decks => {
         this.decks = decks;
-        this.decksLoaded.emit(decks);
         this.decksOptions = this.getDecksOptions();
         this.setDeck(deckId, cardIndex);
       })
@@ -316,7 +309,6 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
           this.service.getDecks(this.currentUser.id)
           .subscribe(decks => {
             this.decks = decks;
-            this.decksLoaded.emit(decks);
             this.decksOptions = this.getDecksOptions();
             this.refreshSelectedDeck();
 
