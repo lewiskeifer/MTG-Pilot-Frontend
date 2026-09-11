@@ -1,0 +1,59 @@
+<!-- One filter row, above everything it scopes, so both charts and the table always agree -->
+<div class="filter-row">
+
+  <div class="filter">
+    <span class="filter-label">Date range</span>
+    <div class="range-presets">
+      <button mat-stroked-button
+              *ngFor="let preset of rangePresets"
+              [class.selected]="rangeDays === preset.days"
+              (click)="setRange(preset.days)">
+        {{ preset.label }}
+      </button>
+    </div>
+  </div>
+
+  <mat-form-field class="filter picker">
+    <mat-label>{{ pickerLabel }} ({{ selection.length }}/{{ maxSeries }})</mat-label>
+    <mat-select multiple
+                [ngModel]="selection"
+                (ngModelChange)="onSelectionChange($event)">
+      <mat-option *ngFor="let name of options()" [value]="name" [disabled]="isDisabled(name)">
+        {{ name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <span class="filter-hint">Drag across a chart to zoom &middot; right-click to reset &middot; hover a date for all values</span>
+</div>
+
+<div class="divTable">
+  <div class="divTableBody">
+    <div class="divTableRow layout">
+      <div class="divTableCell left graph">
+        <line-chart [data]="totalValueData" [config]="totalValueConfig" [elementId]="valueElementId"></line-chart>
+      </div>
+      <div class="divTableCell right graph">
+        <line-chart [data]="ratioData" [config]="ratioConfig" [elementId]="ratioElementId"></line-chart>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="values-table" *ngIf="showValuesTable">
+  <table>
+    <caption>{{ tableCaption }}</caption>
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col" *ngFor="let name of tableColumns">{{ name }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of tableRows">
+        <th scope="row">{{ row.date | date:'mediumDate' }}</th>
+        <td *ngFor="let value of row.values">{{ value | currency:'USD':'symbol':'1.0-0' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

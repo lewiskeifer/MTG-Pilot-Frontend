@@ -11,8 +11,10 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
-  { path: 'decks', component: DecksComponent, canActivate: [authGuard] },
+  { path: 'singles', component: DecksComponent, canActivate: [authGuard] },
   { path: 'sealed', component: SealedComponent, canActivate: [authGuard] },
+  // The nav has always said "Singles"; keep the old path working for existing bookmarks
+  { path: 'decks', redirectTo: 'singles' },
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'home', component: HomeComponent },
