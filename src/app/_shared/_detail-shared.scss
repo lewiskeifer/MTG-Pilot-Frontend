@@ -45,11 +45,19 @@
     cursor: pointer;
     cursor: hand;
   }
+  /*
+   * styles.scss forces `.mat-mdc-raised-button:hover` to bright blue with !important, which was
+   * beating the grey these screens intend. Carrying !important here wins it back: Angular adds
+   * its own component attribute to the selector, so this rule is a notch more specific than the
+   * global one. Deliberately scoped to the deck and sealed screens - the blue hover stays
+   * everywhere else in the app.
+   */
   button:hover {
-    background-color: #cfd8dc;
+    background-color: #cfd8dc !important;
   }
-  button:disabled {
-    background-color: #eee;
+  button:disabled,
+  button:disabled:hover {
+    background-color: #eee !important;
     color: #ccc;
     cursor: auto;
   }

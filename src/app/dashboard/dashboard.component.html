@@ -22,23 +22,28 @@
         </div>
       </div>
 
-      <div class="jump">
-        <a routerLink="/singles" mat-stroked-button>Singles detail</a>
-        <a routerLink="/sealed" mat-stroked-button>Sealed detail</a>
+      <div class="view-toggle">
+        <span class="view-label">Graph</span>
+        <button mat-stroked-button
+                *ngFor="let view of views"
+                [class.selected]="view.key === activeKey"
+                (click)="setView(view.key)">
+          {{ view.label }}
+        </button>
       </div>
     </div>
 
     <chart-section
-      [series]="portfolioSeries"
-      overviewName="Portfolio Total"
-      valueTitle="Portfolio Total Value"
-      ratioTitle="Portfolio Value / Purchase Price"
-      tableCaption="Portfolio values by date"
-      pickerLabel="Series"
-      idPrefix="portfolio"
-      [showAllByDefault]="true"
+      [series]="activeView.series"
+      [moverSeries]="activeView.moverSeries"
+      [overviewName]="activeView.overviewName"
+      [valueTitle]="activeView.valueTitle"
+      [ratioTitle]="activeView.ratioTitle"
+      [tableCaption]="activeView.tableCaption"
+      [pickerLabel]="activeView.pickerLabel"
+      [idPrefix]="activeView.idPrefix"
+      [showAllByDefault]="activeView.showAll"
       [showValuesTable]="true"
-      [moverSeries]="moverSeries"
       [rangeDays]="rangeDays"
       (rangeDaysChange)="onRangeChange($event)">
     </chart-section>

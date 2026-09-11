@@ -9,8 +9,21 @@ import { aggregate, collectDates, densify, rangeLabelOf, rangeStartIndex, Series
 interface StatTile {
   label: string;
   value: string;
-  delta?: string;
-  deltaUp?: boolean;
+}
+
+/** Everything the chart section needs for one of the three things this page can plot. */
+interface ChartView {
+  key: string;
+  label: string;
+  series: Series[];
+  moverSeries: Series[];
+  overviewName: string;
+  valueTitle: string;
+  ratioTitle: string;
+  tableCaption: string;
+  pickerLabel: string;
+  idPrefix: string;
+  showAll: boolean;
 }
 
 @Component({
@@ -25,11 +38,18 @@ export class DashboardComponent implements OnInit {
   loading = true;
   showWelcomePage = false;
 
-  // Singles and sealed as one series each; the section's overview line totals them
-  portfolioSeries: Series[] = [];
+  /*
+   * This page owns every graph in the app. The singles and sealed screens are for editing decks
+   * and collections; their charts live here behind the view toggle so one place answers "how is
+   * this doing" for the whole collection and for either half of it.
+   */
+  views: ChartView[] = [];
+  activeKey = 'portfolio';
 
-  // Every individual deck and collection, for the biggest-movers ranking
-  moverSeries: Series[] = [];
+  heroValue: string;
+  heroDelta: string;
+  heroDeltaUp: boolean;
+  tiles: StatTile[] = [];
 
   /*
    * Held here rather than inside the chart section, because the headline delta below quotes the
@@ -37,12 +57,13 @@ export class DashboardComponent implements OnInit {
    */
   rangeDays = 0;
 
-  heroValue: string;
-  heroDelta: string;
-  heroDeltaUp: boolean;
-  tiles: StatTile[] = [];
+  private portfolioSeries: Series[] = [];
 
   constructor(private deckService: DeckService, private sealedService: SealedService) {}
+
+  get activeView(): ChartView {
+    return this.views.find(view => view.key === this.activeKey) || this.views[0];
+  }
 
   ngOnInit(): void {
 
@@ -55,33 +76,78 @@ export class DashboardComponent implements OnInit {
 
       // Index 0 of each response is the server's overview object, which carries no snapshots
       const singles: Series[] = result.decks.slice(1)
+        .filter(deck => deck.deckSnapshots && deck.deckSnapshots.length > 0)
         .map(deck => ({ name: deck.name, snapshots: deck.deckSnapshots, group: 'Singles' }));
       const sealed: Series[] = result.sealed.slice(1)
+        .filter(collection => collection.sealedCollectionSnapshots && collection.sealedCollectionSnapshots.length > 0)
         .map(collection => ({
           name: collection.name,
           snapshots: collection.sealedCollectionSnapshots,
           group: 'Sealed'
         }));
 
-      const singlesDates = collectDates(singles);
-      const sealedDates = collectDates(sealed);
-
-      if (singlesDates.length === 0 && sealedDates.length === 0) {
+      if (singles.length === 0 && sealed.length === 0) {
         this.showWelcomePage = true;
         this.loading = false;
         return;
       }
 
       this.portfolioSeries = [
-        { name: 'Singles', snapshots: aggregate(singles, singlesDates) },
-        { name: 'Sealed', snapshots: aggregate(sealed, sealedDates) }
+        { name: 'Singles', snapshots: aggregate(singles, collectDates(singles)) },
+        { name: 'Sealed', snapshots: aggregate(sealed, collectDates(sealed)) }
       ];
 
-      this.moverSeries = [...singles, ...sealed].filter(entry => entry.snapshots.length > 0);
+      this.views = [
+        {
+          key: 'portfolio',
+          label: 'Portfolio',
+          series: this.portfolioSeries,
+          moverSeries: [...singles, ...sealed],
+          overviewName: 'Portfolio Total',
+          valueTitle: 'Portfolio Total Value',
+          ratioTitle: 'Portfolio Value / Purchase Price',
+          tableCaption: 'Portfolio values by date',
+          pickerLabel: 'Series',
+          idPrefix: 'portfolio',
+          // Two halves against their total is the whole point of this view
+          showAll: true
+        },
+        {
+          key: 'singles',
+          label: 'Singles',
+          series: singles,
+          moverSeries: singles,
+          overviewName: 'Deck Overview',
+          valueTitle: 'Singles Total Value',
+          ratioTitle: 'Singles Value / Purchase Price',
+          tableCaption: 'Singles values by date',
+          pickerLabel: 'Decks',
+          idPrefix: 'singles',
+          // Two dozen decks and eight colour slots: open on the overview line alone
+          showAll: false
+        },
+        {
+          key: 'sealed',
+          label: 'Sealed',
+          series: sealed,
+          moverSeries: sealed,
+          overviewName: 'Collection Overview',
+          valueTitle: 'Sealed Total Value',
+          ratioTitle: 'Sealed Value / Purchase Price',
+          tableCaption: 'Sealed values by date',
+          pickerLabel: 'Sealed collections',
+          idPrefix: 'sealed',
+          showAll: false
+        }
+      ];
 
       this.buildSummary();
       this.loading = false;
     });
+  }
+
+  setView(key: string): void {
+    this.activeKey = key;
   }
 
   onRangeChange(days: number): void {
@@ -89,6 +155,10 @@ export class DashboardComponent implements OnInit {
     this.buildSummary();
   }
 
+  /*
+   * The headline always describes the whole collection, whichever view the chart below is on -
+   * it is the page's one hero figure, not a caption for the graph.
+   */
   private buildSummary(): void {
 
     const dates = collectDates(this.portfolioSeries);
@@ -106,18 +176,9 @@ export class DashboardComponent implements OnInit {
     this.heroDeltaUp = last.value >= prior.value;
 
     this.tiles = [
-      {
-        label: 'Singles',
-        value: this.money(columns[0][columns[0].length - 1].value)
-      },
-      {
-        label: 'Sealed',
-        value: this.money(columns[1][columns[1].length - 1].value)
-      },
-      {
-        label: 'Purchase price',
-        value: this.money(last.purchasePrice)
-      },
+      { label: 'Singles', value: this.money(columns[0][columns[0].length - 1].value) },
+      { label: 'Sealed', value: this.money(columns[1][columns[1].length - 1].value) },
+      { label: 'Purchase price', value: this.money(last.purchasePrice) },
       {
         label: 'Value / purchase price',
         value: last.purchasePrice !== 0 ? (last.value / last.purchasePrice).toFixed(2) : '--'
