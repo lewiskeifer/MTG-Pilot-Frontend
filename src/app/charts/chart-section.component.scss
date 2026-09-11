@@ -77,22 +77,156 @@
   color: #52514e;
 }
 
-.values-table {
-  max-height: 320px;
-  overflow: auto;
+/*
+ * The table and the movers share one card. The table is a narrow column of figures, so on its
+ * own it left most of the card empty; the movers fill that and are scoped by the same range.
+ */
+.data-card {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px 36px;
+  padding: 0 12px 8px 12px;
   margin: 12px 0 4px 0;
   background-color: #ffffff;
   // Same card treatment as the charts, so it reads as part of the same surface on the dark page
   border: 6px solid #125A85;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
 
-  caption {
-    text-align: center;
-    padding: 10px 12px 6px 12px;
-    font-size: 12px;
+/*
+ * Both panels are built as the same three tiers - header band, column heading, then rows - with
+ * matching metrics at each tier. Without the header band the table used to start a tier higher
+ * than the movers beside it, and the two never lined up.
+ */
+.panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  // Holds the band open to the height of the sort buttons, so the text-only header matches
+  min-height: 26px;
+  padding: 10px 0 6px 0;
+  border-bottom: 1px solid #e1e0d9;
+}
+
+.panel-title {
+  font-size: 12px;
+  color: #52514e;
+}
+
+.mover-columns {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 8px 36px;
+}
+
+.mover-group {
+  min-width: 280px;
+}
+
+// Every item is listed, so each column scrolls. The table's own scroll box also contains its
+// sticky heading row, hence the extra 25px there for the two to bottom out together.
+.mover-scroll {
+  max-height: 286px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.mover-subtitle {
+  // Matches the table's thead cells: same size, weight, padding and rule
+  font-size: 12px;
+  font-weight: 600;
+  color: #52514e;
+  padding: 5px 0;
+  border-bottom: 1px solid #e1e0d9;
+}
+
+.sort-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  button {
+    min-width: 36px;
+    line-height: 24px;
+    padding: 0 8px;
+    font-size: 13px;
     color: #52514e;
+    border-color: rgba(11, 11, 11, 0.24);
   }
+
+  // Selection is a solid state, hover stays a ghost wash so the two never compete
+  button.selected {
+    background-color: #125A85;
+    border-color: #125A85;
+    color: #ffffff;
+  }
+}
+
+.sort-label {
+  font-size: 11px;
+  color: #898781;
+  margin-right: 2px;
+}
+
+.mover-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  // Same row box as a table row, so the two lists stay in step all the way down
+  padding: 5px 0;
+  border-bottom: 1px solid #e1e0d9;
+  font-size: 12px;
+}
+
+.mover-name {
+  color: #0b0b0b;
+}
+
+// The arrow carries the direction alongside the colour; colour alone never does
+.mover-change {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  // Items that did not move at all
+  color: #898781;
+
+  &.up {
+    color: #006300;
+  }
+
+  &.down {
+    color: #d03b3b;
+  }
+}
+
+.mover-arrow {
+  display: inline-block;
+  width: 10px;
+}
+
+.mover-percent {
+  margin-left: 6px;
+  color: #52514e;
+}
+
+.mover-empty {
+  font-size: 12px;
+  color: #898781;
+  padding: 4px 0;
+}
+
+.values-table {
+  max-height: 311px;
+  overflow: auto;
 
   /*
    * styles.scss carries a global bare `table` skin for the app's Material tables that paints a

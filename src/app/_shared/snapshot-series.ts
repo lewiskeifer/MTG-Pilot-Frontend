@@ -3,6 +3,8 @@ import { DeckSnapshot } from '../_model/deckSnapshot';
 export interface Series {
   name: string;
   snapshots: DeckSnapshot[];
+  /** Which half of the collection this came from. Deck and collection names can collide. */
+  group?: string;
 }
 
 export function dateKeyOf(snapshot: DeckSnapshot): string {
@@ -60,4 +62,31 @@ export function aggregate(series: Series[], dates: string[]): DeckSnapshot[] {
 export function toLocalDate(date: string): Date {
   const parts = date.split('-');
   return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+}
+
+/*
+ * Where a date range begins within a sorted list of dates. Everything scoped by the range - the
+ * charts, the values table, the movers and the headline delta - measures from here, so none of
+ * them can disagree about which window they are showing. 0 days means the whole history.
+ */
+export function rangeStartIndex(dates: string[], rangeDays: number): number {
+
+  if (rangeDays === 0 || dates.length === 0) {
+    return 0;
+  }
+
+  const cutoff = toLocalDate(dates[dates.length - 1]);
+  cutoff.setDate(cutoff.getDate() - rangeDays);
+
+  var index = 0;
+  while (index < dates.length && toLocalDate(dates[index]) < cutoff) {
+    index++;
+  }
+
+  return index;
+}
+
+/** Names a range for display: "last 90 days", or "all time" for the whole history. */
+export function rangeLabelOf(rangeDays: number): string {
+  return rangeDays === 0 ? 'all time' : 'last ' + rangeDays + ' days';
 }

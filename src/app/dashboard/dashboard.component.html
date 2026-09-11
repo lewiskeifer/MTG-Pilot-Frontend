@@ -37,7 +37,10 @@
       pickerLabel="Series"
       idPrefix="portfolio"
       [showAllByDefault]="true"
-      [showValuesTable]="true">
+      [showValuesTable]="true"
+      [moverSeries]="moverSeries"
+      [rangeDays]="rangeDays"
+      (rangeDaysChange)="onRangeChange($event)">
     </chart-section>
   </div>
 

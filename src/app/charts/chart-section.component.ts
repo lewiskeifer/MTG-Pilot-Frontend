@@ -1,8 +1,9 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { LineChartConfig } from '../google-charts/line-chart-config';
 import { MAX_SERIES, SeriesSlots } from '../google-charts/chart-palette';
-import { aggregate, collectDates, densify, Series, toLocalDate } from '../_shared/snapshot-series';
+import { aggregate, collectDates, densify, rangeLabelOf, rangeStartIndex, Series, toLocalDate }
+  from '../_shared/snapshot-series';
 
 interface RangePreset {
   label: string;
@@ -12,6 +13,18 @@ interface RangePreset {
 interface TableRow {
   date: Date;
   values: number[];
+}
+
+interface Mover {
+  name: string;
+  change: number;
+  /** Null where the series was worth nothing at the start of the window. */
+  percent: number;
+}
+
+interface MoverGroup {
+  name: string;
+  movers: Mover[];
 }
 
 /*
@@ -48,13 +61,26 @@ export class ChartSectionComponent implements OnChanges {
    */
   @Input() showValuesTable = false;
 
+  /*
+   * Ranked for the biggest movers beside the table, over the same date range as the charts.
+   * These are the individual decks and collections rather than the plotted series: on the
+   * portfolio page the chart holds two lines, and "the top two of two" tells you nothing.
+   */
+  @Input() moverSeries: Series[] = [];
+
   readonly rangePresets: RangePreset[] = [
     { label: '30D', days: 30 },
     { label: '90D', days: 90 },
     { label: '1Y', days: 365 },
     { label: 'All', days: 0 }
   ];
-  rangeDays = 0;
+  /*
+   * Owned by the page, not by this component: the headline figures above the charts quote the
+   * same window, and a range the reader can see on the buttons but not in the numbers is worse
+   * than no range control at all.
+   */
+  @Input() rangeDays = 0;
+  @Output() rangeDaysChange = new EventEmitter<number>();
 
   readonly maxSeries = MAX_SERIES;
   selection: string[] = [];
@@ -66,6 +92,9 @@ export class ChartSectionComponent implements OnChanges {
 
   tableColumns: string[] = [];
   tableRows: TableRow[] = [];
+
+  moverGroups: MoverGroup[] = [];
+  moverSort: 'value' | 'percent' = 'value';
 
   private slots = new SeriesSlots();
   private screenWidth = window.innerWidth;
@@ -111,6 +140,7 @@ export class ChartSectionComponent implements OnChanges {
 
   setRange(days: number): void {
     this.rangeDays = days;
+    this.rangeDaysChange.emit(days);
     this.build();
   }
 
@@ -151,8 +181,8 @@ export class ChartSectionComponent implements OnChanges {
     withOverview.forEach(entry => dense.set(entry.name, densify(entry.snapshots, dates)));
 
     const columns = this.selection.filter(name => dense.has(name));
-    const visible = this.applyRange(dates);
-    const offset = dates.length - visible.length;
+    const offset = rangeStartIndex(dates, this.rangeDays);
+    const visible = dates.slice(offset);
 
     const rows = [];
     const ratios = [];
@@ -180,17 +210,109 @@ export class ChartSectionComponent implements OnChanges {
     this.tableRows = this.showValuesTable
       ? rows.map(row => ({ date: row[0], values: row.slice(1) })).reverse()
       : [];
+
+    this.buildMovers();
   }
 
-  private applyRange(dates: string[]): string[] {
+  /** Names the window the movers are measured over, so a figure is never undated. */
+  get rangeLabel(): string {
+    return rangeLabelOf(this.rangeDays);
+  }
 
-    if (this.rangeDays === 0) {
-      return dates;
+  setMoverSort(mode: 'value' | 'percent'): void {
+    this.moverSort = mode;
+    this.buildMovers();
+  }
+
+  /** Whichever figure the list is currently ranked on leads the row. */
+  primaryText(mover: Mover): string {
+    return this.moverSort === 'percent' ? this.percentText(mover) : this.moneyText(mover.change);
+  }
+
+  secondaryText(mover: Mover): string {
+    return this.moverSort === 'percent' ? this.moneyText(mover.change) : this.percentText(mover);
+  }
+
+  // The arrow already carries the direction, so the figures themselves stay unsigned
+  private moneyText(value: number): string {
+    return Math.round(Math.abs(value)).toLocaleString('en-US',
+      { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  }
+
+  private percentText(mover: Mover): string {
+    return mover.percent === null ? 'new' : Math.abs(mover.percent).toFixed(0) + '%';
+  }
+
+  /*
+   * Dollar change is the default: on a portfolio view what matters is what moved the total, and
+   * a $6 box doubling would otherwise outrank a $3,000 gain. Percent answers the other question
+   * - which holdings are performing - so it is a toggle rather than a choice made for the reader.
+   */
+  private buildMovers(): void {
+
+    this.moverGroups = [];
+
+    if (!this.moverSeries || this.moverSeries.length === 0) {
+      return;
     }
 
-    const cutoff = toLocalDate(dates[dates.length - 1]);
-    cutoff.setDate(cutoff.getDate() - this.rangeDays);
+    const dates = collectDates(this.moverSeries);
+    if (dates.length === 0) {
+      return;
+    }
 
-    return dates.filter(date => toLocalDate(date) >= cutoff);
+    const offset = rangeStartIndex(dates, this.rangeDays);
+    const end = dates.length - 1;
+
+    // Map keeps insertion order, so the columns follow the order the series were handed over
+    const byGroup = new Map<string, Mover[]>();
+
+    this.moverSeries.forEach(entry => {
+
+      const column = densify(entry.snapshots, dates);
+      const endSnapshot = column[end];
+      if (!endSnapshot) {
+        return;
+      }
+
+      // Nothing held at the window's start means the series began inside it, worth 0 back then
+      const startSnapshot = column[offset];
+      const start = startSnapshot ? startSnapshot.value : 0;
+      const change = endSnapshot.value - start;
+
+      const group = entry.group || 'Other';
+      if (!byGroup.has(group)) {
+        byGroup.set(group, []);
+      }
+
+      byGroup.get(group).push({
+        name: entry.name,
+        change: change,
+        percent: start !== 0 ? (change / start) * 100 : null
+      });
+    });
+
+    byGroup.forEach((movers, name) => {
+      movers.sort((a, b) => this.rankOf(b) - this.rankOf(a));
+      this.moverGroups.push({ name: name, movers: movers });
+    });
   }
+
+  /*
+   * One list per group, biggest gain at the top down to biggest loss at the bottom.
+   *
+   * A series worth nothing at the window's start has no meaningful percentage. Ranking it as
+   * an infinite gain would park it permanently at the top, so it takes a rank of zero: below
+   * every measurable gain, above every loss. Its row reads "new" rather than a number, so the
+   * reason it sits there is visible.
+   */
+  private rankOf(mover: Mover): number {
+
+    if (this.moverSort === 'value') {
+      return mover.change;
+    }
+
+    return mover.percent === null ? 0 : mover.percent;
+  }
+
 }

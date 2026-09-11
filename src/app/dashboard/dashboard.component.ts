@@ -3,7 +3,8 @@ import { forkJoin } from 'rxjs';
 import { User } from '../_model/user';
 import { DeckService } from '../_service/deck.service';
 import { SealedService } from '../_service/sealed.service';
-import { aggregate, collectDates, densify, Series } from '../_shared/snapshot-series';
+import { aggregate, collectDates, densify, rangeLabelOf, rangeStartIndex, Series, toLocalDate }
+  from '../_shared/snapshot-series';
 
 interface StatTile {
   label: string;
@@ -27,6 +28,15 @@ export class DashboardComponent implements OnInit {
   // Singles and sealed as one series each; the section's overview line totals them
   portfolioSeries: Series[] = [];
 
+  // Every individual deck and collection, for the biggest-movers ranking
+  moverSeries: Series[] = [];
+
+  /*
+   * Held here rather than inside the chart section, because the headline delta below quotes the
+   * same window as the charts. The section reports its range presets back through rangeDaysChange.
+   */
+  rangeDays = 0;
+
   heroValue: string;
   heroDelta: string;
   heroDeltaUp: boolean;
@@ -45,9 +55,13 @@ export class DashboardComponent implements OnInit {
 
       // Index 0 of each response is the server's overview object, which carries no snapshots
       const singles: Series[] = result.decks.slice(1)
-        .map(deck => ({ name: deck.name, snapshots: deck.deckSnapshots }));
+        .map(deck => ({ name: deck.name, snapshots: deck.deckSnapshots, group: 'Singles' }));
       const sealed: Series[] = result.sealed.slice(1)
-        .map(collection => ({ name: collection.name, snapshots: collection.sealedCollectionSnapshots }));
+        .map(collection => ({
+          name: collection.name,
+          snapshots: collection.sealedCollectionSnapshots,
+          group: 'Sealed'
+        }));
 
       const singlesDates = collectDates(singles);
       const sealedDates = collectDates(sealed);
@@ -63,9 +77,16 @@ export class DashboardComponent implements OnInit {
         { name: 'Sealed', snapshots: aggregate(sealed, sealedDates) }
       ];
 
+      this.moverSeries = [...singles, ...sealed].filter(entry => entry.snapshots.length > 0);
+
       this.buildSummary();
       this.loading = false;
     });
+  }
+
+  onRangeChange(days: number): void {
+    this.rangeDays = days;
+    this.buildSummary();
   }
 
   private buildSummary(): void {
@@ -75,13 +96,13 @@ export class DashboardComponent implements OnInit {
     const columns = this.portfolioSeries.map(entry => densify(entry.snapshots, dates));
 
     const last = total[total.length - 1];
-    // Compare against 30 days back, or the earliest point held if the history is shorter
-    const priorIndex = Math.max(0, total.length - 31);
-    const prior = total[priorIndex];
+
+    // The same window the charts, table and movers use, so every figure on the page agrees
+    const startIndex = rangeStartIndex(dates, this.rangeDays);
+    const prior = total[startIndex];
 
     this.heroValue = this.money(last.value);
-    this.heroDelta = this.signedMoney(last.value - prior.value) + ' in '
-      + (total.length - 1 - priorIndex) + ' days';
+    this.heroDelta = this.signedMoney(last.value - prior.value) + ' ' + this.spanLabel(dates, startIndex);
     this.heroDeltaUp = last.value >= prior.value;
 
     this.tiles = [
@@ -102,6 +123,23 @@ export class DashboardComponent implements OnInit {
         value: last.purchasePrice !== 0 ? (last.value / last.purchasePrice).toFixed(2) : '--'
       }
     ];
+  }
+
+  /*
+   * Reports the span actually covered rather than the preset's name. Ask for a year of a
+   * collection eight months old and "in 243 days" is the truth; "last 365 days" is not.
+   */
+  private spanLabel(dates: string[], startIndex: number): string {
+
+    if (startIndex === 0) {
+      return rangeLabelOf(0);
+    }
+
+    const start = toLocalDate(dates[startIndex]);
+    const end = toLocalDate(dates[dates.length - 1]);
+    const days = Math.round((end.getTime() - start.getTime()) / 86400000);
+
+    return 'in ' + days + ' days';
   }
 
   private money(value: number): string {
