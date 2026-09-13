@@ -1,14 +1,14 @@
 <header class="top-banner">
   <nav class="nav-links">
     <ng-container *ngIf="currentUser; else guestNav">
-      <a routerLink="/home" class="padded">Home</a>
       <a routerLink="/dashboard" class="padded">Dashboard</a>
       <a routerLink="/singles" class="padded">Singles</a>
       <a routerLink="/sealed" class="padded">Sealed</a>
+      <a routerLink="/home" class="padded">About</a>
       <a class="padded" (click)="logout()">Logout</a>
     </ng-container>
     <ng-template #guestNav>
-      <a routerLink="/home" class="padded">Home</a>
+      <a routerLink="/home" class="padded">About</a>
       <a routerLink="/login" class="padded">Login</a>
     </ng-template>
   </nav>

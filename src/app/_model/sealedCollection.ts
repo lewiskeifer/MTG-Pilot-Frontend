@@ -7,4 +7,6 @@ export class SealedCollection {
     sortOrder: number;
     sealed: Array<Sealed>;
     sealedCollectionSnapshots: Array<DeckSnapshot>;
+    /** As on a deck: the day each range's baseline product price was read. */
+    baselineDates: { [days: string]: string };
   }

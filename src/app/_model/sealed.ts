@@ -11,4 +11,6 @@ export class Sealed {
   quantity: number;
   marketPrice: number;
   url: string;
+  /** As on a card: one product's price at the start of each range, keyed by day count. */
+  baselinePrices: { [days: string]: number };
 }

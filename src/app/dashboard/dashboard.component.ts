@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
+import { Deck } from '../_model/deck';
+import { SealedCollection } from '../_model/sealedCollection';
 import { User } from '../_model/user';
 import { DeckService } from '../_service/deck.service';
 import { SealedService } from '../_service/sealed.service';
+import { Holding } from '../_shared/holding';
 import { aggregate, collectDates, densify, rangeLabelOf, rangeStartIndex, Series, toLocalDate }
   from '../_shared/snapshot-series';
 
@@ -24,6 +27,16 @@ interface ChartView {
   pickerLabel: string;
   idPrefix: string;
   showAll: boolean;
+  /*
+   * The individual cards or products behind the series, pooled across their decks and
+   * collections. Left empty on the portfolio view: its two lines are the halves of the
+   * collection, and a list of single cards is not what that view is asking about.
+   */
+  holdings: Holding[];
+  holdingsTitle: string;
+  holdingsLabel: string;
+  /** The day each range's baseline prices were read, so a short history can name its own span. */
+  baselineDates: { [days: string]: string };
 }
 
 @Component({
@@ -97,6 +110,13 @@ export class DashboardComponent implements OnInit {
         { name: 'Sealed', snapshots: aggregate(sealed, collectDates(sealed)) }
       ];
 
+      const cards = this.cardHoldings(result.decks.slice(1));
+      const products = this.sealedHoldings(result.sealed.slice(1));
+
+      // Carried on every deck and collection alike, so the overview object at index 0 has it too
+      const cardDates = result.decks[0].baselineDates || {};
+      const productDates = result.sealed[0].baselineDates || {};
+
       this.views = [
         {
           key: 'portfolio',
@@ -110,7 +130,11 @@ export class DashboardComponent implements OnInit {
           pickerLabel: 'Series',
           idPrefix: 'portfolio',
           // Two halves against their total is the whole point of this view
-          showAll: true
+          showAll: true,
+          holdings: [],
+          holdingsTitle: '',
+          holdingsLabel: '',
+          baselineDates: {}
         },
         {
           key: 'singles',
@@ -124,7 +148,11 @@ export class DashboardComponent implements OnInit {
           pickerLabel: 'Decks',
           idPrefix: 'singles',
           // Two dozen decks and eight colour slots: open on the overview line alone
-          showAll: false
+          showAll: false,
+          holdings: cards,
+          holdingsTitle: 'Gain / loss by card',
+          holdingsLabel: 'Cards',
+          baselineDates: cardDates
         },
         {
           key: 'sealed',
@@ -137,7 +165,11 @@ export class DashboardComponent implements OnInit {
           tableCaption: 'Sealed values by date',
           pickerLabel: 'Sealed collections',
           idPrefix: 'sealed',
-          showAll: false
+          showAll: false,
+          holdings: products,
+          holdingsTitle: 'Gain / loss by product',
+          holdingsLabel: 'Sealed products',
+          baselineDates: productDates
         }
       ];
 
@@ -148,6 +180,44 @@ export class DashboardComponent implements OnInit {
 
   setView(key: string): void {
     this.activeKey = key;
+  }
+
+  /*
+   * Every card in every deck as one list. `purchasePrice` on a card is what was paid for all the
+   * copies of it held, while `marketPrice` is the price of one, so only the latter is multiplied
+   * out - the API's own deck totals are built the same way.
+   */
+  private cardHoldings(decks: Deck[]): Holding[] {
+
+    const holdings: Holding[] = [];
+
+    decks.forEach(deck => (deck.cards || []).forEach(card => holdings.push({
+      name: card.name,
+      location: deck.name,
+      quantity: card.quantity,
+      purchasePrice: card.purchasePrice,
+      value: card.marketPrice * card.quantity,
+      baselinePrices: card.baselinePrices
+    })));
+
+    return holdings;
+  }
+
+  /** The same, for the sealed products inside every collection. */
+  private sealedHoldings(collections: SealedCollection[]): Holding[] {
+
+    const holdings: Holding[] = [];
+
+    collections.forEach(collection => (collection.sealed || []).forEach(product => holdings.push({
+      name: product.name,
+      location: collection.name,
+      quantity: product.quantity,
+      purchasePrice: product.purchasePrice,
+      value: product.marketPrice * product.quantity,
+      baselinePrices: product.baselinePrices
+    })));
+
+    return holdings;
   }
 
   onRangeChange(days: number): void {
