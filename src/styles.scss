@@ -1,5 +1,15 @@
 /* Application-wide Styles */
 
+/*
+ * The stacked control panels on a chart page (the dashboard summary and the chart section's
+ * filter row) are each narrower than the page, but they sit directly on top of each other, so
+ * their edges have to line up. One width here, rather than each panel sizing to its own content
+ * and the two ending up different lengths.
+ */
+:root {
+  --panel-width: 1240px;
+}
+
 h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;

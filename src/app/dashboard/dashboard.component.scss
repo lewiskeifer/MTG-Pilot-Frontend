@@ -12,7 +12,18 @@
   justify-content: center;
   gap: 20px 40px;
   padding: 20px 24px;
-  margin-bottom: 12px;
+  // Narrower than the page and centred, rather than stretching edge to edge and stranding one
+  // short row of numbers in the middle of an otherwise empty card. Shares its width with the
+  // filter row below it; grows past that only if the figures ever need more, which beats
+  // wrapping the tiles onto a second line.
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: min(var(--panel-width), 100%);
+  max-width: 100%;
+  // 20px clear of the banner, the same drop the top card on the singles and sealed screens gets
+  // from the `table` and `.deck` rules in styles.scss. The 5px on the `.padded` wrapper collapses
+  // into this, so the gap is the 20px and not the sum.
+  margin: 20px auto 12px auto;
   background-color: #ffffff;
   border-radius: 12px;
   border: 6px solid #125A85;

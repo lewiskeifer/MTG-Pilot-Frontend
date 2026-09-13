@@ -31,7 +31,13 @@
   justify-content: center;
   gap: 12px 20px;
   padding: 14px 16px 4px 16px;
-  margin-bottom: 12px;
+  // Same width as the summary panel above it so the two line up, rather than sizing to the
+  // controls and ending up the shorter of the two
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: min(var(--panel-width), 100%);
+  max-width: 100%;
+  margin: 0 auto 12px auto;
   background-color: #ffffff;
   border-radius: 12px;
   border: 6px solid #125A85;
@@ -88,7 +94,11 @@
   justify-content: center;
   gap: 8px 36px;
   padding: 0 12px 8px 12px;
-  margin: 12px 0 4px 0;
+  // Both panels hug their content, so the card does too and sits centred under the charts
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
+  margin: 12px auto 4px auto;
   background-color: #ffffff;
   // Same card treatment as the charts, so it reads as part of the same surface on the dark page
   border: 6px solid #125A85;
@@ -130,6 +140,15 @@
 
 .mover-group {
   min-width: 280px;
+}
+
+/*
+ * Card names run far longer than deck names, and this card sizes to its content: without a
+ * ceiling the single widest name in a hundred rows sets the width of the whole panel and
+ * stretches it back across the page. Past this the name wraps instead.
+ */
+.holdings .mover-group {
+  max-width: 340px;
 }
 
 // Every item is listed, so each column scrolls. The table's own scroll box also contains its
@@ -188,8 +207,40 @@
   font-size: 12px;
 }
 
+/*
+ * The movers list picks what the item list beside it shows, so its rows and its heading are
+ * one-of-many controls: hover offers, the wash marks the one in force. The heading carries the
+ * wash whenever no single deck is picked, because "all of them" is itself a choice here.
+ */
+.selectable {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f0efec;
+  }
+
+  &:focus {
+    outline: 2px solid #125A85;
+    outline-offset: -2px;
+  }
+
+  &.selected {
+    background-color: #dfeaf1;
+  }
+}
+
 .mover-name {
   color: #0b0b0b;
+}
+
+// Which deck or collection an item sits in. Two binders can hold the same card, and the row is
+// no use for finding it without this.
+.mover-location {
+  color: #898781;
+
+  &::before {
+    content: ' \00b7  ';
+  }
 }
 
 // The arrow carries the direction alongside the colour; colour alone never does

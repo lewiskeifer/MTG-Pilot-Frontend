@@ -45,6 +45,15 @@
   <div class="panel">
     <div class="panel-header">
       <span class="panel-title">{{ tableCaption }}</span>
+      <div class="sort-toggle">
+        <span class="sort-label">Order</span>
+        <button mat-stroked-button
+                [class.selected]="dateSort === 'desc'"
+                (click)="setDateSort('desc')">Newest</button>
+        <button mat-stroked-button
+                [class.selected]="dateSort === 'asc'"
+                (click)="setDateSort('asc')">Oldest</button>
+      </div>
     </div>
     <div class="values-table">
     <table [attr.aria-label]="tableCaption">
@@ -79,22 +88,103 @@
       </div>
     </div>
 
+    <!--
+      Doubles as the picker for the item list beside it: the heading shows everything, a row
+      shows one deck. Clicking is only offered where there is an item list to narrow.
+    -->
     <div class="mover-columns">
       <div class="mover-group" *ngFor="let group of moverGroups">
-        <div class="mover-subtitle">{{ group.name }} ({{ group.movers.length }})</div>
+        <div class="mover-subtitle"
+             [class.selectable]="canFilterHoldings"
+             [class.selected]="canFilterHoldings && holdingFilter === null"
+             [attr.role]="canFilterHoldings ? 'button' : null"
+             [attr.tabindex]="canFilterHoldings ? 0 : null"
+             [attr.title]="canFilterHoldings ? 'Show every item below' : null"
+             (click)="canFilterHoldings && clearHoldingFilter()"
+             (keydown.enter)="canFilterHoldings && clearHoldingFilter()">
+          {{ group.name }} ({{ group.movers.length }})
+        </div>
         <div class="mover-scroll">
           <div class="mover-empty" *ngIf="group.movers.length === 0">Nothing to show</div>
-          <div class="mover-row" *ngFor="let mover of group.movers">
-            <span class="mover-name">{{ mover.name }}</span>
-            <span class="mover-change" [class.up]="mover.change > 0" [class.down]="mover.change < 0">
-              <span class="mover-arrow">{{ mover.change > 0 ? '&#9650;' : (mover.change < 0 ? '&#9660;' : '&ndash;') }}</span>
-              {{ primaryText(mover) }}
-              <span class="mover-percent">{{ secondaryText(mover) }}</span>
-            </span>
+          <ng-container *ngFor="let mover of group.movers"
+                        [ngTemplateOutlet]="rankedRow"
+                        [ngTemplateOutletContext]="{ $implicit: mover, mode: moverSort,
+                                                     selectable: canFilterHoldings }">
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!--
+    Individual cards or sealed products, pooled across the decks and collections they sit in and
+    measured over the same window as everything else on the page.
+  -->
+  <div class="panel holdings" *ngIf="holdings.length > 0">
+
+    <div class="panel-header">
+      <span class="panel-title">{{ holdingsTitle }} &middot; {{ holdingWindowLabel }}</span>
+      <div class="sort-toggle">
+        <span class="sort-label">Rank by</span>
+        <button mat-stroked-button
+                [class.selected]="holdingSort === 'value'"
+                (click)="setHoldingSort('value')">$</button>
+        <button mat-stroked-button
+                [class.selected]="holdingSort === 'percent'"
+                (click)="setHoldingSort('percent')">%</button>
+      </div>
+    </div>
+
+    <div class="mover-columns">
+      <div class="mover-group">
+        <!-- Names the deck where one has been picked, so the shorter list is never a mystery -->
+        <div class="mover-subtitle">
+          {{ holdingFilter || holdingsLabel }} ({{ holdingTotal
+          }}<span *ngIf="holdingTotal > holdingRows.length">, biggest {{ holdingRows.length }}</span>)
+        </div>
+        <div class="mover-scroll">
+          <!--
+            Nothing here until the server has recorded a price to measure against - the night
+            after this first runs, for a collection that has been refreshed. Saying so beats an
+            empty box.
+          -->
+          <div class="mover-empty" *ngIf="holdingTotal === 0">
+            No prices recorded for these yet
           </div>
+          <ng-container *ngFor="let row of holdingRows"
+                        [ngTemplateOutlet]="rankedRow"
+                        [ngTemplateOutletContext]="{ $implicit: row, mode: holdingSort }">
+          </ng-container>
         </div>
       </div>
     </div>
 
   </div>
 </div>
+
+<!--
+  One row shape for both ranked lists, each passing the mode its own toggle is set to. Only the
+  movers list passes `selectable`; a row in the item list has nothing below it to narrow.
+-->
+<ng-template #rankedRow let-mover let-mode="mode" let-selectable="selectable">
+  <div class="mover-row"
+       [class.selectable]="selectable"
+       [class.selected]="selectable && holdingFilter === mover.name"
+       [attr.role]="selectable ? 'button' : null"
+       [attr.tabindex]="selectable ? 0 : null"
+       [attr.aria-pressed]="selectable ? holdingFilter === mover.name : null"
+       [attr.title]="selectable ? 'Show only ' + mover.name + ' below' : null"
+       (click)="selectable && filterHoldingsBy(mover.name)"
+       (keydown.enter)="selectable && filterHoldingsBy(mover.name)">
+    <span class="mover-name">
+      {{ mover.name }}
+      <span class="mover-location" *ngIf="mover.location">{{ mover.location }}</span>
+    </span>
+    <span class="mover-change" [class.up]="mover.change > 0" [class.down]="mover.change < 0">
+      <span class="mover-arrow">{{ mover.change > 0 ? '&#9650;' : (mover.change < 0 ? '&#9660;' : '&ndash;') }}</span>
+      {{ primaryText(mover, mode) }}
+      <span class="mover-percent">{{ secondaryText(mover, mode) }}</span>
+    </span>
+  </div>
+</ng-template>
