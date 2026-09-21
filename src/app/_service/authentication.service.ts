@@ -4,12 +4,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Login } from '../_model/login';
 import { User } from '../_model/user';
+import { API_HOST } from './api-host';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-    private usersUrl = 'https://mtgpilot.com:8443';
-    //private usersUrl = 'http://localhost:8080';
+    private usersUrl = API_HOST;
 
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;

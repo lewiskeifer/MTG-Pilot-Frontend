@@ -1,13 +1,17 @@
 /* Application-wide Styles */
 
 /*
- * The stacked control panels on a chart page (the dashboard summary and the chart section's
- * filter row) are each narrower than the page, but they sit directly on top of each other, so
- * their edges have to line up. One width here, rather than each panel sizing to its own content
- * and the two ending up different lengths.
+ * Every panel down a chart page - the dashboard summary, the filter row, the pair of graphs and
+ * the table and movers card below them - is this wide. They sit directly on top of each other,
+ * so their edges have to line up; left to size themselves the summary came to one width, the
+ * graphs to a much larger one and the card below to a third, and the page read as three
+ * different pages stacked.
+ *
+ * The graphs are drawn at a pixel width rather than a CSS one, so chart-section.component.ts
+ * reads this value and splits it between the two cards. Tune it here and they follow.
  */
 :root {
-  --panel-width: 1240px;
+  --panel-width: 1520px;
 }
 
 h1 {

@@ -1,9 +1,17 @@
 /* ChartSectionComponent's private CSS styles */
 
+/*
+ * The two graph cards fill one panel width between them, so they line up with the filter row
+ * above and the table below. Left to spread across the whole page they were half again as wide
+ * as everything else on it.
+ */
 .layout {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-flow: row wrap;
+  box-sizing: border-box;
+  width: min(var(--panel-width), 100%);
+  margin: 0 auto;
   @media only screen and (max-width: 1500px) { 
     @media only screen and (max-width: 1200px) {
       flex-flow: column wrap;
@@ -91,13 +99,18 @@
   display: flex;
   flex-flow: row wrap;
   align-items: flex-start;
+  /*
+   * Centred rather than spread to the edges: this card holds three panels on the singles and
+   * sealed views but only two on the portfolio one, and pushing two apart across a fixed width
+   * opens a gap down the middle that reads as a missing column. Centred, the slack sits evenly
+   * either side however many panels there are.
+   */
   justify-content: center;
   gap: 8px 36px;
   padding: 0 12px 8px 12px;
-  // Both panels hug their content, so the card does too and sits centred under the charts
+  // The same width as everything above it
   box-sizing: border-box;
-  width: fit-content;
-  max-width: 100%;
+  width: min(var(--panel-width), 100%);
   margin: 12px auto 4px auto;
   background-color: #ffffff;
   // Same card treatment as the charts, so it reads as part of the same surface on the dark page

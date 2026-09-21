@@ -5,6 +5,13 @@ import { CHART_INK } from './chart-palette';
 
 declare var google: any;
 
+/*
+ * A share of the window rather than a fixed height, so a pair of graphs fills the screen without
+ * scrolling whatever the display. Trimmed from 0.8 once the cards were narrowed to the panel
+ * width: at the old share they read tall and thin for the width they now have.
+ */
+const CHART_HEIGHT_SHARE = 0.76;
+
 @Injectable()
 export class GoogleLineChartService extends GoogleChartsBaseService {
 
@@ -25,7 +32,7 @@ export class GoogleLineChartService extends GoogleChartsBaseService {
         width: '80%'
       },
       width: config.width,
-      height: window.innerHeight * 0.8,
+      height: window.innerHeight * CHART_HEIGHT_SHARE,
       backgroundColor: CHART_INK.surface,
       colors: config.colors,
       lineWidth: 2,
