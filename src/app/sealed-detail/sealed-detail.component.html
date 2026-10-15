@@ -16,27 +16,27 @@
             
             <!-- Sealed Column -->
             <ng-container matColumnDef="card">
-              <th mat-header-cell *matHeaderCellDef class="first-row"> Sealed Collection </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="first-row"> Sealed Collection </th>
               <td mat-cell *matCellDef="let card"> {{card.name}} </td>
               <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 
             <!-- Purchase Price Column -->
             <ng-container matColumnDef="totalPurchasePrice">
-              <th mat-header-cell *matHeaderCellDef class="first-row"> Purchase Price </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="first-row"> Purchase Price </th>
               <td mat-cell *matCellDef="let card"> {{card.purchasePrice || '' | currency}} </td>
               <td mat-footer-cell *matFooterCellDef> {{getTotalPurchasePrice() | currency}} </td>
             </ng-container>
 
             <!-- Value Column -->
             <ng-container matColumnDef="totalValue">
-              <th mat-header-cell *matHeaderCellDef class="first-row"> Market Value </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="first-row"> Market Value </th>
               <td mat-cell *matCellDef="let card"> {{card.marketPrice * card.quantity | currency}} </td>
               <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumnsDecks;"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsDecks; let i = index" (click)="selectDeckByIndex(i)" style="cursor: pointer"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsDecks" (click)="selectDeckByIndex(row.id)" style="cursor: pointer"></tr>
             <tr mat-footer-row *matFooterRowDef="displayedColumnsDecks"></tr>
           </table>
         </div>
@@ -50,35 +50,35 @@
             
             <!-- Sealed Column -->
             <ng-container matColumnDef="card">
-              <th mat-header-cell *matHeaderCellDef class="first-row"> Sealed </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="first-row"> Sealed </th>
               <td mat-cell *matCellDef="let card"> {{card.name}} </td>
               <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>        
 
             <!-- Quantity Column -->
             <ng-container matColumnDef="quantity">
-              <th mat-header-cell *matHeaderCellDef class="first-row"> Quantity </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="first-row"> Quantity </th>
               <td mat-cell *matCellDef="let card"> {{card.quantity}} </td>
               <td mat-footer-cell *matFooterCellDef> {{getTotalQuantity()}} </td>
             </ng-container>
 
             <!-- Purchase Price Column -->
             <ng-container matColumnDef="totalPurchasePrice">
-              <th mat-header-cell *matHeaderCellDef class="first-row"> Purchase Price </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="first-row"> Purchase Price </th>
               <td mat-cell *matCellDef="let card"> {{card.purchasePrice || '' | currency}} </td>
               <td mat-footer-cell *matFooterCellDef> {{getTotalPurchasePrice() | currency}} </td>
             </ng-container>
 
             <!-- Value Column -->
             <ng-container matColumnDef="totalValue">
-              <th mat-header-cell *matHeaderCellDef class="first-row"> Market Value </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="first-row"> Market Value </th>
               <td mat-cell *matCellDef="let card"> {{card.marketPrice * card.quantity | currency}} </td>
               <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
             </ng-container>
 
             <!-- TODO click -> setDeck when deck overview -->
             <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="selectCard(i)" style="cursor: pointer"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="selectCard(row)" style="cursor: pointer"></tr>
             <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
           </table>
         </div>
@@ -307,7 +307,7 @@
                         </div>
                         <mat-card-actions>
                           <button type="button" mat-raised-button (click)="saveCard()" class="padded" style="line-height: 20px;">Save New Sealed</button>
-                          <button type="button" mat-raised-button (click)="selectCard(0)" class="padded" style="line-height: 20px;">Cancel</button>
+                          <button type="button" mat-raised-button (click)="selectCardByIndex(0)" class="padded" style="line-height: 20px;">Cancel</button>
                         </mat-card-actions>
                       </form>
                     </mat-card-subtitle>

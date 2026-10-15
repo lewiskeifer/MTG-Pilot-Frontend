@@ -1,5 +1,6 @@
-import { Directive, OnInit } from '@angular/core';
+import { Directive, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { finalize, first, switchMap, tap } from 'rxjs/operators';
@@ -19,6 +20,7 @@ export interface DetailDeck {
 /** The fields this base class needs from a Card / Sealed. */
 export interface DetailCard {
   id: number;
+  name: string;
   quantity: number;
   purchasePrice: number;
   marketPrice: number;
@@ -42,6 +44,17 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
   versions: any[];
 
   dataSource: MatTableDataSource<TCard>;
+
+  /*
+   * The two tables on these screens - the list of decks and the items inside one - swap under an
+   * *ngIf, so the sort headers arrive and leave with them. A setter catches whichever table is
+   * on screen at the time; a plain field would be set once, from whichever came first.
+   */
+  @ViewChild(MatSort) set tableSort(sort: MatSort) {
+    if (sort && this.dataSource) {
+      this.dataSource.sort = sort;
+    }
+  }
   displayedColumnsDecks: string[] = ['card', 'totalPurchasePrice', 'totalValue'];
 
   decks: TDeck[];
@@ -130,6 +143,7 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     this.loading = true;
 
     this.dataSource = new MatTableDataSource();
+    this.dataSource.sortingDataAccessor = (card, column) => this.sortValue(card, column);
     this.emptyDeck = this.createEmptyDeck();
     this.emptyDeck.id = -1;
     this.emptyCard = this.createEmptyCard();
@@ -193,9 +207,20 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     this.setDeck(deckId, cardIndex);
   }
 
-  selectCard(index: number): void {
+  /*
+   * Takes the row itself rather than where it sits. The table can be sorted by any column now,
+   * so the position of a row on screen is no longer the position of that card in the deck, and
+   * clicking the third row would have opened whichever card happened to be third unsorted.
+   */
+  selectCard(card: TCard): void {
     this.alertService.clear();
-    this.setCard(index);
+    this.setCard(card);
+  }
+
+  /** By position in the deck's own list, for callers with no row to hand. */
+  selectCardByIndex(index: number): void {
+    this.alertService.clear();
+    this.setCardByIndex(index);
   }
 
   createNewCard(): void {
@@ -237,14 +262,14 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     });
   }
 
-  setCard(index: number): void {
+  setCard(card: TCard): void {
 
     // Deck Overview cannot set card
     if (this.selectedDeck.id === 0) {
       return;
     }
 
-    this.selectedCard = this.itemsOf(this.selectedDeck)[index];
+    this.selectedCard = card;
 
     this.onCardSelected();
 
@@ -257,6 +282,10 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
       count++;
     });
     this.decksForm.controls['decksOptions'].patchValue(this.decksOptions[deckIndex-1].id, {onlySelf: true});
+  }
+
+  setCardByIndex(index: number): void {
+    this.setCard(this.itemsOf(this.selectedDeck)[index]);
   }
 
   refreshSelectedDeck(): void {
@@ -365,6 +394,27 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
       .subscribe(deck => { this.setDeck(this.selectedDeck.id, 0); this.loadingCard = false; this.getTotalCost(); });
   }
 
+  /*
+   * What a column sorts on.
+   *
+   * The ids belong to the table, not to the model - "card" holds a name, "totalValue" holds a
+   * price times a quantity - so the stock accessor, which looks for a property named after the
+   * column, finds nothing on any row and rates them all equal. The singles screen adds its own
+   * two columns to this.
+   */
+  protected sortValue(card: TCard, column: string): string | number {
+
+    switch (column) {
+      // Sorted as typed rather than by character code, so "Ajani" and "ajani" sit together
+      case 'card': return (card.name || '').toLowerCase();
+      case 'quantity': return card.quantity;
+      case 'totalPurchasePrice': return card.purchasePrice;
+      // The column shows the two multiplied, so it sorts on that and not on the price of one
+      case 'totalValue': return card.marketPrice * card.quantity;
+      default: return '';
+    }
+  }
+
   getTotalQuantity() {
     var total = 0;
     var items = this.selectedDeck && this.itemsOf(this.selectedDeck);
@@ -438,7 +488,7 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     var items = this.itemsOf(this.selectedDeck);
     if (items.length != 0) {
       this.dataSource.data = items;
-      this.setCard(cardIndex);
+      this.setCardByIndex(cardIndex);
     }
     else {
       this.dataSource.data = [];

@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Sealed } from '../_model/sealed';
 import { SealedCollection } from '../_model/sealedCollection';
+import { API_HOST } from './api-host';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SealedService {
 
-  private decksUrl = 'https://mtgpilot.com:8443/sealed';
-  //private decksUrl = 'http://localhost:8080/sealed';
+  private decksUrl = `${API_HOST}/sealed`;
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

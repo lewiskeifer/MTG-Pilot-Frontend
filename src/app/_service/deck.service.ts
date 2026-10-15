@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Card } from '../_model/card';
 import { Deck } from '../_model/deck';
+import { API_HOST } from './api-host';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeckService {
 
-  private decksUrl = 'https://mtgpilot.com:8443/manager/users';
-  //private decksUrl = 'http://localhost:8080/manager/users';
+  private decksUrl = `${API_HOST}/manager/users`;
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

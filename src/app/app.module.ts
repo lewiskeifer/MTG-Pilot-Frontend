@@ -9,6 +9,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -55,6 +56,7 @@ import { RegistrationComponent } from './registration/registration.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatCardModule,
+    MatSortModule,
     MatTableModule,
     MatFormFieldModule,
     MatPaginatorModule,

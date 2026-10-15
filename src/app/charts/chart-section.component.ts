@@ -14,6 +14,21 @@ interface RangePreset {
 /** Rank a list by what it is worth, or by how far it has come. */
 type SortMode = 'value' | 'percent';
 
+/** A graph card's own border and padding, from the .graph rule. */
+const CARD_CHROME = 36;
+
+/** What space-between leaves between the two cards once they are sized. */
+const CARD_GAP = 24;
+
+/** Room for the page margin either side, so a narrow window has nothing cut off. */
+const PAGE_GUTTER = 56;
+
+/** Where .layout stops laying the cards side by side, from the media query in the stylesheet. */
+const STACKED_BELOW = 1200;
+
+/** Only reached if the stylesheet has not loaded, which would leave --panel-width unreadable. */
+const DEFAULT_PANEL_WIDTH = 1520;
+
 interface TableRow {
   date: Date;
   values: number[];
@@ -269,7 +284,7 @@ export class ChartSectionComponent implements OnChanges {
     });
 
     const colors = columns.map(name => this.slots.colorOf(name));
-    const width = this.screenWidth < 1000 ? this.screenWidth - 56 : 900;
+    const width = this.chartWidth();
 
     this.totalValueConfig = new LineChartConfig(this.valueTitle, '', 950, width, '$#,##0', colors);
     this.ratioConfig = new LineChartConfig(this.ratioTitle, '', 950, width, '#,##0.00', colors);
@@ -284,6 +299,36 @@ export class ChartSectionComponent implements OnChanges {
       : [];
 
     this.buildMovers();
+  }
+
+  /*
+   * Google Charts draws to a pixel width, so the graphs cannot be sized in CSS with everything
+   * else. Two cards share one panel width: each takes half of it, less its own border and
+   * padding and the gap between them, so the pair ends up exactly as wide as the panels above.
+   *
+   * Below the breakpoint where the cards stack, one card has the width to itself.
+   */
+  private chartWidth(): number {
+
+    const available = Math.min(this.panelWidth(), this.screenWidth - PAGE_GUTTER);
+
+    if (this.screenWidth < STACKED_BELOW) {
+      return available - CARD_CHROME;
+    }
+
+    return Math.floor((available - (2 * CARD_CHROME) - CARD_GAP) / 2);
+  }
+
+  /*
+   * Read from styles.scss rather than repeated here: the panels either side of the graphs are
+   * laid out from the same value, and a copy of it would drift the first time one was tuned.
+   */
+  private panelWidth(): number {
+
+    const declared = getComputedStyle(document.documentElement).getPropertyValue('--panel-width');
+    const width = parseInt(declared, 10);
+
+    return isNaN(width) ? DEFAULT_PANEL_WIDTH : width;
   }
 
   /** Names the window the movers are measured over, so a figure is never undated. */
