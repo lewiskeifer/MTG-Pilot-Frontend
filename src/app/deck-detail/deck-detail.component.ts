@@ -18,6 +18,19 @@ export class DeckDetailComponent extends DetailBaseComponent<Deck, Card> {
   displayedColumns: string[] = ['card', 'condition', 'set',
     'quantity', 'totalPurchasePrice', 'totalValue'];
 
+  /*
+   * The two columns only singles have. Condition sorts on what the cell reads, foil and all, so
+   * a near mint foil and a near mint sit apart - they are different cards at different prices.
+   */
+  protected sortValue(card: Card, column: string): string | number {
+
+    switch (column) {
+      case 'condition': return (card.cardCondition || '') + (card.isFoil ? ' Foil' : '');
+      case 'set': return (card.abbreviation || '').toLowerCase();
+      default: return super.sortValue(card, column);
+    }
+  }
+
   foilForm: FormGroup;
   foilOptions = [];
 

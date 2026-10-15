@@ -311,6 +311,21 @@ table tr.mat-mdc-row:hover {
   font-weight: 600;
   background-color: #125A85;
   color: #000000;
+
+  /*
+   * These headings sort their column, and the arrow saying which one is sorted arrives in the
+   * theme's grey - all but invisible on this band. Match the heading text instead.
+   */
+  --mat-sort-arrow-color: #000000;
+
+  .mat-sort-header-arrow {
+    color: #000000;
+  }
+}
+
+/* The whole heading is the button, so it should look like one under the pointer */
+.first-row .mat-sort-header-container:hover {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 650px) {
