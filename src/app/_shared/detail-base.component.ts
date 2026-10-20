@@ -369,29 +369,45 @@ export abstract class DetailBaseComponent<TDeck extends DetailDeck, TCard extend
     this.loadingDeck = true;
     this.prepareDeckForSave();
     this.selectedDeck.sortOrder = this.ordersForm.controls["ordersOptions"].value;
-    const isNew = this.selectedDeck.id === 0;
+    // A new deck is the empty one, which ngOnInit gives the id -1
+    const isNew = this.selectedDeck.id === -1;
     this.service.saveDeck(this.currentUser.id, this.selectedDeck).pipe(switchMap(deck => this.getAndSetDecks(deck.id, 0)),
       finalize(() => this.loadingDeck = false)).subscribe({
-        next: () => this.alertService.success(this.deckSavedMessage(isNew))
+        next: () => this.alertService.success(this.deckSavedMessage(isNew)),
+        error: error => this.alertService.error(error.error?.message || 'Could not save.')
       });
   }
 
+  /*
+   * These four said nothing when they failed: the spinner stopped and the screen looked as if
+   * the action had worked. Each now says so, with the server's reason where it gave one.
+   */
   deleteCard(): void {
     this.loadingCard = true;
     this.service.deleteCard(this.currentUser.id, this.selectedDeck.id, this.selectedCard.id)
-      .pipe(switchMap(() => this.getAndSetDecks(this.selectedDeck.id, 0)), finalize(() => this.loadingCard = false)).subscribe();
+      .pipe(switchMap(() => this.getAndSetDecks(this.selectedDeck.id, 0)), finalize(() => this.loadingCard = false))
+      .subscribe({
+        error: error => this.alertService.error(error.error?.message || 'Could not delete.')
+      });
   }
 
   deleteDeck(): void {
     this.loadingDeck = true;
     this.service.deleteDeck(this.currentUser.id, this.selectedDeck.id).pipe(switchMap(deck => this.getAndSetDecks(0, 0)),
-       finalize(() => this.loadingDeck = false)).subscribe();
+       finalize(() => this.loadingDeck = false))
+      .subscribe({
+        error: error => this.alertService.error(error.error?.message || 'Could not delete.')
+      });
   }
 
   refreshDeck(): void {
     this.loadingCard = true;
     this.service.refreshDeck(this.currentUser.id, this.selectedDeck.id)
-      .subscribe(deck => { this.setDeck(this.selectedDeck.id, 0); this.loadingCard = false; this.getTotalCost(); });
+      .pipe(finalize(() => this.loadingCard = false))
+      .subscribe({
+        next: () => { this.setDeck(this.selectedDeck.id, 0); this.getTotalCost(); },
+        error: error => this.alertService.error(error.error?.message || 'Could not refresh prices.')
+      });
   }
 
   /*
